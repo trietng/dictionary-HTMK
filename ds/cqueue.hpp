@@ -22,6 +22,120 @@ public:
 		}
 		counter = 0;
 	}
+    class iterator {
+    private:
+        friend cqueue;
+        fnode<T>* cur;
+        void erase_next() {
+            if (cur->pnext) {
+                fnode<T>* pdel = cur->pnext;
+                cur->pnext = cur->pnext->pnext;
+                delete pdel;
+                pdel = nullptr;
+            }
+        }
+        void erase_cur() {
+            if (!cur) {
+                return;
+            }
+            fnode<T>* tmp;
+            tmp = cur->pnext;
+            if (tmp) {
+                *cur = *tmp;
+                tmp->pnext = nullptr;
+                delete tmp;
+            }
+            tmp = nullptr;
+        }
+    public:
+        iterator() {
+            cur = nullptr;
+        }
+        iterator(fnode<T>* ptr) {
+            cur = ptr;
+        }
+        iterator& operator=(fnode<T>* ptr) {
+            this->cur = ptr;
+            return *this;
+        }
+        bool operator==(const iterator& it) const {
+            return (this->cur == it.cur);
+        }
+        bool operator!=(const iterator& it) const {
+            return (cur != it.cur);
+        }
+        iterator& operator++() {
+            if (cur) {
+                cur = cur->pnext;
+            }
+            return *this;
+        }
+        iterator operator++(int) {
+            iterator tmp(*this);
+            operator++();
+            return tmp;
+        }
+        iterator next() {
+            iterator tmp(*this);
+            ++tmp;
+            return tmp;
+        }
+        T& operator*() {
+            return cur->data;
+        }
+    };
+    class const_iterator {
+    private:
+        fnode<T>* cur;
+    public:
+        const_iterator() {
+            cur = nullptr;
+        }
+        const_iterator(fnode<T>* ptr) {
+            cur = ptr;
+        }
+        const_iterator& operator=(fnode<T>* ptr) {
+            this->cur = ptr;
+            return *this;
+        }
+        bool operator==(const const_iterator& it) const {
+            return (this->cur == it.cur);
+        }
+        bool operator!=(const const_iterator& it) const {
+            return (cur != it.cur);
+        }
+        const_iterator& operator++() {
+            if (cur) {
+                cur = cur->next;
+            }
+            return *this;
+        }
+        const_iterator operator++(int) {
+            const_iterator tmp(*this);
+            operator++();
+            return tmp;
+        }
+        const_iterator next() {
+            const_iterator tmp(*this);
+            ++tmp;
+            return tmp;
+        }
+        T& operator*() const {
+            return cur->data;
+        }
+    };
+    iterator begin() {
+        return iterator(head);
+    }
+    iterator end() {
+        return iterator(tail);
+    }
+    const_iterator cbegin() const {
+        return const_iterator(head);
+    }
+    const_iterator cend() const {
+        return const_iterator(tail);
+    }
 	//Check if the queue is empty.
 	bool empty() {
 		if (counter == 0) return true;
@@ -47,7 +161,7 @@ public:
 	}
 	//Delete the front node.
 	void pop_front() {
-		if (head) {
+		if (!empty()) {
 			fnode<T>* tmp = head;
 			head = head->next;
 			delete tmp;

@@ -132,14 +132,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dictionary-HTMK.cpp" />
+    <ClCompile Include="dictionary.cpp" />
     <ClCompile Include="ds\trie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dictionary.hpp" />
     <ClInclude Include="ds\cqueue.hpp" />
     <ClInclude Include="ds\flist.hpp" />
     <ClInclude Include="ds\fnode.hpp" />
+    <ClInclude Include="ds\sh_ptr.hpp" />
     <ClInclude Include="ds\trie.hpp" />
     <ClInclude Include="ds\match.hpp" />
+    <ClInclude Include="favourites.hpp" />
+    <ClInclude Include="history.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

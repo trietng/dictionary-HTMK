@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ds\trie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="dictionary-HTMK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ds\trie.cpp">
+    <ClCompile Include="dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,6 +39,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds\trie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dictionary.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="favourites.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds\sh_ptr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

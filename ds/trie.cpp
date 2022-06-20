@@ -5,14 +5,12 @@ tnode::tnode() {
 	for (int i = 0; i < 96; ++i) {
 		next[i] = nullptr;
 	}
-	value = nullptr;
 }
 
 tnode::~tnode() {
 	for (int i = 0; i < 96; ++i) {
 		delete next[i];
 	}
-	delete value;
 }
 
 tnode::tnode(const char& key) {
@@ -20,7 +18,11 @@ tnode::tnode(const char& key) {
 	for (int i = 0; i < 96; ++i) {
 		next[i] = nullptr;
 	}
-	value = nullptr;
+}
+
+entry::entry(const std::string& key, const std::string& value) {
+	this->key = key;
+	this->value = value;
 }
 
 int index_ascii(const char& key) {
@@ -45,9 +47,9 @@ bool trie::is_leaf(tnode* node) {
 tnode* trie::remove(tnode* root, const std::string& key, const int& depth) {
 	if (!root) return nullptr;
 	if (depth == key.size()) {
-		if (root->value) {
-			delete root->value;
-			root->value = nullptr;
+		if (!root->value.empty()) {
+			root->value.front()->key = "";
+			root->value.pop_front();
 		}
 		if (is_leaf(root)) {
 			delete root;
@@ -57,33 +59,60 @@ tnode* trie::remove(tnode* root, const std::string& key, const int& depth) {
 	}
 	int i = index_ascii(key[depth]);
 	root->next[i] = remove(root->next[i], key, depth + 1);
-	if (is_leaf(root) && !root->value) {
+	if (is_leaf(root) && root->value.empty()) {
 		delete root;
 		root = nullptr;
 	}
 	return root;
 }
 
-void trie::insert(const std::string& key, const std::string& value) {
+void trie::insert(sh_ptr<entry> entry) {
 	tnode* cur = root;
-	for (const auto& i : key) {
+	for (const auto& i : entry->key) {
 		int j = index_ascii(i);
 		if (!cur->next[j]) cur->next[j] = new tnode(i);
 		cur = cur->next[j];
 	}
-	cur->value = new std::string(value);
+	cur->value.push_back(entry);
+}
+
+void trie::insert_def(sh_ptr<entry> entry) {
+	tnode* cur = root;
+	for (int i = 0; i < entry->value.size(); ++i) {
+		if (entry->value[i] == ' ') cur->value.push_back(entry);
+		int j = index_ascii(entry->value[i]);
+		if (!cur->next[j]) cur->next[j] = new tnode(entry->value[i]);
+		cur = cur->next[j];
+	}
+	cur->value.push_back(entry);
 }
 
 void trie::remove(const std::string& key) {
 	remove(this->root, key, 0);
 }
 
-std::string* trie::find(const std::string& key) {
+entry* trie::find(const std::string& key) {
 	tnode* cur = root;
 	for (const auto& i : key) {
 		int j = index_ascii(i);
 		if (!cur->next[j]) return nullptr;
 		cur = cur->next[j];
 	}
-	return cur->value;
+	return cur->value.front().get();
+}
+
+std::vector<entry*> trie::find_def(const std::string& def) {
+	std::vector<entry*> vt;
+	tnode* cur = root;
+	for (const auto& i : def) {
+		int j = index_ascii(i);
+		if (!cur->next[j]) return vt;
+		cur = cur->next[j];
+	}
+	for (auto i = cur->value.cbegin(); i != nullptr; ++i) {
+		if (((*i)->value.find(def) != std::string::npos) && ((*i)->key != "")) {
+			vt.push_back((*i).get());
+		}
+	}
+	return vt;
 }

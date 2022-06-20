@@ -1,11 +1,20 @@
 #pragma once
 #include <string>
+#include "sh_ptr.hpp"
+#include "cqueue.hpp"
+
+class entry {
+public:
+	std::string key;
+	std::string value;
+	entry(const std::string& key, const std::string& value);
+};
 
 class tnode {
 public:
 	char key;
 	tnode* next[96];
-	std::string* value;
+	cqueue<sh_ptr<entry>> value;
 	tnode();
 	tnode(const char& value);
 	~tnode();
@@ -23,10 +32,14 @@ private:
 public:
 	trie();
 	~trie();
-	//Insert key into the trie
-	void insert(const std::string& key, const std::string& value);
-	//Remove key from the trie
+	//Insert keyword into the keyword trie
+	void insert(sh_ptr<entry> entry);
+	//Insert definition into the definition trie
+	void insert_def(sh_ptr<entry> entry);
+	//Remove keyword from the keyword trie
 	void remove(const std::string& key);
-	//Find key inside the trie
-	std::string* find(const std::string& key);
+	//Find keyword inside the keyword trie
+	entry* find(const std::string& key);
+	//Find definition insert the definition trie
+	std::vector<entry*> find_def(const std::string& def);
 };
