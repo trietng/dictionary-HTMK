@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -7,8 +8,12 @@ constexpr char history_output[] = "data\\history.txt";
 
 using namespace std;
 
-vector<string> load_history();
+vector<string> loadHistory();
 
-void write_history(const vector<string>& history, const string& word);
+void saveHistory(vector<string> temp);
 
-void clear_history(vector<string>& history);
+void printHistory(vector<string> temp);
+
+void add_word_to_history(string& word,vector<string>& temp);
+
+void clearHistory(vector<string>& temp);
