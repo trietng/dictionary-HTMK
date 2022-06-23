@@ -7,7 +7,7 @@ class cqueue {
 private:
 	fnode<T>* head;
 	fnode<T>* tail;
-	int counter;
+	unsigned int counter;
 public:
 	cqueue() {
 		head = nullptr;
@@ -25,23 +25,20 @@ public:
     class iterator {
     private:
         friend cqueue;
-        fnode<T>* cur;
+        fnode<T>* ptr;
         void erase_next() {
-            if (cur->pnext) {
-                fnode<T>* pdel = cur->pnext;
-                cur->pnext = cur->pnext->pnext;
+            if (ptr->pnext) {
+                fnode<T>* pdel = ptr->pnext;
+                ptr->pnext = ptr->pnext->pnext;
                 delete pdel;
                 pdel = nullptr;
             }
         }
-        void erase_cur() {
-            if (!cur) {
-                return;
-            }
-            fnode<T>* tmp;
-            tmp = cur->pnext;
+        void remove() {
+            if (!ptr) return;
+            fnode<T>* tmp = ptr->pnext;
             if (tmp) {
-                *cur = *tmp;
+                *ptr = *tmp;
                 tmp->pnext = nullptr;
                 delete tmp;
             }
@@ -49,24 +46,24 @@ public:
         }
     public:
         iterator() {
-            cur = nullptr;
+            ptr = nullptr;
         }
         iterator(fnode<T>* ptr) {
-            cur = ptr;
+            ptr = ptr;
         }
         iterator& operator=(fnode<T>* ptr) {
-            this->cur = ptr;
+            this->ptr = ptr;
             return *this;
         }
         bool operator==(const iterator& it) const {
-            return (this->cur == it.cur);
+            return (this->ptr == it.ptr);
         }
         bool operator!=(const iterator& it) const {
-            return (cur != it.cur);
+            return (ptr != it.ptr);
         }
         iterator& operator++() {
-            if (cur) {
-                cur = cur->pnext;
+            if (ptr) {
+                ptr = ptr->pnext;
             }
             return *this;
         }
@@ -81,32 +78,32 @@ public:
             return tmp;
         }
         T& operator*() {
-            return cur->data;
+            return ptr->data;
         }
     };
     class const_iterator {
     private:
-        fnode<T>* cur;
+        fnode<T>* ptr;
     public:
         const_iterator() {
-            cur = nullptr;
+            ptr = nullptr;
         }
         const_iterator(fnode<T>* ptr) {
-            cur = ptr;
+            ptr = ptr;
         }
         const_iterator& operator=(fnode<T>* ptr) {
-            this->cur = ptr;
+            this->ptr = ptr;
             return *this;
         }
         bool operator==(const const_iterator& it) const {
-            return (this->cur == it.cur);
+            return (this->ptr == it.ptr);
         }
         bool operator!=(const const_iterator& it) const {
-            return (cur != it.cur);
+            return (ptr != it.ptr);
         }
         const_iterator& operator++() {
-            if (cur) {
-                cur = cur->next;
+            if (ptr) {
+                ptr = ptr->next;
             }
             return *this;
         }
@@ -121,18 +118,22 @@ public:
             return tmp;
         }
         T& operator*() const {
-            return cur->data;
+            return ptr->data;
         }
     };
+    //Return iterator to the front node.
     iterator begin() {
         return iterator(head);
     }
+    //Return iterator to the back node.
     iterator end() {
         return iterator(tail);
     }
+    //Return constant iterator to the front node.
     const_iterator cbegin() const {
         return const_iterator(head);
     }
+    //Return constant iterator to the back node.
     const_iterator cend() const {
         return const_iterator(tail);
     }
@@ -142,7 +143,7 @@ public:
 		return false;
 	}
 	//Return the number of node, time complexity O(1).
-	int size() {
+	unsigned int size() {
 		return counter;
 	}
 	//Insert a new node at the back.
@@ -169,22 +170,58 @@ public:
 		}
 	}
 	//Return the front node's value.
-	T front() {
+	T& front() {
 		return head->data;
 	}
 	//Return the last node's value.
-	T back() {
+	T& back() {
 		return tail->data;
 	}
+    //Remove the a node from the list
+    void remove(iterator& current) {
+        if (current == end()) {
+            iterator i = begin();
+            if (i.next() != nullptr) {
+                while (i.next() != end()) {
+                    ++i;
+                }
+            }
+            tail = i.ptr;
+            if (counter == 1) {
+                delete head;
+                head = nullptr;
+                tail = nullptr;
+            }
+            else {
+                delete tail->next;
+                tail->next = nullptr;
+            }
+        }
+        else {
+            if (current.next() == end()) {
+                tail = current.ptr;
+            }
+            current.remove();
+        }
+        --counter;
+    }
+    //Remove the next node from the list
+    void erase_after(iterator& current) {
+        if (current.next() == end()) {
+            tail = current.ptr;
+        }
+        current.erase_next();
+        --counter;
+    }
 	//Return the entire queue as a vector, time complexity O(n).
 	std::vector<T> vector() {
 		std::vector<T> tmp;
 		if (empty()) return tmp;
 		tmp.resize(counter);
-		fnode<T>* cur = head;
-		while (cur) {
-			tmp.push_back(cur->data);
-			cur = cur->next;
+		fnode<T>* ptr = head;
+		while (ptr) {
+			tmp.push_back(ptr->data);
+			ptr = ptr->next;
 		}
 		return tmp;
 	}
@@ -193,10 +230,10 @@ public:
 		if (empty()) return nullptr;
 		T* tmp = new T[counter];
 		int i = 0;
-		fnode<T>* cur = head;
-		while (cur) {
-			tmp[i] = cur->data;
-			cur = cur->next;
+		fnode<T>* ptr = head;
+		while (ptr) {
+			tmp[i] = ptr->data;
+			ptr = ptr->next;
 		}
 		return tmp;
 	}
