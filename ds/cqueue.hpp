@@ -234,6 +234,7 @@ public:
 		while (ptr) {
 			tmp[i] = ptr->data;
 			ptr = ptr->next;
+            ++i;
 		}
 		return tmp;
 	}
