@@ -1,5 +1,4 @@
 #pragma once
-#include <cmath>
 #include "fnode.hpp"
 
 template <typename T>
@@ -17,8 +16,8 @@ public:
             delete tmp;
         }
     }
-    //Return the front node
-    fnode<T>* front() {
+    //Return the front node's value
+    T front() {
         return head;
     }
     //Add new value to the top of the list

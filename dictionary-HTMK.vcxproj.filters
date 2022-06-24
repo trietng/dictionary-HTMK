@@ -15,21 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ds\trie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="dictionary-HTMK.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds\flist.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ds\match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds\cqueue.hpp">
@@ -50,7 +41,7 @@
     <ClInclude Include="favourites.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ds\sh_ptr.hpp">
+    <ClInclude Include="ds\shptr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

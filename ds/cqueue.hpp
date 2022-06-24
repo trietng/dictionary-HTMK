@@ -27,19 +27,19 @@ public:
         friend cqueue;
         fnode<T>* ptr;
         void erase_next() {
-            if (ptr->pnext) {
-                fnode<T>* pdel = ptr->pnext;
-                ptr->pnext = ptr->pnext->pnext;
-                delete pdel;
-                pdel = nullptr;
+            if (ptr->next) {
+                fnode<T>* del = ptr->next;
+                ptr->next = ptr->next->next;
+                delete del;
+                del = nullptr;
             }
         }
         void remove() {
             if (!ptr) return;
-            fnode<T>* tmp = ptr->pnext;
+            fnode<T>* tmp = ptr->next;
             if (tmp) {
                 *ptr = *tmp;
-                tmp->pnext = nullptr;
+                tmp->next = nullptr;
                 delete tmp;
             }
             tmp = nullptr;
@@ -49,22 +49,20 @@ public:
             ptr = nullptr;
         }
         iterator(fnode<T>* ptr) {
-            ptr = ptr;
+            this->ptr = ptr;
         }
         iterator& operator=(fnode<T>* ptr) {
             this->ptr = ptr;
             return *this;
         }
         bool operator==(const iterator& it) const {
-            return (this->ptr == it.ptr);
+            return (ptr == it.ptr);
         }
         bool operator!=(const iterator& it) const {
             return (ptr != it.ptr);
         }
         iterator& operator++() {
-            if (ptr) {
-                ptr = ptr->pnext;
-            }
+            if (ptr) ptr = ptr->next;
             return *this;
         }
         iterator operator++(int) {
@@ -89,22 +87,20 @@ public:
             ptr = nullptr;
         }
         const_iterator(fnode<T>* ptr) {
-            ptr = ptr;
+            this->ptr = ptr;
         }
         const_iterator& operator=(fnode<T>* ptr) {
             this->ptr = ptr;
             return *this;
         }
         bool operator==(const const_iterator& it) const {
-            return (this->ptr == it.ptr);
+            return (ptr == it.ptr);
         }
         bool operator!=(const const_iterator& it) const {
             return (ptr != it.ptr);
         }
         const_iterator& operator++() {
-            if (ptr) {
-                ptr = ptr->next;
-            }
+            if (ptr) ptr = ptr->next;
             return *this;
         }
         const_iterator operator++(int) {
@@ -147,7 +143,7 @@ public:
 		return counter;
 	}
 	//Insert a new node at the back.
-	void push_back(T data) {
+	void push_back(const T& data) {
 		if (!head) {
 			head = new fnode<T>;
 			tail = head;
@@ -218,10 +214,10 @@ public:
 		std::vector<T> tmp;
 		if (empty()) return tmp;
 		tmp.resize(counter);
-		fnode<T>* ptr = head;
-		while (ptr) {
-			tmp.push_back(ptr->data);
-			ptr = ptr->next;
+		fnode<T>* cur = head;
+		while (cur) {
+			tmp.push_back(cur->data);
+            cur = cur->next;
 		}
 		return tmp;
 	}
@@ -229,11 +225,11 @@ public:
 	T* c_array() {
 		if (empty()) return nullptr;
 		T* tmp = new T[counter];
-		int i = 0;
-		fnode<T>* ptr = head;
-		while (ptr) {
-			tmp[i] = ptr->data;
-			ptr = ptr->next;
+		unsigned int i = 0;
+		fnode<T>* cur = head;
+		while (cur) {
+			tmp[i] = cur->data;
+            cur = cur->next;
             ++i;
 		}
 		return tmp;
@@ -242,7 +238,7 @@ public:
 	void swap(cqueue<T>& source) {
 		fnode<T>* tmp_head = head;
 		fnode<T>* tmp_tail = tail;
-		int tmp_counter = counter;
+		unsigned int tmp_counter = counter;
 		head = source.head;
 		tail = source.tail;
 		counter = source.counter;

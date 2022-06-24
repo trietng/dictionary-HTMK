@@ -1,9 +1,8 @@
 #pragma once
 #include <iostream>
 
-//WARNING: sh_ptr does not support move operation
 template <typename T>
-class sh_ptr {
+class shptr {
 private:
 	T* raw;
     unsigned int* counter;
@@ -16,28 +15,39 @@ private:
         }
     }
 public:
-    sh_ptr() {
+    shptr() {
         raw = nullptr;
         counter = nullptr;
     }
-    sh_ptr(T* ptr) {
+    shptr(T* ptr) {
         raw = ptr;
         if (raw) counter = new unsigned int(1);
         else counter = nullptr;
     }
-    sh_ptr(const sh_ptr<T>& sh_ptr) {
-        raw = sh_ptr.raw;
-        counter = sh_ptr.counter;
+    shptr(const shptr<T>& shptr) {
+        raw = shptr.raw;
+        counter = shptr.counter;
         ++(*counter);
     }
-    sh_ptr<T>& operator=(const sh_ptr<T>& sh_ptr) {
+    shptr<T>& operator=(const shptr<T>& shptr) {
         clear();
-        raw = sh_ptr.raw;
-        counter = sh_ptr.counter;
+        raw = shptr.raw;
+        counter = shptr.counter;
         ++(*counter);
         return *this;
     }
-    ~sh_ptr() {
+    shptr(shptr&& shptr) {
+        raw = shptr.raw; 
+        counter = shptr.counter;
+        shptr.raw = shptr.counter = nullptr;
+    }
+    shptr<T>& operator=(shptr<T>&& shptr) {
+        clear();
+        raw = shptr.raw;
+        counter = shptr.counter;
+        shptr.raw = shptr.counter = nullptr;
+    }
+    ~shptr() {
         clear();
     }
     unsigned int use_count() const {
