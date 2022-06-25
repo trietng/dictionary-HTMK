@@ -42,24 +42,23 @@ public:
 	}
 };
 
-int get_ASSIGN(const unsigned int& N_TYPE) {
-	switch (N_TYPE) {
-	case ASCII:
-		return 32;
-		break;
-	case ALPHA:
-		return 65;
-		break;
-	default:
-		break;
-	}
-	return INT32_MAX;
-}
-
 template <unsigned int N_TYPE>
 class trie {
 private:
 	tnode<N_TYPE>* root;
+	int get_ASSIGN(const unsigned int& N_TYPE) {
+		switch (N_TYPE) {
+		case ASCII:
+			return 32;
+			break;
+		case ALPHA:
+			return 65;
+			break;
+		default:
+			break;
+		}
+		return INT32_MAX;
+	}
 	int ASSIGN = get_ASSIGN(N_TYPE);
 	int index(const char& key) {
 		return (int)key - ASSIGN;
@@ -112,6 +111,10 @@ public:
 	}
 	~trie() {
 		delete root;
+	}
+	//Return the root node
+	tnode<N_TYPE>* top() {
+		return root;
 	}
 	//Insert entry into the word trie
 	void insert(const shptr<entry>& entry) {

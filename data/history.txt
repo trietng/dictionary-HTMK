@@ -1,4 +1,1 @@
-[number of entries]
-[entry #0]
-[entry #1]
-...
+0

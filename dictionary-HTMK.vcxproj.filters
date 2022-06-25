@@ -18,6 +18,12 @@
     <ClCompile Include="dictionary-HTMK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="history.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="editWords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds\flist.hpp">
@@ -42,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds\shptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="editWords.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

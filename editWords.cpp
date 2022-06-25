@@ -1,6 +1,6 @@
 #include"editWords.hpp"
 
-void add_word_menu(dictionary& dict){
+void add_word_menu(dictionary<ASCII,ASCII>& dict){
     string word, def, temp;
     bool check = false;
     do {
@@ -16,7 +16,7 @@ void add_word_menu(dictionary& dict){
     }while (check);
 }
 
-void remove_word_menu(dictionary& dict){
+void remove_word_menu(dictionary<ASCII,ASCII>& dict){
     string word, temp;
     bool check = false;
     do {
@@ -30,7 +30,7 @@ void remove_word_menu(dictionary& dict){
     }while (check);
 }
 
-void edit_word_menu(dictionary& dict){
+void edit_word_menu(dictionary<ASCII,ASCII>& dict){
     string word, def, temp;
     bool check = false;
     do {
@@ -48,4 +48,4 @@ void edit_word_menu(dictionary& dict){
         check = (temp == "y");
     }while (check);
 }
-
+ 

@@ -132,6 +132,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dictionary-HTMK.cpp" />
+    <ClCompile Include="editWords.cpp" />
+    <ClCompile Include="history.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.hpp" />
@@ -140,6 +142,7 @@
     <ClInclude Include="ds\fnode.hpp" />
     <ClInclude Include="ds\shptr.hpp" />
     <ClInclude Include="ds\trie.hpp" />
+    <ClInclude Include="editWords.hpp" />
     <ClInclude Include="favourites.hpp" />
     <ClInclude Include="history.hpp" />
   </ItemGroup>

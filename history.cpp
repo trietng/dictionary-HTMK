@@ -22,23 +22,23 @@ vector<string> loadHistory(){
 void saveHistory(vector<string> temp){
     ofstream fout(history_output);
     if (fout){
-        cout << temp.size() << " ";
-        for (int i = 0; i < temp.size(); ++i) fout << temp[i] << " ";
+        fout << temp.size() << endl;
+        for (int i = 0; i < temp.size(); ++i) fout << temp[i] << endl;
     }
     else cout << "Can't not open the file!";
     fout.close();
 }
 
 void printHistory(vector<string> temp){
-    cout << "The history of search words is:\n ";
+    cout << "The history of search words is:\n";
     for (int i = temp.size() - 1 ; i >= 0; --i){
         cout << temp[i] << endl;
     }
 }
 
-void add_word_to_history(string& word,vector<string>& temp){
+void add_word_to_history(string word,vector<string>& temp){
+    if (temp.size() == 10) temp.erase(temp.begin());
     temp.push_back(word);
-    if (temp.size() == 20) temp.erase(temp.begin());
 }
 
 void clearHistory(vector<string>& temp){
