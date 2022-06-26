@@ -38,3 +38,19 @@ fav_word::fav_word()
 	fin.close();
 }
 
+bool fav_word::remove(string i)
+{
+	if (vec.empty())
+		return false;
+	for (int j = 0; j < vec.size(); j++)
+	{
+		if (i == vec.at(j))
+		{
+			swap(vec[j], vec.back());
+			vec.pop_back();
+			return true;
+		}
+	}
+	return false;
+}
+
