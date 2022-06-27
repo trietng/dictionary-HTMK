@@ -15,5 +15,6 @@ public:
 	void save();
 	fav_word(); // load
 	bool remove(string i);
+	void display();
 };
 
