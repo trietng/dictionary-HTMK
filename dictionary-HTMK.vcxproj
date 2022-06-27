@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="dictionary-HTMK.cpp" />
     <ClCompile Include="editWords.cpp" />
+    <ClCompile Include="favourites.cpp" />
     <ClCompile Include="history.cpp" />
   </ItemGroup>
   <ItemGroup>

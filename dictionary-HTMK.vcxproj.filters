@@ -24,6 +24,9 @@
     <ClCompile Include="editWords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="favourites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds\flist.hpp">

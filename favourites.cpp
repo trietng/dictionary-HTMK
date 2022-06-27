@@ -54,3 +54,11 @@ bool fav_word::remove(string i)
 	return false;
 }
 
+void fav_word::display()
+{
+	for (int i = 0; i < vec.size(); i++)
+	{
+		cout << i + 1 << ". " << vec[i] << endl;
+	}
+}
+
