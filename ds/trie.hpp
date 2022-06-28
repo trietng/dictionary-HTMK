@@ -20,7 +20,7 @@ public:
 template <unsigned int SIZE>
 class tnode {
 public:
-	char key;
+	unsigned char key;
 	tnode* next[SIZE];
 	cqueue<shptr<entry>> value;
 	tnode() {
@@ -29,7 +29,7 @@ public:
 			next[i] = nullptr;
 		}
 	}
-	tnode(const char& key) {
+	tnode(const unsigned char& key) {
 		this->key = key;
 		for (unsigned int i = 0; i < SIZE; ++i) {
 			next[i] = nullptr;
@@ -60,7 +60,7 @@ private:
 		return INT32_MAX;
 	}
 	int ASSIGN = get_ASSIGN(N_TYPE);
-	int index(const char& key) {
+	int index(const unsigned char& key) {
 		return (int)key - ASSIGN;
 	}
 	//Check if a node has any child
