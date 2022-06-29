@@ -41,6 +41,11 @@ public:
 	void remove(const std::string& word) {
 		this->word.remove(word);
 	}
+	// Add Remove Definition trie:
+
+	void remove_def(const std::string& def) {
+		this->definition.remove(def);
+	}
 	entry* find_word(const std::string& word) {
 		return this->word.find(word);
 	}

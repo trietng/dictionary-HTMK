@@ -9,8 +9,8 @@ constexpr unsigned int ALPHA = 26;
 
 class entry {
 public:
-	std::string key;
-	std::string value;
+	std::string key;	//keyword
+	std::string value; //definition
 	entry(const std::string& key, const std::string& value) {
 		this->key = key;
 		this->value = value;

@@ -1,12 +1,16 @@
+#pragma once
 #include "dictionary.hpp"
+#include "restore.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <chrono>
 
 void test() {
-	dictionary<ASCII, ASCII> dict("raw\\slang.txt");
+	dictionary<ASCII, ASCII> dict("data\\raw\\slang.txt");
 	dict.printDictionary();
+	restore<ASCII, ASCII> res(dict, "data\\tempDel\\slang.txt");
+	res.reloadWordTree();
 }
 
 int main() {
