@@ -11,14 +11,15 @@ private:
 	trie<N_WORD> word;
 	trie<N_DEF> definition;
 	std::string filename;
-	void printDictionary(tnode<N_WORD>* root, std::ofstream& fout) {
+	//Private recursive write to text file function
+	void write_text(tnode<N_WORD>* root, std::ofstream& fout) {
 		if (!root) return;
 		if (!root->value.empty()) {
 			auto ent = root->value.front().get();
 			fout << ent->key << "`" << ent->value << "\n";
 		}
 		for (unsigned int i = 0; i < N_WORD; ++i) {
-			printDictionary(root->next[i], fout);
+			write_text(root->next[i], fout);
 		}
 	}
 	//Read trie from file
@@ -112,11 +113,11 @@ public:
 		return this->definition.find_d(keyword);
 	}
 
-	void printDictionary() {
-		std :: ofstream fout(filename);
+	void write_text() {
+		std :: ofstream fout(filename + ".txt");
 		fout.close();
-		fout.open(filename, std::ios::app);
-		if (fout) printDictionary(word.top(), fout);
+		fout.open(filename + ".txt", std::ios::app);
+		if (fout) write_text(word.top(), fout);
 	}
 
 	entry* find_rand_word() {
