@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include "ds\trie.hpp"
 constexpr char grave_accent = '`';
 
@@ -121,4 +122,16 @@ public:
 	entry* find_rand_word() {
 
 	}
+
+	void clear() {
+		word.clear();
+		definition.clear();
+	}
+
+	void restore() {
+		clear();
+		std::string temp = "data\\backup\\" + std::filesystem::path(filename).filename().string(); // ???
+		dictionary(temp);
+	}
+	
 };
