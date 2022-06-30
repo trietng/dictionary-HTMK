@@ -20,7 +20,7 @@ public:
 template <unsigned int SIZE>
 class tnode {
 public:
-	unsigned char key;
+	char key;
 	tnode* next[SIZE];
 	cqueue<shptr<entry>> value;
 	tnode() {
@@ -29,7 +29,7 @@ public:
 			next[i] = nullptr;
 		}
 	}
-	tnode(const unsigned char& key) {
+	tnode(const char& key) {
 		this->key = key;
 		for (unsigned int i = 0; i < SIZE; ++i) {
 			next[i] = nullptr;
@@ -46,7 +46,7 @@ template <unsigned int N_TYPE>
 class trie {
 private:
 	tnode<N_TYPE>* root;
-	int get_ASSIGN(const unsigned int& N_TYPE) {
+	int get_ASSIGN() {
 		switch (N_TYPE) {
 		case ASCII:
 			return 32;
@@ -59,8 +59,8 @@ private:
 		}
 		return INT32_MAX;
 	}
-	int ASSIGN = get_ASSIGN(N_TYPE);
-	int index(const unsigned char& key) {
+	int ASSIGN = get_ASSIGN();
+	int index(const char& key) {
 		return (int)key - ASSIGN;
 	}
 	//Check if a node has any child
@@ -113,8 +113,12 @@ public:
 		delete root;
 	}
 	//Return the root node
-	tnode<N_TYPE>* top() {
+	tnode<N_TYPE>*& top() {
 		return root;
+	}
+	void clear() {
+		delete root;
+		root = new tnode<N_TYPE>();
 	}
 	//Insert entry into the word trie
 	void insert(const shptr<entry>& entry) {

@@ -410,7 +410,7 @@ ALT`Alternative character in RPG
 ALU`Arithmetic Logic Unit
 ALV`Asta La Vista| goodbye
 ALWP`Actual Laughter Was Produced
-AMA`Ask Me Anything
+AMA`Ask Me Anything| Against Medical Advice
 AMAA`Ask Me Almost Anything
 AMAP`As Much As Possible
 AMC`American Motors Corportation
@@ -591,7 +591,6 @@ AYT`Are You There?
 AYW`As You Wish
 AYYO`Hi, hello
 AZN`Asian
-Against Medical Advice`Ask Me Anything
 B`Be
 B&`Banned| Band
 B&B`Bed & Breakfast
@@ -904,7 +903,7 @@ BOLO`Be On The Lookout
 BOLSHY`Bolshevik| communist| Argumentative
 BOLTOP`Better On Lips Than On Paper
 BOM`Bro| dude| friend
-BOMB`Something really bad
+BOMB`Something really bad| Something really good
 BOMBSHELL`Very attractive woman
 BOMM`BOOMM
 BONE UP`Learn about| revise
@@ -1107,7 +1106,7 @@ C/O`Class Of ...
 C1`Affirmative| Roger that
 C2C`Consumer to Consumer| Cam to Cam
 C4`Plastic explosive
-C4C`Comment for Comment
+C4C`Comment for Comment| Cam for Cam
 C:`Very happy
 CAAC`Cool As A Cucumber
 CAB`Misspelling of CBA
@@ -1485,7 +1484,6 @@ CYOOT`Cute
 CYPH`To Share A Smoke
 CYT`See You Tomorrow
 CZ`Condition Zero (game)
-Cam for Cam`Comment for Comment
 D BO`Steal
 D&D`Dungeons and Dragons
 D&M`Deep and Meaningful
@@ -1998,7 +1996,7 @@ EPOS`Electronic Point Of Sale
 EPROM`Electronically Programmable ROM
 EQ`EverQuest (game)
 EQE`Easy Quick Efficient
-ER`Emergency Room
+ER`Emergency Room| Indicating hesitation
 ERB`Herb| Marijuana
 ERK`Irk| annoy
 ERM`Awkward conversation filler
@@ -2870,7 +2868,7 @@ HOOAH`HUA
 HOOCHIE`Over made up woman with trashy dress sense
 HOOCHIFIED`Dressed Provocatively
 HOOD`Neighborhood| ghetto
-HOODIE`Hooded sweatshirt
+HOODIE`Hooded sweatshirt| Person wearing a hooded sweatshirt
 HOOK ME UP`Share with me
 HOOKED`Addicted
 HOOPS`Basketabll
@@ -3392,7 +3390,6 @@ IYTT`If You Think That
 IYW`If You Want/Will
 IYWW`If You Were Wondering
 IZ`Is| it's
-Indicating hesitation`Emergency Room
 J`Joking
 J CAT`mentally unstable person
 J DUB`Jehovah's Witness
@@ -5394,7 +5391,6 @@ PX`Post Exchange| Part Exchange
 PYP`Play Your Position
 PYT`Pretty Young Thing
 PZ`Peace
-Person wearing a hooded sweatshirt`Hooded sweatshirt
 Q`Thank You
 Q&A`Question and Answer
 Q/A`Question and Answer
@@ -6239,7 +6235,6 @@ SYTYCD`So You Think You Can Dance
 SYWISY`See You When I See You
 S^`What's Up
 Slag`Meaning
-Something really good`Something really bad
 T-T`Crying
 T.T`Crying
 T2M`Talk To Me

@@ -1,0 +1,7 @@
+dictionary_20220630.zip
+file list:
+   dictionary.hpp
+description: old code (before the serialization of trie)
+result: n\a
+reason: new, more suitable code
+status: discarded until further notice
