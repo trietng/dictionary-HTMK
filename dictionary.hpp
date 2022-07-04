@@ -5,6 +5,10 @@
 #include "ds\trie.hpp"
 constexpr char grave_accent = '`';
 
+enum rmode {
+	text = 0, binary = 1
+};
+
 template <unsigned int N_WORD, unsigned int N_DEF>
 class dictionary {
 private:
@@ -22,7 +26,20 @@ private:
 			write_text(root->next[i], fout);
 		}
 	}
-	//Read trie from binary file
+	//Read from text file
+	void read_text(const std::string& filepath) {
+		std::ifstream fin(filepath);
+		if (fin) {
+			std::string line, word, def;
+			while (getline(fin, line)) {
+				std::stringstream ss(line);
+				std::getline(ss, word, '`');
+				std::getline(ss, def);
+				insert(word, def);
+			}
+		}
+	}
+	//Read from binary file
 	void read(std::ifstream& fin, tnode<N_WORD>*& node) {
 		char ch = '\0';
 		fin.read((char*)&(ch), sizeof(char));
@@ -50,7 +67,7 @@ private:
 			}
 		}
 	}
-	//Write trie to binary file
+	//Write to binary file
 	void write(std::ofstream& fout, tnode<N_WORD>* node) {
 		if (!node) fout.write((char*)&(grave_accent), sizeof(char));
 		else {
@@ -73,6 +90,7 @@ private:
 		}
 	}
 public:
+	//Default constructor, binary file mode
 	dictionary(const std::string& filepath) {
 		this->filepath = filepath;
 		std::ifstream fin(filepath, std::ios::binary);
@@ -83,19 +101,30 @@ public:
 		}
 		else std::cout << "ERROR: BAD FILE AT " << filepath;
 	}
-	//Read from text file
-	void read_text(const std::string& filepath) {
-		clear();
-		std::ifstream fin(filepath);
+	//Default constructor, optional file mode
+	dictionary(const std::string& filepath, rmode mode) {
 		this->filepath = filepath;
-		if (fin) {
-			std::string line, word, def;
-			while (getline(fin, line)) {
-				std::stringstream ss(line);
-				std::getline(ss, word, '`');
-				std::getline(ss, def);
-				insert(word, def);
+		if (mode == binary) {
+			std::ifstream fin(filepath, std::ios::binary);
+			if (fin) {
+				for (unsigned int i = 0; i < N_WORD; ++i) {
+					read(fin, word.top()->next[i]);
+				}
 			}
+			else std::cout << "ERROR: BAD FILE AT " << filepath;
+		}
+		else {
+			std::ifstream fin(filepath);
+			if (fin) {
+				std::string line, word, def;
+				while (getline(fin, line)) {
+					std::stringstream ss(line);
+					std::getline(ss, word, '`');
+					std::getline(ss, def);
+					insert(word, def);
+				}
+			}
+			else std::cout << "ERROR: BAD FILE AT " << filepath;
 		}
 	}
 	//Write trie to binary file
@@ -149,6 +178,6 @@ public:
 		std::string t_filepath = filepath;
 		clear();
 		std::string temp = "data\\backup\\" + std::filesystem::path(t_filepath).filename().string(); // ???
-		dictionary(temp);
+		read_text(temp);
 	}
 };

@@ -17,7 +17,7 @@ void test() {
 
 int main() {
 	auto start = std::chrono::high_resolution_clock::now();
-	dictionary<ASCII, ASCII> dict("data\\raw\\test");
+	dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::cout << "Load time: " <<
 	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
