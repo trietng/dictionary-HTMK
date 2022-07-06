@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+
 #include <filesystem>
 #include "ds\trie.hpp"
 constexpr char grave_accent = '`';
@@ -8,6 +9,7 @@ constexpr char grave_accent = '`';
 template <unsigned int N_WORD, unsigned int N_DEF>
 class dictionary {
 private:
+	
 	trie<N_WORD> word;
 	trie<N_DEF> definition;
 	std::string filepath;
@@ -44,6 +46,8 @@ private:
 				shptr<entry> ent(new entry(word, def));
 				node->value.push_back(ent);
 				this->definition.insert_d(ent);
+				word.word_count++;
+				definition.word_count++;
 			}
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				read(fin, node->next[i]);
@@ -66,12 +70,17 @@ private:
 				len = node->value.front()->value.size() + 1;
 				fout.write((char*)&len, sizeof(int));
 				fout.write(node->value.front()->value.c_str(), len);
+
 			}
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				write(fout, node->next[i]);
 			}
 		}
 	}
+
+public: // for random
+	std::random_device dev;
+	std::mt19937 rng;
 public:
 	dictionary(const std::string& filepath) {
 		this->filepath = filepath;
@@ -115,11 +124,13 @@ public:
 	}
 	void remove(const std::string& word) {
 		this->word.remove(word);
+		
 	}
 	// Add Remove Definition trie:
 
 	void remove_def(const std::string& def) {
 		this->definition.remove(def);
+		
 	}
 	entry* find_word(const std::string& word) {
 		return this->word.find(word);

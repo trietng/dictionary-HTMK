@@ -45,6 +45,7 @@ public:
 template <unsigned int N_TYPE>
 class trie {
 private:
+	
 	tnode<N_TYPE>* root;
 	int get_ASSIGN() {
 		switch (N_TYPE) {
@@ -106,8 +107,10 @@ private:
 		}
 	}
 public:
+	int word_count; // count word in trie to random
 	trie() {
 		root = new tnode<N_TYPE>();
+		word_count = 0;
 	}
 	~trie() {
 		delete root;
@@ -129,6 +132,7 @@ public:
 			cur = cur->next[j];
 		}
 		cur->value.push_back(entry);
+		word_count++;
 	}
 	//Insert entry into the definition trie
 	void insert_d(const shptr<entry>& entry) {
@@ -139,6 +143,7 @@ public:
 			cur = cur->next[j];
 		}
 		cur->value.push_back(entry);
+		word_count++;
 	}
 	//Remove keyword from the keyword trie
 	void remove(const std::string& key) {
