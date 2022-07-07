@@ -7,6 +7,9 @@
 constexpr unsigned int ASCII = 95;
 constexpr unsigned int ALPHA = 26;
 
+template <unsigned int N_WORD, unsigned int N_DEF>
+class dictionary;
+
 class entry {
 public:
 	std::string key;	//keyword
@@ -45,8 +48,8 @@ public:
 template <unsigned int N_TYPE>
 class trie {
 private:
-	
 	tnode<N_TYPE>* root;
+	unsigned int key_count;
 	int get_ASSIGN() {
 		switch (N_TYPE) {
 		case ASCII:
@@ -106,11 +109,13 @@ private:
 			find_d(node->next[i], vt);
 		}
 	}
+	//Increase the key count by one from dictionary class
+	template<unsigned int N_WORD, unsigned int N_DEF>
+	friend void dictionary<N_WORD, N_DEF>::assign_key_count(trie<N_WORD>& trie);
 public:
-	int word_count; // count word in trie to random
 	trie() {
 		root = new tnode<N_TYPE>();
-		word_count = 0;
+		key_count = 0;
 	}
 	~trie() {
 		delete root;
@@ -119,9 +124,15 @@ public:
 	tnode<N_TYPE>*& top() {
 		return root;
 	}
+	//Clear the trie
 	void clear() {
 		delete root;
 		root = new tnode<N_TYPE>();
+		key_count = 0;
+	}
+	//Get number of key inside the trie
+	unsigned int count() {
+		return key_count;
 	}
 	//Insert entry into the word trie
 	void insert(const shptr<entry>& entry) {
@@ -132,7 +143,7 @@ public:
 			cur = cur->next[j];
 		}
 		cur->value.push_back(entry);
-		word_count++;
+		key_count++;
 	}
 	//Insert entry into the definition trie
 	void insert_d(const shptr<entry>& entry) {
@@ -143,11 +154,12 @@ public:
 			cur = cur->next[j];
 		}
 		cur->value.push_back(entry);
-		word_count++;
+		key_count++;
 	}
 	//Remove keyword from the keyword trie
 	void remove(const std::string& key) {
 		remove(this->root, key, 0);
+		key_count--;
 	}
 	//Find keyword inside the keyword trie
 	entry* find(const std::string& key) {

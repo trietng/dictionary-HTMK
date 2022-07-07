@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-
 #include <filesystem>
 #include "ds\trie.hpp"
 constexpr char grave_accent = '`';
@@ -13,10 +12,38 @@ enum rmode {
 template <unsigned int N_WORD, unsigned int N_DEF>
 class dictionary {
 private:
-	
 	trie<N_WORD> word;
 	trie<N_DEF> definition;
 	std::string filepath;
+	//Very dangerous operation, proceed with caution
+	void assign_key_count(trie<N_WORD>& trie) {
+		/*WARNING: If N_DEF == N_WORD there will be no way to prevent a false assignment
+		//at compile time (pass this->definition instead of this->word). (1)
+		//
+		//Since the word trie is reconstructed from raw data instead of sequential insertions,
+		//it will not modify the key_count value and its key_count will stay at 0. And due to the 
+		//reconstruction can only be done from dictionary class instead of trie, it is obvious
+		//that we will assign the key_count value of this->defintion to this->word.
+		//However, member counters of classes are required to be private so that it cannot be 
+		//assigned value at will. Accidental assignment of values to counters can lead to
+		//catastrophic scenarios (unstable randomize functions, ...). Therefore, we must
+		//find another way to set the value of this->word.key_word safely.
+		//
+		//There are two ways to do this:
+		//1. Make dictionary a derived class of trie (bad idea)
+		//2. Using friend function
+		//
+		//friend function is the key here. It limits human error down to only one possible
+		//scenario, where the developer will have to wreck things up really bad to get that
+		//warned exception at (1). Even if they did do that, it is easier to find out
+		//what went wrong than the public this->word.key_count solution, since 
+		//this->word.key_count must be 0 to get assigned.
+		*/
+		if (trie.count() == 0) trie.key_count = definition.count();
+		//trying not to throw things here
+		//throwing exceptions aren't a good practice in C++ where there is no
+		//garbage collector - aborting the program also means massive memory leak
+	}
 	//Write to text file
 	void write_text(tnode<N_WORD>* root, std::ofstream& fout) {
 		if (!root) return;
@@ -62,9 +89,8 @@ private:
 				delete[] buf_def;
 				shptr<entry> ent(new entry(word, def));
 				node->value.push_back(ent);
+				assign_key_count(this->word);
 				this->definition.insert_d(ent);
-				word.word_count++;
-				definition.word_count++;
 			}
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				read(fin, node->next[i]);
@@ -87,17 +113,18 @@ private:
 				len = node->value.front()->value.size() + 1;
 				fout.write((char*)&len, sizeof(int));
 				fout.write(node->value.front()->value.c_str(), len);
-
 			}
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				write(fout, node->next[i]);
 			}
 		}
 	}
-
+/*
 public: // for random
 	std::random_device dev;
 	std::mt19937 rng;
+*/ //What is this??????
+
 public:
 	//Default constructor, binary file mode
 	dictionary(const std::string& filepath) {
@@ -153,13 +180,6 @@ public:
 	}
 	void remove(const std::string& word) {
 		this->word.remove(word);
-		
-	}
-	// Add Remove Definition trie:
-
-	void remove_def(const std::string& def) {
-		this->definition.remove(def);
-		
 	}
 	entry* find_word(const std::string& word) {
 		return this->word.find(word);
@@ -190,5 +210,9 @@ public:
 		clear();
 		std::string temp = "data\\backup\\" + std::filesystem::path(t_filepath).filename().string(); // ???
 		read_text(temp);
+	}
+	//Act like find_word
+	entry* operator[](const std::string& _keyword) {
+		return find_word(_keyword);
 	}
 };
