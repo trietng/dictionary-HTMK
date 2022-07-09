@@ -22,7 +22,8 @@ int main() {
 	std::cout << "Load time: " <<
 	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
 	<< "ms\n";
-	std::system("pause");
+	//std::system("pause");
+	auto x = dict["2M"];
 	dict.write();
 	return 0;
 }
