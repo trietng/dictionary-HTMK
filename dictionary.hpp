@@ -91,7 +91,6 @@ private:
 				shptr<entry> ent(new entry(word, def));
 				node->value.push_back(ent);
 				this->definition.insert_d(ent);
-				assign_key_count(this->definition);
 			}
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				read(fin, node->next[i]);
@@ -130,6 +129,7 @@ public:
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				read(fin, word.top()->next[i]);
 			}
+			assign_key_count(this->word);
 		}
 		else std::cout << "ERROR: BAD FILE AT " << filepath;
 	}
@@ -142,6 +142,7 @@ public:
 				for (unsigned int i = 0; i < N_WORD; ++i) {
 					read(fin, word.top()->next[i]);
 				}
+				assign_key_count(this->word);
 			}
 			else std::cout << "ERROR: BAD FILE AT " << filepath;
 		}
