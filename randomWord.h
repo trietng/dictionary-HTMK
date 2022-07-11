@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #include <random>
 #include <iostream>
 using namespace std;
@@ -69,5 +69,3 @@ protected:
     random_device dev;
     mt19937 rng;
 };
-
-*/

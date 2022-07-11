@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <random>
 #include "cqueue.hpp"
 #include "shptr.hpp"
 
@@ -20,8 +19,6 @@ public:
 
 template <unsigned int SIZE>
 class tnode {
-public: // random function:
-	int word_count; // count word in trie to random
 public:
 	char key;
 	tnode* next[SIZE];
@@ -31,14 +28,12 @@ public:
 		for (unsigned int i = 0; i < SIZE; ++i) {
 			next[i] = nullptr;
 		}
-		word_count = 0;
 	}
 	tnode(const char& key) {
 		this->key = key;
 		for (unsigned int i = 0; i < SIZE; ++i) {
 			next[i] = nullptr;
 		}
-		word_count = 1;
 	}
 	~tnode() {
 		for (unsigned int i = 0; i < SIZE; ++i) {
@@ -50,6 +45,7 @@ public:
 template <unsigned int N_TYPE>
 class trie {
 private:
+	
 	tnode<N_TYPE>* root;
 	int get_ASSIGN() {
 		switch (N_TYPE) {
@@ -65,13 +61,8 @@ private:
 		return INT32_MAX;
 	}
 	int ASSIGN = get_ASSIGN();
-
 	int index(const char& key) {
 		return (int)key - ASSIGN;
-	}
-
-	char getCharFromIndex(const int& index) {
-		return '\0' + index + ASSIGN;
 	}
 	//Check if a node has any child
 	bool is_leaf(tnode<N_TYPE>* node) {
@@ -83,8 +74,6 @@ private:
 	//Private recursive remove function
 	tnode<N_TYPE>* remove(tnode<N_TYPE>* root, const std::string& key, const int& depth) {
 		if (!root) return nullptr;
-		root->word_count--;	 // in every node, if this node is created from n word, word_count is equal with n
-
 		if (depth == key.size()) {
 			if (!root->value.empty()) {
 				root->value.front()->key = "";
@@ -117,47 +106,8 @@ private:
 			find_d(node->next[i], vt);
 		}
 	}
-
-private: // random function:
-	void at(int index, std::string& word, int depth) {
-		int sum = 0;
-		for (int i = 0; i < N_TYPE; i++) {
-			tnode* temp = root->next[i];
-			if (temp == nullptr || temp->word_count == 0)
-				continue;
-			
-			int size = temp->word_count;
-			if (index < sum + size) {
-				temp->at(index - sum, word, depth + 1);
-				word[depth] = getCharFromIndex(i);
-				return;
-			}
-
-			sum = sum + size;
-		}
-	}
-
-public: // random function:
-	
-	std::random_device dev;
-	std::mt19937 rng;
-
-	// return a random string
-	std::string random() {
-		std::uniform_int_distribution<std::mt19937::result_type> dist(0, root->word_count - 1);
-		return at(dist(rng));
-	}
-
-	// return the string at a given index
-	std::string at(int index) {
-		string word = "";
-		at(index, word, 0);
-		return word;
-	}
-
-
-
 public:
+	int word_count; // count word in trie to random
 	trie() {
 		root = new tnode<N_TYPE>();
 		word_count = 0;
@@ -180,10 +130,9 @@ public:
 			int j = index(i);
 			if (!cur->next[j]) cur->next[j] = new tnode<N_TYPE>(i);
 			cur = cur->next[j];
-			cur->word_count++; // in every node, if this node is created from n word, word_count is equal with n
 		}
 		cur->value.push_back(entry);
-		
+		word_count++;
 	}
 	//Insert entry into the definition trie
 	void insert_d(const shptr<entry>& entry) {
@@ -192,11 +141,9 @@ public:
 			int j = index(i);
 			if (!cur->next[j]) cur->next[j] = new tnode<N_TYPE>(i);
 			cur = cur->next[j];
-			cur->word_count++; // in every node, if this node is created from n word, word_count is equal with n
-
 		}
 		cur->value.push_back(entry);
-		
+		word_count++;
 	}
 	//Remove keyword from the keyword trie
 	void remove(const std::string& key) {
