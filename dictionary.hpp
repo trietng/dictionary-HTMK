@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-
+#include "history.hpp"
 #include <filesystem>
 #include "ds\trie.hpp"
 constexpr char grave_accent = '`';
@@ -16,6 +16,7 @@ private:
 	trie<N_WORD> word;
 	trie<N_DEF> definition;
 	std::string filepath;
+	history History;
 	//Very dangerous operation, proceed with caution
 	void assign_key_count(trie<N_WORD>& trie) {
 		/*WARNING: If N_DEF == N_WORD there will be no way to prevent a false assignment
@@ -126,6 +127,7 @@ public:
 	//Default constructor, binary file mode
 	dictionary(const std::string& filepath) {
 		this->filepath = filepath;
+		this->History = loadHistory(filepath);
 		std::ifstream fin(filepath, std::ios::binary);
 		if (fin) {
 			for (unsigned int i = 0; i < N_WORD; ++i) {
@@ -138,6 +140,7 @@ public:
 	//Default constructor, optional file mode
 	dictionary(const std::string& filepath, rmode mode) {
 		this->filepath = filepath;
+		this->History = loadHistory(filepath);
 		if (mode == binary) {
 			std::ifstream fin(filepath, std::ios::binary);
 			if (fin) {
@@ -188,11 +191,17 @@ public:
 		
 	}
 	entry* find_word(const std::string& word) {
+		History.add_word_to_history(word);
 		return this->word.find(word);
 	}
 	std::vector<entry*> find_definition(const std::string& keyword) {
 		return this->definition.find_d(keyword);
 	}
+
+	void seeHistory() {
+		History.printHistory();
+	}
+
 	//Write to text file
 	void write_text() {
 		std :: ofstream fout(filepath + ".txt");

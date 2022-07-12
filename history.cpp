@@ -1,47 +1,37 @@
 #include "history.hpp"
 
-vector<string> loadHistory(){
-    int n;
-    string x;
-    vector<string> temp;
-    ifstream fin(history_output);
-    if (fin){
-        fin >> n;
-        for (int i = 0; i < n;++i){
-            fin >> x;
-            temp.push_back(x);
-        }
-    }else 
-    {
-        cout << "Can't open the file!\n";
+history loadHistory(string filepath) {
+    history temp;
+    temp.historyFilePath = history_output + filesystem::path(filepath).filename().string() + ".txt";
+    ifstream fin(temp.historyFilePath);
+    int n; 
+    fin >> n;
+    for (int i = 0; i < n; ++i) {
+        string s;
+        fin >> s;
+        temp.vec.push_back(s);
     }
-    fin.close();
     return temp;
+    fin.close();
 }
 
-void saveHistory(vector<string> temp){
-    ofstream fout(history_output);
-    if (fout){
-        fout << temp.size() << endl;
-        for (int i = 0; i < temp.size(); ++i) fout << temp[i] << endl;
-    }
-    else cout << "Can't not open the file!";
+history::~history() {
+    ofstream fout(historyFilePath);
+    if (fout) {
+        fout << vec.size() << endl;
+        for (int i = 0; i < vec.size(); ++i) fout << vec[i] << endl;
+    }   
     fout.close();
 }
 
-void printHistory(vector<string> temp){
-    cout << "The history of search words is:\n";
-    for (int i = temp.size() - 1 ; i >= 0; --i){
-        cout << temp[i] << endl;
+void history::printHistory() {
+    cout << "The history of search words is:\n"; int x = vec.size() - 5;
+    for (int i = vec.size() - 1; i >= max(x, 0); --i) {
+        cout << vec[i] << endl;
     }
 }
 
-void add_word_to_history(string word,vector<string>& temp){
-    if (temp.size() == 10) temp.erase(temp.begin());
-    temp.push_back(word);
-}
-
-void clearHistory(vector<string>& temp){
-    temp.clear();
-    saveHistory(temp);
+void history::add_word_to_history(string word) {
+    vec.push_back(word);
+    if (vec.size() > historyMax) vec.erase(vec.begin());
 }

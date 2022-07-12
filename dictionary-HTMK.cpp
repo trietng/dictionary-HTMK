@@ -24,13 +24,7 @@ int main() {
 	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
 	<< "ms\n";
 	//std::system("pause");
-
-	for (int i = 0; i < 100; i++) {
-
-		dict.print_random_word();
-		std::system("pause");
-	}
-
 	dict.write();
+	dict.seeHistory();
 	return 0;
 }

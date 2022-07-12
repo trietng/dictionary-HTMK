@@ -3,17 +3,20 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
-constexpr char history_output[] = "data\\history.txt";
+#include <filesystem>
 
 using namespace std;
 
-vector<string> loadHistory();
+constexpr char history_output[] = "data\\history\\";
+const int historyMax = 100;
 
-void saveHistory(vector<string> temp);
+class history {
+public:
+	vector<string> vec;
+	string historyFilePath;
+	~history();
+	void printHistory();
+	void add_word_to_history(string word);
+};
 
-void printHistory(vector<string> temp);
-
-void add_word_to_history(string word,vector<string>& temp);
-
-void clearHistory(vector<string>& temp);
+history loadHistory(string filepath);
