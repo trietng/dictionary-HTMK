@@ -41,6 +41,8 @@ private:
 		//this->word.key_count must be 0 to get assigned.
 		*/
 		if (trie.count() == 0) trie.key_count = definition.count();
+		// else thow std::string("INVALID ASSIGNMENT OPERATIONS");
+		
 		//trying not to throw things here
 		//throwing exceptions aren't a good practice in C++ where there is no
 		//garbage collector - aborting the program also means massive memory leak
@@ -200,7 +202,14 @@ public:
 	}
 
 	entry* find_rand_word() {
+		return word.random();
+	}
 
+	// check bug:
+	void print_random_word() {
+		entry* value = find_rand_word();
+		std::cout << value->key << "  " << value->value << std::endl;
+		return;
 	}
 
 	void clear() {

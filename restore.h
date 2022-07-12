@@ -1,9 +1,12 @@
+/*
+
 #pragma once
+/*
 
 #include "dictionary.hpp"
 
 template <unsigned int N_WORD, unsigned int N_DEF>
-class restore{
+class restore {
 private:
 	std::string filename;
 	dictionary<N_WORD, N_DEF> dict;
@@ -74,3 +77,4 @@ public:
 	}
 };
 
+*/
