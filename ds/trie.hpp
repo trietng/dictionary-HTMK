@@ -54,29 +54,14 @@ template <unsigned int N_TYPE>
 class trie {
 private:
 	tnode<N_TYPE>* root;
-	int get_ASSIGN() {
-		switch (N_TYPE) {
-		case ASCII:
-			return 32;
-			break;
-		case ALPHA:
-			return 65;
-			break;
-		default:
-			break;
-		}
-		return INT32_MAX;
-	}
-	int ASSIGN = get_ASSIGN();
+	static const int ASSIGN = (N_TYPE == ASCII) ? 32 : 65;
 	int index(const char& key) {
 		return (int)key - ASSIGN;
 	}
-
 	// convert from index to char:
 	char getCharFromIndex(const int& index) {
 		return (char)('\0' + index + ASSIGN);
 	}
-
 	unsigned int key_count; // count word in trie to random
 	//Check if a node has any child
 	bool is_leaf(tnode<N_TYPE>* node) {
@@ -129,7 +114,6 @@ private:
 		static std::uniform_int_distribution<> dist(0, N_TYPE - 1);
 		return dist(rng);
 	}
-
 	void at(tnode<N_TYPE>* root, entry*& word) {
 		int randomTemp = randomNumber();
 		// decide whether we choose word in this charater or continue traverse:
@@ -168,7 +152,17 @@ private:
 
 
 	}
-
+	//Copy the entire trie (deep copy, not just the pointers)
+	tnode<N_TYPE>* copy(tnode<N_TYPE>* root) {
+		if (!root) return nullptr;
+		tnode<N_TYPE>* temp = new tnode<N_TYPE>();
+		temp->key = root->key;
+		temp->value = root->value;
+		for (int i = 0; i < N_TYPE; ++i) {
+			temp->next[i] = copy(root->next[i]);
+		}
+		return temp;
+	}
 public:
 	trie() {
 		root = new tnode<N_TYPE>();
@@ -176,6 +170,38 @@ public:
 	}
 	~trie() {
 		delete root;
+	}
+	//Copy constructor
+	trie(const trie<N_TYPE>& _source) {
+		root = copy(_source.root); //copy the entire trie here
+		key_count = _source.key_count;
+	}
+	//Copy assignment
+	trie<N_TYPE>& operator=(const trie<N_TYPE>& _source) {
+		if (this != &_source) {
+			delete root;
+			root = copy(_source.root); //copy the entire trie here
+			key_count = _source.key_count;
+		}
+		return *this;
+	}
+	//Move constructor
+	trie(trie<N_TYPE>&& _source) {
+		root = _source.root;
+		key_count = _source.key_count;
+		_source.root = nullptr;
+		_source.key_count = 0;
+	}
+	//Move assignment
+	trie<N_TYPE>& operator=(trie<N_TYPE>&& _source) {
+		if (this != &_source) {
+			delete root;
+			root = _source.root;
+			key_count = _source.key_count;
+			_source.root = nullptr;
+			_source.key_count = 0;
+		}
+		return *this;
 	}
 	//Return the root node
 	tnode<N_TYPE>*& top() {

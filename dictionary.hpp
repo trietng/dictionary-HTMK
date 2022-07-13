@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "history.hpp"
 #include <filesystem>
 #include "ds\trie.hpp"
@@ -165,6 +166,23 @@ public:
 			else std::cout << "ERROR: BAD FILE AT " << filepath;
 		}
 	}
+	//Copy constructor
+	dictionary(const dictionary<N_WORD, N_DEF>& _source) {
+		word = _source.word;
+		definition = _source.definition;
+		filepath = _source.filepath;
+		History = _source.History; //!!!!
+	}
+	//Copy assignment
+	dictionary<N_WORD, N_DEF>& operator=(const dictionary<N_WORD, N_DEF>& _source) {
+		if (this != &_source) {
+			word = _source.word;
+			definition = _source.definition;
+			filepath = _source.filepath;
+			History = _source.History; //!!!!
+		}
+		return *this;
+	}
 	//Write trie to binary file
 	void write() {
 		std::ofstream fout(filepath, std::ios::binary);
@@ -182,12 +200,6 @@ public:
 	}
 	void remove(const std::string& word) {
 		this->word.remove(word);
-		
-	}
-	// Add Remove Definition trie:
-
-	void remove_def(const std::string& def) {
-		this->definition.remove(def);
 		
 	}
 	entry* find_word(const std::string& word) {

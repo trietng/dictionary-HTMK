@@ -22,6 +22,81 @@ public:
 		}
 		counter = 0;
 	}
+    //Copy constructor
+    cqueue(const cqueue<T>& _source) {
+        fnode<T>* scur = _source.head;
+        if (scur) {
+            fnode<T>* cur = new fnode<T>;
+            head = cur;
+            while (scur) {
+                cur->data = scur->data;
+                if (scur->next) {
+                    cur->next = new fnode<T>;
+                    cur = cur->next;
+                    scur = scur->next;
+                }
+                else {
+                    tail = cur;
+                    cur->next = nullptr;
+                    break;
+                }
+            }
+            counter = _source.counter;
+        }
+    }
+    //Copy assignment
+    cqueue<T>& operator=(const cqueue<T>& _source) {
+        if (this != &_source) {
+            fnode<T>* scur = _source.head;
+            if (scur) {
+                while (head) {
+                    fnode<T>* tmp = head;
+                    head = head->next;
+                    delete tmp;
+                }
+                fnode<T>* cur = new fnode<T>;
+                head = cur;
+                while (scur) {
+                    cur->data = scur->data;
+                    if (scur->next) {
+                        cur->next = new fnode<T>;
+                        cur = cur->next;
+                        scur = scur->next;
+                    }
+                    else {
+                        tail = cur;
+                        cur->next = nullptr;
+                        break;
+                    }
+                }
+                counter = _source.counter;
+            }
+        }
+        return *this;
+    }
+    //Move constructor
+    cqueue(cqueue<T>&& _source) {
+        head = _source.head;
+        tail = _source.tail;
+        counter = _source.counter;
+        _source.head = _source.tail = nullptr;
+        _source.counter = 0;
+    }
+    //Move assignment
+    cqueue<T>& operator=(cqueue<T>&& _source) {
+        if (this != &_source) {
+            while (head) {
+                fnode<T>* tmp = head;
+                head = head->next;
+                delete tmp;
+            }
+            head = _source.head;
+            tail = _source.tail;
+            counter = _source.counter;
+            _source.head = _source.tail = nullptr;
+            _source.counter = 0;
+        }
+    }
     class iterator {
     private:
         friend cqueue;

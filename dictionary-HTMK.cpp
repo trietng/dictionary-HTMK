@@ -8,23 +8,21 @@
 //#include <thread>
 
 void test() {
-	dictionary<ASCII, ASCII> dict("data\\raw\\slang.txt");
-	dict.write();
-	/*
-	restore<ASCII, ASCII> res(dict, "data\\tempDel\\slang.txt");
-	res.reloadWordTree();
-	*/
+	//auto start = std::chrono::high_resolution_clock::now();
+	dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
+	auto copy_d = dict;
+	//auto stop = std::chrono::high_resolution_clock::now();
+	//std::cout << "Load time: " <<
+	//std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
+	//<< "ms\n";
+	auto x = copy_d.find_word("2M");
+	
 }
 
 int main() {
-	auto start = std::chrono::high_resolution_clock::now();
-	dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::cout << "Load time: " <<
-	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
-	<< "ms\n";
+	test();
 	//std::system("pause");
-	dict.write();
-	dict.seeHistory();
+	//dict.write();
+	//dict.seeHistory();
 	return 0;
 }
