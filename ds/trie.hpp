@@ -217,6 +217,8 @@ public:
 	}
 	//Insert entry into the word trie
 	void insert(const shptr<entry>& entry) {
+		std::string lower;
+
 		tnode<N_TYPE>* cur = root;
 		for (const auto& i : entry->key) {
 			int j = index(i);
