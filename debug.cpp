@@ -1,6 +1,5 @@
 #include "debug.h"
 
-
 void show_console() {
     AllocConsole();
     freopen("conin$", "r", stdin);
