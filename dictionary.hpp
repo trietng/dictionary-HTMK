@@ -125,10 +125,6 @@ private:
 		}
 	}
 public:
-	//Default constructor
-	dictionary() {
-
-	}
 	//Default constructor, binary file mode
 	dictionary(const std::string& filepath) {
 		this->filepath = filepath;
@@ -204,6 +200,7 @@ public:
 	}
 	void remove(const std::string& word) {
 		this->word.remove(word);
+		
 	}
 	entry* find_word(const std::string& word) {
 		History.add_word_to_history(word);

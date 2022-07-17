@@ -2,5 +2,3 @@
 x64
 test.cpp
 .vs
-out/build/x64-debug/
-out/build/x64-release/
