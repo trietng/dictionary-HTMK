@@ -21,19 +21,18 @@ void MainWindow::setProgram(MainProgram* pointer) {
 
 void MainWindow::on_inputSearch_returnPressed()
 {
-    if (!ui->inputSearch->text().isEmpty()) {
-        ui->resultList->clear();
-        ui->definitionBox->clear();
-        auto input = ui->inputSearch->text().toStdString();
-        if (ui->typeSearch->currentIndex() == 0) program->search_word(input);
-        else program->search_definition(input);
-        if (program->search_result.empty()) return;
-        for (auto result : program->search_result) {
-            QListWidgetItem* item = new QListWidgetItem;
-            item->setText(QString::fromStdString(result->key));
-            item->setData(Qt::UserRole, QString::fromStdString(result->value));
-            ui->resultList->addItem(item);
-        }
+    if (ui->inputSearch->text().isEmpty()) return;
+    ui->resultList->clear();
+    ui->definitionBox->clear();
+    auto input = ui->inputSearch->text().toStdString();
+    if (ui->typeSearch->currentIndex() == 0) program->search_word(input);
+    else program->search_definition(input);
+    if (program->search_result.empty()) return;
+    for (auto result : program->search_result) {
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setText(QString::fromStdString(result->key));
+        item->setData(Qt::UserRole, QString::fromStdString(result->value));
+        ui->resultList->addItem(item);
     }
 }
 
@@ -50,18 +49,17 @@ void MainWindow::on_resultList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_buttonSearch_clicked()
 {
-    if (!ui->inputSearch->text().isEmpty()) {
-        ui->resultList->clear();
-        ui->definitionBox->clear();
-        auto input = ui->inputSearch->text().toStdString();
-        if (ui->typeSearch->currentIndex() == 0) program->search_word(input);
-        else program->search_definition(input);
-        if (program->search_result.empty()) return;
-        for (auto result : program->search_result) {
-            QListWidgetItem* item = new QListWidgetItem;
-            item->setText(QString::fromStdString(result->key));
-            item->setData(Qt::UserRole, QString::fromStdString(result->value));
-            ui->resultList->addItem(item);
-        }
+    if (ui->inputSearch->text().isEmpty()) return;
+    ui->resultList->clear();
+    ui->definitionBox->clear();
+    auto input = ui->inputSearch->text().toStdString();
+    if (ui->typeSearch->currentIndex() == 0) program->search_word(input);
+    else program->search_definition(input);
+    if (program->search_result.empty()) return;
+    for (auto result : program->search_result) {
+        QListWidgetItem* item = new QListWidgetItem;
+        item->setText(QString::fromStdString(result->key));
+        item->setData(Qt::UserRole, QString::fromStdString(result->value));
+        ui->resultList->addItem(item);
     }
 }
