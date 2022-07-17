@@ -21,7 +21,6 @@ void MainWindow::setProgram(MainProgram* pointer) {
 
 void MainWindow::on_inputSearch_returnPressed()
 {
-    if (ui->inputSearch->text().isEmpty()) return;
     ui->resultList->clear();
     ui->definitionBox->clear();
     auto input = ui->inputSearch->text().toStdString();
@@ -49,7 +48,6 @@ void MainWindow::on_resultList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_buttonSearch_clicked()
 {
-    if (ui->inputSearch->text().isEmpty()) return;
     ui->resultList->clear();
     ui->definitionBox->clear();
     auto input = ui->inputSearch->text().toStdString();
@@ -63,3 +61,4 @@ void MainWindow::on_buttonSearch_clicked()
         ui->resultList->addItem(item);
     }
 }
+

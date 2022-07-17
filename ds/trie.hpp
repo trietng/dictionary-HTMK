@@ -203,7 +203,7 @@ public:
 		}
 		return *this;
 	}
-    //Return the root node
+	//Return the root node
 	tnode<N_TYPE>*& top() {
 		return root;
 	}
@@ -217,10 +217,10 @@ public:
 	}
 	//Insert entry into the word trie
 	void insert(const shptr<entry>& entry) {
-        std::string lower;
+		std::string lower;
 
 		tnode<N_TYPE>* cur = root;
-        for (const auto& i : entry->key) {
+		for (const auto& i : entry->key) {
 			int j = index(i);
 			if (!cur->next[j]) cur->next[j] = new tnode<N_TYPE>(i);
 			cur = cur->next[j];
@@ -229,9 +229,9 @@ public:
 		key_count++;
 	}
 	//Insert entry into the definition trie
-    void insert_d(const shptr<entry>& entry) {
+	void insert_d(const shptr<entry>& entry) {
 		tnode<N_TYPE>* cur = root;
-        for (const auto& i : entry->value) {
+		for (const auto& i : entry->value) {
 			int j = index(i);
 			if (!cur->next[j]) cur->next[j] = new tnode<N_TYPE>(i);
 			cur = cur->next[j];
@@ -240,25 +240,25 @@ public:
 		key_count++;
 	}
 	//Remove keyword from the keyword trie
-    void remove(const std::string& key) {
-        remove(this->root, key, 0);
+	void remove(const std::string& key) {
+		remove(this->root, key, 0);
 		key_count--;
 	}
 	//Find keyword inside the keyword trie
-    entry* find(const std::string& key) {
+	entry* find(const std::string& key) {
 		tnode<N_TYPE>* cur = root;
-        for (const auto& i : key) {
+		for (const auto& i : key) {
 			int j = index(i);
 			if (!cur->next[j]) return nullptr;
 			cur = cur->next[j];
 		}
-        return (cur->value.empty()) ? nullptr : cur->value.front().get();
+		return cur->value.front().get();
 	}
 	//Find definition insert the definition trie
 	std::vector<entry*> find_d(const std::string& def) {
-        std::vector<entry*> vt;
+		std::vector<entry*> vt;
 		tnode<N_TYPE>* cur = root;
-        for (const auto& i : def) {
+		for (const auto& i : def) {
 			int j = index(i);
 			if (!cur->next[j]) return vt;
 			cur = cur->next[j];

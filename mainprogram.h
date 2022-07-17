@@ -5,7 +5,7 @@ using namespace std;
 
 class MainProgram {
 private:
-    vector<dictionary<ASCII, ASCII>> database;
+    vector<dictionary<ASCII, ASCII>*> database;
     //history
     //favourite
 public:

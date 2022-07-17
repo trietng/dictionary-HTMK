@@ -24,8 +24,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         debug.h
         debug.cpp
-        ds/strmanip.hpp
-        ds/strmanip.cpp
         ds/fnode.hpp
         ds/cqueue.hpp
         ds/shptr.hpp
