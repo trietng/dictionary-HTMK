@@ -10,7 +10,13 @@
 void test() {
 	//auto start = std::chrono::high_resolution_clock::now();
 	dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
-	guess_definition_meaning(dict);
+
+	//check bugs :
+	for (int i = 0; i < 100; i++) {
+			guess_definition_meaning(dict);
+			guess_keyword_meaning(dict);
+	}
+		
 	auto copy_d = dict;
 	//auto stop = std::chrono::high_resolution_clock::now();
 	//std::cout << "Load time: " <<
