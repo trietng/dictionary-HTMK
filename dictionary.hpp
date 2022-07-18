@@ -5,6 +5,7 @@
 #include "history.hpp"
 #include <filesystem>
 #include "ds\trie.hpp"
+#include "game.hpp"
 constexpr char grave_accent = '`';
 
 enum rmode {

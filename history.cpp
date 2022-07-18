@@ -1,3 +1,6 @@
+#pragma once
+#include <cstdlib>
+#include <ctime>
 #include "history.hpp"
 
 history loadHistory(string filepath) {
