@@ -37,7 +37,7 @@ void guess_keyword_meaning(dictionary<N_WORD, N_DEF> dict) {
 
 	int tmp = 1;
 	cin >> tmp;
-	temp = temp % 4;
+	
 
 	if (def[tmp-1]->key == guess_def)
 		cout << "CORRECT";
@@ -84,7 +84,7 @@ void guess_definition_meaning(dictionary<N_WORD, N_DEF> dict) {
 
 	int tmp = 1;
 	cin >> tmp;
-	temp = temp % 4;
+	
 
 	if (def[tmp - 1]->value == guess_def)
 		cout << "CORRECT";
