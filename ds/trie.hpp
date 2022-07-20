@@ -6,8 +6,8 @@
 #include "cqueue.hpp"
 #include "shptr.hpp"
 
-constexpr unsigned int ASCII = 95;
-constexpr unsigned int ALPHA = 26;
+static constexpr unsigned int ASCII = 95;
+static constexpr unsigned int ALPHA = 26;
 static std::random_device rd;
 static std::mt19937 rng{rd()};
 
@@ -51,16 +51,24 @@ public:
 };
 
 template <unsigned int N_TYPE>
+constexpr unsigned int ASSIGN;
+
+template <>
+constexpr unsigned int ASSIGN<ASCII> = 32;
+
+template <>
+constexpr unsigned int ASSIGN<ALPHA> = 65;
+
+template <unsigned int N_TYPE>
 class trie {
 private:
 	tnode<N_TYPE>* root;
-	static const int ASSIGN = (N_TYPE == ASCII) ? 32 : 65;
 	int index(const char& key) {
-		return (int)key - ASSIGN;
+		return (int)key - ASSIGN<N_TYPE>;
 	}
 	// convert from index to char:
 	char getCharFromIndex(const int& index) {
-		return (char)('\0' + index + ASSIGN);
+		return (char)('\0' + index + ASSIGN<N_TYPE>);
 	}
 	unsigned int key_count; // count word in trie to random
 	//Check if a node has any child
@@ -175,6 +183,7 @@ public:
 	trie(const trie<N_TYPE>& _source) {
 		root = copy(_source.root); //copy the entire trie here
 		key_count = _source.key_count;
+		ASSIGN = _source.ASSIGN;
 	}
 	//Copy assignment
 	trie<N_TYPE>& operator=(const trie<N_TYPE>& _source) {
@@ -182,6 +191,7 @@ public:
 			delete root;
 			root = copy(_source.root); //copy the entire trie here
 			key_count = _source.key_count;
+			ASSIGN = _source.ASSIGN;
 		}
 		return *this;
 	}

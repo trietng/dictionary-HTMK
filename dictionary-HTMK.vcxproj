@@ -134,6 +134,7 @@
     <ClCompile Include="dictionary-HTMK.cpp" />
     <ClCompile Include="editWords.cpp" />
     <ClCompile Include="favourites.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="history.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="ds\trie.hpp" />
     <ClInclude Include="editWords.hpp" />
     <ClInclude Include="favourites.hpp" />
+    <ClInclude Include="game.hpp" />
     <ClInclude Include="history.hpp" />
     <ClInclude Include="restore.h" />
   </ItemGroup>
