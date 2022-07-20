@@ -6,6 +6,8 @@
 #include <filesystem>
 #include "ds\trie.hpp"
 #include "game.hpp"
+#include "favourites.hpp"
+
 constexpr char grave_accent = '`';
 
 enum rmode {
@@ -204,15 +206,20 @@ public:
 		
 	}
 	entry* find_word(const std::string& word) {
-		History.add_word_to_history(word);
+		History.add_word_to_history(word,0);
 		return this->word.find(word);
 	}
 	std::vector<entry*> find_definition(const std::string& keyword) {
+		History.add_word_to_history(word, 1);
 		return this->definition.find_d(keyword);
 	}
 
 	void seeHistory() {
 		History.printHistory();
+	}
+
+	void seeFavourite() {
+
 	}
 
 	//Write to text file
