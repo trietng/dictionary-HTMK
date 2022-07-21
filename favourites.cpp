@@ -5,7 +5,6 @@ fav_word::fav_word()
 {
 	ifstream fin;
 	fin.open(favourite_output);
-	int n;
 	string s, s1, line;
 	while (getline(fin,line)) {
 		stringstream ss(line);
@@ -55,11 +54,4 @@ void fav_word::display()
 		cout << "Favourite list: \n";
 		cout << i + 1 << ". " << vec[i].key << vec[i].value << endl;
 	}
-}
-
-void favourite_menu(entry ent,fav_word& fav) {
-	string choose;
-	cout << "Do you want to add this word to your favourite list: (y/n)";
-	cin >> choose;
-	if (choose == "y") fav.mark(ent);
 }

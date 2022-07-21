@@ -21,6 +21,5 @@ public:
 	void display();
 };
 
-void favourite_menu(entry* ent);
 bool compare_entry(entry x, entry y);
 

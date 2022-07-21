@@ -219,7 +219,6 @@ public:
 	}
 
 	void seeFavourite() {
-
 	}
 
 	//Write to text file
