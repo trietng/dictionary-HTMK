@@ -260,7 +260,7 @@ public:
 			if (!cur->next[j]) return nullptr;
 			cur = cur->next[j];
 		}
-		return cur->value.front().get();
+		return (cur->value.empty()) ? nullptr : cur->value.front().get();
 	}
 	//Find definition insert the definition trie
 	std::vector<entry*> find_d(const std::string& def) {

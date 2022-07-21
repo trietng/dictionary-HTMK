@@ -8,8 +8,7 @@
 using namespace std;
 
 void test() {
-	//auto start = std::chrono::high_resolution_clock::now();
-	//dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
+	 auto start = std::chrono::high_resolution_clock::now();
 	/*
 	check bugs :
 	for (int i = 0; i < 100; i++) {
@@ -18,16 +17,17 @@ void test() {
 	}
 	*/
 		
-	//auto stop = std::chrono::high_resolution_clock::now();
-	//std::cout << "Load time: " <<
-	//std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
-	//<< "ms\n";
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::cout << "Load time: " <<
+	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
+	 << "ms\n";
 }
 
 int main() {
 	test();
 	//std::system("pause");
-	//dict.write();
-	//dict.seeHistory();
+	dictionary<ASCII, ASCII> dict("data\\raw\\test", binary);
+	dict.write();
+	dict.seeHistory();
 	return 0;
 }
