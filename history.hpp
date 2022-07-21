@@ -8,9 +8,14 @@
 
 using namespace std;
 
-struct entry {
+enum type {
+	keyword = 0,
+	definition = 1
+};
+
+struct historyEntry {
 	string word;
-	bool type; //0: keyword, 1: definition
+	type Type;
 };
 
 constexpr char history_output[] = "data\\history\\";
@@ -18,11 +23,13 @@ const int historyMax = 100;
 
 class history {
 public:
-	vector<entry> vec;
+	vector<historyEntry> vec;
 	string historyFilePath;
 	~history();
 	void printHistory();
-	void add_word_to_history(string word, bool type);
+	void add_word_to_history(string word, type Type);
 };
 
 history loadHistory(string filepath);
+type convertoType(string s);
+string convertTostring(type temp);

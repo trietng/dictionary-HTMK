@@ -4,6 +4,7 @@
 #include <string>
 #include "ds\\trie.hpp"
 #include <vector>
+#include <sstream>
 #include <algorithm>
 
 constexpr char favourite_output[] = "data\\favourites.txt";
@@ -11,12 +12,15 @@ constexpr char favourite_output[] = "data\\favourites.txt";
 using namespace std;
 class fav_word {
 private:
-	vector<string> vec; //save
+	vector<entry> vec; //save
 public:
 	fav_word();
 	~fav_word();
-	void mark(entry* ent);
-	void remove(string s);
+	void mark(entry ent);
+	void remove(entry ent);
 	void display();
 };
+
+void favourite_menu(entry* ent);
+bool compare_entry(entry x, entry y);
 

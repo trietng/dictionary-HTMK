@@ -6,11 +6,13 @@ fav_word::fav_word()
 	ifstream fin;
 	fin.open(favourite_output);
 	int n;
-	string s;
-	fin >> n;
-	for (int i = 0; i < n; ++i) {
-		fin >> s;
-		vec.push_back(s);
+	string s, s1, line;
+	while (getline(fin,line)) {
+		stringstream ss(line);
+		getline(ss, s, '`');
+		getline(ss, s1);
+		entry Temp(s, s1);
+		vec.push_back(Temp);
 	}
 	fin.close();
 }
@@ -18,36 +20,46 @@ fav_word::fav_word()
 fav_word::~fav_word()
 {
 	ofstream fout(favourite_output);
-	fout << vec.size() << endl;
-	for (auto i : vec) cout << i << " ";
+	for (auto i : vec) cout << i.key << "`" << i.value;
 	fout.close();
 }
 
-void fav_word::mark(entry* ent)
+void fav_word::mark(entry ent)
 {
-	vec.push_back(ent->key);
+	vec.push_back(ent);
 }
 
-void fav_word::remove(string s)
+void fav_word::remove(entry ent)
 {
 	if (vec.empty())
 		return;
-	for (int i = 0; i < vec.size(); j++)
+	for (int i = 0; i < vec.size(); i++)
 	{
-		if (s == vec.at(i))
+		if (compare_entry(ent,vec[i]))
 		{
-			vec.erase(vec[i]);
+			vec.erase(vec.begin() + i);
 			return;
 		}
 	}
 }
 
+bool compare_entry(entry x, entry y) {
+	if (x.key == y.key && y.value == x.value) return true;
+	return false;
+}
+
 void fav_word::display()
 {
-	for (auto i:vector)
+	for (int i = 0; i < vec.size();++i)
 	{
 		cout << "Favourite list: \n";
-		cout << i + 1 << ". " << vec[i] << endl;
+		cout << i + 1 << ". " << vec[i].key << vec[i].value << endl;
 	}
 }
 
+void favourite_menu(entry ent,fav_word& fav) {
+	string choose;
+	cout << "Do you want to add this word to your favourite list: (y/n)";
+	cin >> choose;
+	if (choose == "y") fav.mark(ent);
+}

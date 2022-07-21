@@ -206,11 +206,11 @@ public:
 		
 	}
 	entry* find_word(const std::string& word) {
-		History.add_word_to_history(word,0);
+		History.add_word_to_history(word,keyword);
 		return this->word.find(word);
 	}
 	std::vector<entry*> find_definition(const std::string& keyword) {
-		History.add_word_to_history(word, 1);
+		History.add_word_to_history(word, definition);
 		return this->definition.find_d(keyword);
 	}
 
