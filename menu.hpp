@@ -6,10 +6,10 @@ struct dictionary_entry {
 };
 
 void choose_dictionary();
-void enter_dictionary_menu(dictionary<ASCII, ASCII>& dict, string dict_name);
-void search_word(dictionary <ASCII, ASCII>& dict);
-void search_definition(dictionary <ASCII, ASCII>& dict);
-void add_word_menu(dictionary<ASCII, ASCII>& dict);
-void remove_word_menu(dictionary<ASCII, ASCII>& dict);
+void enter_dictionary_menu(dictionary& dict, string dict_name);
+void search_word(dictionary& dict);
+void search_definition(dictionary& dict);
+void add_word_menu(dictionary& dict);
+void remove_word_menu(dictionary& dict);
 
 

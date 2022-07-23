@@ -132,19 +132,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dictionary-HTMK.cpp" />
-    <ClCompile Include="editWords.cpp" />
+    <ClCompile Include="dictionary.cpp" />
+    <ClCompile Include="ds\linear_finder.cpp" />
+    <ClCompile Include="ds\trie.cpp" />
     <ClCompile Include="favourites.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="history.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.hpp" />
-    <ClInclude Include="ds\cqueue.hpp" />
+    <ClInclude Include="ds\linear_finder.hpp" />
+    <ClInclude Include="ds\nqueue.hpp" />
     <ClInclude Include="ds\flist.hpp" />
     <ClInclude Include="ds\fnode.hpp" />
     <ClInclude Include="ds\shptr.hpp" />
     <ClInclude Include="ds\trie.hpp" />
-    <ClInclude Include="editWords.hpp" />
     <ClInclude Include="favourites.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="history.hpp" />

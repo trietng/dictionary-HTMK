@@ -21,13 +21,19 @@
     <ClCompile Include="history.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="editWords.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="favourites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dictionary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds\trie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds\linear_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +41,7 @@
     <ClInclude Include="ds\flist.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ds\cqueue.hpp">
+    <ClInclude Include="ds\nqueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds\fnode.hpp">
@@ -56,13 +62,13 @@
     <ClInclude Include="ds\shptr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="editWords.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="restore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds\linear_finder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
