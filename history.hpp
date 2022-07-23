@@ -10,7 +10,7 @@ using namespace std;
 
 enum type {
 	keyword = 0,
-	definition = 1
+	def = 1
 };
 
 struct historyEntry {
@@ -28,8 +28,9 @@ public:
 	~history();
 	void printHistory();
 	void add_word_to_history(string word, type Type);
+	void clear();
 };
 
-history loadHistory(string filepath);
+history loadHistory(string filename);
 type convertoType(string s);
 string convertTostring(type temp);

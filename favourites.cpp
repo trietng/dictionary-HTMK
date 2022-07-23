@@ -1,24 +1,28 @@
 #include "favourites.hpp"
 #include "ds\trie.hpp"
 
-fav_word::fav_word()
-{
-	ifstream fin;
-	fin.open(favourite_output);
-	string s, s1, line;
-	while (getline(fin,line)) {
-		stringstream ss(line);
-		getline(ss, s, '`');
-		getline(ss, s1);
-		entry Temp(s, s1);
-		vec.push_back(Temp);
+
+fav_word loadFavourite(string filename) {
+	fav_word temp;
+	temp.favouriteFilepath = favourite_output + filename + ".txt";
+	ifstream fin(temp.favouriteFilepath);
+	if (fin) {
+		string ss, line, s, s1;
+		while (getline(fin, line)) {
+			stringstream ss(line);
+			getline(ss, s, '`');
+			getline(ss, s1);
+			entry word(s, s1);
+			temp.vec.push_back(word);
+		}
 	}
+	return temp;
 	fin.close();
 }
 
 fav_word::~fav_word()
 {
-	ofstream fout(favourite_output);
+	ofstream fout(favouriteFilepath);
 	for (auto i : vec) cout << i.key << "`" << i.value;
 	fout.close();
 }
@@ -54,4 +58,9 @@ void fav_word::display()
 		cout << "Favourite list: \n";
 		cout << i + 1 << ". " << vec[i].key << vec[i].value << endl;
 	}
+}
+
+void fav_word::clear() {
+	vec.clear();
+	favouriteFilepath.clear();
 }

@@ -7,19 +7,20 @@
 #include <sstream>
 #include <algorithm>
 
-constexpr char favourite_output[] = "data\\favourites.txt";
+constexpr char favourite_output[] = "data\\favourite\\";
 
 using namespace std;
 class fav_word {
-private:
-	vector<entry> vec; //save
 public:
-	fav_word();
+	vector<entry> vec;
+	string favouriteFilepath;
 	~fav_word();
 	void mark(entry ent);
 	void remove(entry ent);
 	void display();
+	void clear();
 };
 
 bool compare_entry(entry x, entry y);
+fav_word loadFavourite(string filename);
 

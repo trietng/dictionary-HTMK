@@ -3,27 +3,29 @@
 #include <ctime>
 #include "history.hpp"
 
-history loadHistory(string filepath) {
+history loadHistory(string filename) {
     history temp;
-    temp.historyFilePath = history_output + filesystem::path(filepath).filename().string() + ".txt";
+    temp.historyFilePath = history_output + filename + ".txt";
     ifstream fin(temp.historyFilePath);
-    string ss, line,s;
-    historyEntry Entry;
-    while (getline(fin, line)) {
-        stringstream ss(line);
-        getline(ss,s, '`');
-        Entry.word = s;
-        getline(ss,s);
-        Entry.Type = convertoType(s);
-        temp.vec.push_back(Entry);
+    if (fin) {
+        string ss, line, s;
+        historyEntry Entry;
+        while (getline(fin, line)) {
+            stringstream ss(line);
+            getline(ss, s, '`');
+            Entry.word = s;
+            getline(ss, s);
+            Entry.Type = convertoType(s);
+            temp.vec.push_back(Entry);
+        }
     }
-    return temp;
     fin.close();
+    return temp;
 }
 
 type convertoType(string s) {
     if (s == "0") return keyword;
-    return definition;
+    return def;
 }
 
 history::~history() {
@@ -44,7 +46,7 @@ void history::printHistory() {
 
 string convertTostring(type temp) {
     if (temp == 0) return "keyword";
-    return "definition";
+    return "def";
 }
 
 void history::add_word_to_history(string word, type Type) {
@@ -53,5 +55,10 @@ void history::add_word_to_history(string word, type Type) {
     Entry.Type = Type;
     vec.push_back(Entry);
     if (vec.size() > historyMax) vec.erase(vec.begin());
+}
+
+void history::clear() {
+    vec.clear();
+    historyFilePath.clear();
 }
 

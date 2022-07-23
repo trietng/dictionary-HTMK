@@ -9,6 +9,8 @@
 #include "favourites.hpp"
 
 constexpr char grave_accent = '`';
+constexpr char dictionary_path[] = "data\\dictionaries\\";
+
 
 enum rmode {
 	text = 0, binary = 1
@@ -19,8 +21,11 @@ class dictionary {
 private:
 	trie<N_WORD> word;
 	trie<N_DEF> definition;
-	std::string filepath;
+	std::string filename;
+	std::string binary_filepath;
+	std::string text_filepath;
 	history History;
+	fav_word Favourite;
 	//Very dangerous operation, proceed with caution
 	void assign_key_count(trie<N_WORD>& trie) {
 		/*WARNING: If N_DEF == N_WORD there will be no way to prevent a false assignment
@@ -64,8 +69,8 @@ private:
 		}
 	}
 	//Read from text file
-	void read_text(const std::string& filepath) {
-		std::ifstream fin(filepath);
+	void read_text(const std::string& text_filepath) {
+		std::ifstream fin(text_filepath);
 		if (fin) {
 			std::string line, word, def;
 			while (getline(fin, line)) {
@@ -129,34 +134,40 @@ private:
 	}
 public:
 	//Default constructor, binary file mode
-	dictionary(const std::string& filepath) {
-		this->filepath = filepath;
-		this->History = loadHistory(filepath);
-		std::ifstream fin(filepath, std::ios::binary);
+	dictionary(const std::string fileName) {
+		this->filename = fileName;
+		this->History = loadHistory(filename);
+		this->Favourite = loadFavourite(filename);
+		this->text_filepath = dictionary_path + (string)"text\\" + fileName + (string)".txt";
+		this->binary_filepath = dictionary_path + (string)"binary\\" + fileName;
+		std::ifstream fin(binary_filepath, std::ios::binary);
 		if (fin) {
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				read(fin, word.top()->next[i]);
 			}
 			assign_key_count(this->word);
 		}
-		else std::cout << "ERROR: BAD FILE AT " << filepath;
+		else std::cout << "ERROR: BAD FILE AT " << binary_filepath;
 	}
 	//Default constructor, optional file mode
-	dictionary(const std::string& filepath, rmode mode) {
-		this->filepath = filepath;
-		this->History = loadHistory(filepath);
+	dictionary(const std::string& fileName, rmode mode) {
+		this->filename = fileName;
+		this->History = loadHistory(filename);
+		this->Favourite = loadFavourite(filename);
+		this->text_filepath = dictionary_path + (string)"text\\" + fileName + (string)".txt";
+		this->binary_filepath = dictionary_path + (string)"binary\\" + fileName;
 		if (mode == binary) {
-			std::ifstream fin(filepath, std::ios::binary);
+			std::ifstream fin(binary_filepath, std::ios::binary);
 			if (fin) {
 				for (unsigned int i = 0; i < N_WORD; ++i) {
 					read(fin, word.top()->next[i]);
 				}
 				assign_key_count(this->word);
 			}
-			else std::cout << "ERROR: BAD FILE AT " << filepath;
+			else std::cout << "ERROR: BAD FILE AT " << binary_filepath;
 		}
 		else {
-			std::ifstream fin(filepath);
+			std::ifstream fin(text_filepath);
 			if (fin) {
 				std::string line, word, def;
 				while (getline(fin, line)) {
@@ -166,35 +177,41 @@ public:
 					insert(word, def);
 				}
 			}
-			else std::cout << "ERROR: BAD FILE AT " << filepath;
+			else std::cout << "ERROR: BAD FILE AT " << text_filepath;
 		}
 	}
 	//Copy constructor
 	dictionary(const dictionary<N_WORD, N_DEF>& _source) {
 		word = _source.word;
 		definition = _source.definition;
-		filepath = _source.filepath;
-		History = _source.History; //!!!!
+		binary_filepath = _source.binary_filepath;
+		text_filepath = _source.text_filepath;
+		History = _source.History;
+		Favourite = _source.Favourite;
+		filename = _source.filename;
 	}
 	//Copy assignment
 	dictionary<N_WORD, N_DEF>& operator=(const dictionary<N_WORD, N_DEF>& _source) {
 		if (this != &_source) {
 			word = _source.word;
 			definition = _source.definition;
-			filepath = _source.filepath;
-			History = _source.History; //!!!!
+			binary_filepath = _source.filepath;
+			text_filepath = _source.text_filepath;
+			History = _source.History;
+			Favourite = _source.Favourite;
+			filename = _source.filename;
 		}
 		return *this;
 	}
 	//Write trie to binary file
 	void write() {
-		std::ofstream fout(filepath, std::ios::binary);
+		std::ofstream fout(binary_filepath, std::ios::binary);
 		if (fout) {
 			for (unsigned int i = 0; i < N_WORD; ++i) {
 				write(fout, word.top()->next[i]);
 			}
 		}
-		else std::cout << "ERROR: BAD FILE AT " << filepath;
+		else std::cout << "ERROR: BAD FILE AT " << binary_filepath;
 	}
 	void insert(const std::string& word, const std::string& definition) {
 		shptr<entry> ent(new entry(word, definition));
@@ -206,11 +223,11 @@ public:
 		
 	}
 	entry* find_word(const std::string& word) {
-		History.add_word_to_history(word,keyword);
+		History.add_word_to_history(word, keyword);
 		return this->word.find(word);
 	}
 	std::vector<entry*> find_definition(const std::string& keyword) {
-		History.add_word_to_history(word, definition);
+		History.add_word_to_history(keyword, def);
 		return this->definition.find_d(keyword);
 	}
 
@@ -218,14 +235,19 @@ public:
 		History.printHistory();
 	}
 
+	void addWordToFavourtite(entry* temp) {
+		Favourite.mark(*temp);
+	}
+
 	void seeFavourite() {
+		Favourite.display();
 	}
 
 	//Write to text file
 	void write_text() {
-		std :: ofstream fout(filepath + ".txt");
+		std :: ofstream fout(text_filepath);
 		fout.close();
-		fout.open(filepath + ".txt", std::ios::app);
+		fout.open(text_filepath, std::ios::app);
 		if (fout) write_text(word.top(), fout);
 	}
 
@@ -243,13 +265,17 @@ public:
 	void clear() {
 		word.clear();
 		definition.clear();
-		filepath.clear();
-	}
+		text_filepath.clear();
+		binary_filepath.clear();
+		History.clear();
+		filename.clear();
+		Favourite.clear();
+	} 
 
 	void restore() {
-		std::string t_filepath = filepath;
+		std::string t_filepath = text_filepath;
 		clear();
-		std::string temp = "data\\backup\\" + std::filesystem::path(t_filepath).filename().string(); // ???
+		std::string temp = "data\\backup\\text\\" + std::filesystem::path(t_filepath).filename().string(); 
 		read_text(temp);
 	}
 	//Act like find_word
