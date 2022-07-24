@@ -14,7 +14,7 @@ class fav_word {
 public:
 	vector<entry> vec;
 	string favouriteFilepath;
-	~fav_word();
+	void write();
 	void mark(entry ent);
 	void remove(entry ent);
 	void display();

@@ -84,6 +84,6 @@ std::string linear_finder::find(const std::string& key) {
 
 void linear_finder::clear() {
 	delete data;
-	data = nullptr;
+	data = new std::string;
 	last = 0;
 }

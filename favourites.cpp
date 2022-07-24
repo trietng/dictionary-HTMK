@@ -20,10 +20,10 @@ fav_word loadFavourite(string filename) {
 	fin.close();
 }
 
-fav_word::~fav_word()
+void fav_word::write()
 {
 	ofstream fout(favouriteFilepath);
-	for (auto i : vec) cout << i.key << "`" << i.value;
+	for (auto i : vec) fout << i.key << "`" << i.value;
 	fout.close();
 }
 
@@ -56,7 +56,7 @@ void fav_word::display()
 	for (int i = 0; i < vec.size();++i)
 	{
 		cout << "Favourite list: \n";
-		cout << i + 1 << ". " << vec[i].key << vec[i].value << endl;
+		cout << i + 1 << ". " << vec[i].key << " MEANS " << vec[i].value << endl;
 	}
 }
 

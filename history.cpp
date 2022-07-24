@@ -28,7 +28,7 @@ type convertoType(string s) {
     return def;
 }
 
-history::~history() {
+void history::write() {
     ofstream fout(historyFilePath);
     if (fout) {
         for (auto i:vec) fout << i.word << "`" << i.Type << endl;

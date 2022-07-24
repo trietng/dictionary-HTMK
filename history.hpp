@@ -25,7 +25,7 @@ class history {
 public:
 	vector<historyEntry> vec;
 	string historyFilePath;
-	~history();
+	void write();
 	void printHistory();
 	void add_word_to_history(string word, type Type);
 	void clear();

@@ -23,7 +23,7 @@ using namespace std;
 }*/
 
 int main() {
-	auto start = std::chrono::high_resolution_clock::now();
+	/*auto start = std::chrono::high_resolution_clock::now();
 	dictionary dict(std::string(dictionary_path) + "slang", binary);
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::cout << "Load time: " <<
@@ -31,5 +31,7 @@ int main() {
 	auto k = dict.find_word("1D");
 	//dict.rename("Slang Dictionary");
   	dict.write();
+	*/
+	choose_dictionary();
 	return 0;
 }

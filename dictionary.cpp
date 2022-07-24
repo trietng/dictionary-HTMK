@@ -150,6 +150,8 @@ void dictionary::read(const std::string& path) {
 void dictionary::write() {
 	std::ofstream fout(this->path, std::ios::binary);
 	if (fout) {
+		History.write();
+		Favourite.write();
 		//Write dictionary name
 		size_t len = this->name.length() + 1;
 		fout.write((char*)&len, sizeof(size_t));
@@ -201,6 +203,12 @@ void dictionary::insert(const std::string& word, const std::string& definition) 
 	this->word.insert(ent);
 	this->definition.append(word, definition);
 }
+
+void dictionary::editDef(const std::string& keyword, const std::string& newdef) {
+	entry* temp = word.find(keyword);
+	temp->value = newdef;
+}
+
 void dictionary::remove(const std::string& word) {
 	this->word.remove(word);
 }
@@ -219,6 +227,7 @@ std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
 	}
 	return result;
 }
+
 
 void dictionary::seeHistory() {
 	History.printHistory();
@@ -246,6 +255,7 @@ void dictionary::print_random_word() {
 void dictionary::clear() {
 	load = false;
 	word.clear();
+	definition.clear();
 	N_TYPE = 0;
 	path.clear();
 	History.clear();
@@ -256,7 +266,9 @@ void dictionary::restore() {
 	std::string t_path = path;
 	clear();
 	std::string temp = "data\\backup\\" + std::filesystem::path(t_path).filename().string();
-	read("temp");
+	read(temp);
+	load = true;
+	path = t_path;
 }
 
 entry* dictionary::operator[](const std::string& _keyword) {

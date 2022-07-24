@@ -62,6 +62,8 @@ public:
 
 	void seeFavourite();
 
+	void editDef(const std::string& keyword, const std::string& newdef);
+
 	entry* find_rand_word();
 
 	// check bug:
