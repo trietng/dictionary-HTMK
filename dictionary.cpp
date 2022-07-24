@@ -141,7 +141,7 @@ void dictionary::read(const std::string& path) {
 			read(fin, word.top()->next[i]);
 		}
 	}
-	else std::cout << "ERROR: BAD FILE AT " << path;
+	else throw std::runtime_error("Error: ""BAD FILE AT " + path);
 }
 
 void dictionary::write() {
@@ -159,7 +159,7 @@ void dictionary::write() {
 			write(fout, word.top()->next[i]);
 		}
 	}
-	else std::cout << "ERROR: BAD FILE AT " << this->path;
+	else throw std::runtime_error("Error: ""BAD FILE AT " + path);
 }
 
 void dictionary::read_text(const std::string& path) {
@@ -265,10 +265,22 @@ void dictionary::rename(const std::string& _source) {
 	this->name = _source;
 }
 
-vector<std::string> get_list_of_files(const std::string& path) {
-	vector<std::string> result;
+std::vector<std::string> get_list_of_files(const std::string& path) {
+	std::vector<std::string> result;
 	for (const auto& entry : std::filesystem::directory_iterator(path)) {
 		result.push_back(entry.path().string());
 	}
 	return result;
+}
+
+std::string get_dict_name(const std::string& path) {
+	ifstream fin(path, std::ios::binary);
+	//Read dictionary name
+	size_t len = 0;
+	fin.read((char*)&len, sizeof(size_t));
+	char* buf = new char[len];
+	fin.read(buf, len);
+	std::string name = std::string(buf);
+	delete[] buf;
+	return name;
 }

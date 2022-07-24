@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <stdexcept>
 #include "history.hpp"
 #include "ds\linear_finder.hpp"
 #include "ds\trie.hpp"
@@ -76,4 +77,5 @@ public:
 };
 
 //How to get a list of file in a folder
-vector<std::string> get_list_of_files(const std::string& path);
+std::vector<std::string> get_list_of_files(const std::string& path);
+std::string get_dict_name(const std::string& path);
