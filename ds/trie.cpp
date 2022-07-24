@@ -126,7 +126,7 @@ tnode* trie::copy(tnode* root) {
 	tnode* temp = new tnode(N_TYPE);
 	temp->key = root->key;
 	temp->value = root->value;
-	for (int i = 0; i < N_TYPE; ++i) {
+	for (uint8_t i = 0; i < N_TYPE; ++i) {
 		temp->next[i] = copy(root->next[i]);
 	}
 	return temp;
@@ -154,8 +154,8 @@ trie::~trie() {
 }
 
 trie::trie(const trie& _source) {
-	root = copy(_source.root); //copy the entire trie here
 	N_TYPE = _source.N_TYPE;
+	root = copy(_source.root); //copy the entire trie here
 	offset = _source.offset;
 	key_count = _source.key_count;
 }
@@ -163,8 +163,8 @@ trie::trie(const trie& _source) {
 trie& trie::operator=(const trie& _source) {
 	if (this != &_source) {
 		delete root;
-		root = copy(_source.root); //copy the entire trie here
 		N_TYPE = _source.N_TYPE;
+		root = copy(_source.root); //copy the entire trie here
 		offset = _source.offset;
 		key_count = _source.key_count;
 	}
@@ -172,8 +172,8 @@ trie& trie::operator=(const trie& _source) {
 }
 
 trie::trie(trie&& _source) noexcept {
-	root = _source.root;
 	N_TYPE = _source.N_TYPE;
+	root = _source.root;
 	offset = _source.offset;
 	key_count = _source.key_count;
 	_source.root = nullptr;
@@ -185,8 +185,8 @@ trie::trie(trie&& _source) noexcept {
 trie& trie::operator=(trie&& _source) noexcept {
 	if (this != &_source) {
 		delete root;
-		root = _source.root;
 		N_TYPE = _source.N_TYPE;
+		root = _source.root;
 		offset = _source.offset;
 		key_count = _source.key_count;
 		_source.root = nullptr;

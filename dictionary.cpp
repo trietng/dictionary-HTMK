@@ -11,7 +11,7 @@ void dictionary::write_text(tnode* root, std::ofstream& fout) {
 	}
 }
 
-void dictionary::read(std::ifstream& fin, tnode*& node) {
+void dictionary::read(std::ifstream& fin, tnode*& node, unsigned int& counter) {
 	char ch = '\0';
 	fin.read((char*)&(ch), sizeof(char));
 	if (ch == horizontal_tab) node = nullptr;
@@ -32,9 +32,10 @@ void dictionary::read(std::ifstream& fin, tnode*& node) {
 			shptr<entry> ent(new entry(word, def));
 			node->value.push_back(ent);
 			definition.append(word, def);
+			++counter;
 		}
 		for (uint8_t i = 0; i < N_TYPE; ++i) {
-			read(fin, node->next[i]);
+			read(fin, node->next[i], counter);
 		}
 	}
 }
@@ -137,9 +138,11 @@ void dictionary::read(const std::string& path) {
 		fin.read((char*)&x, sizeof(uint32_t));
 		N_TYPE = (uint8_t)x;
 		this->word = trie(this->N_TYPE);
+		unsigned int counter = 0;
 		for (uint8_t i = 0; i < N_TYPE; ++i) {
-			read(fin, word.top()->next[i]);
+			read(fin, word.top()->next[i], counter);
 		}
+		this->word.assign_count(counter);
 	}
 	else throw std::runtime_error("Error: ""BAD FILE AT " + path);
 }

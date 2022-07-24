@@ -29,7 +29,7 @@ private:
 	//Write to binary file (recursive function)
 	void write_text(tnode* root, std::ofstream& fout);
 	//Read from binary file (recursive function)
-	void read(std::ifstream& fin, tnode*& node);
+	void read(std::ifstream& fin, tnode*& node, unsigned int& counter);
 	//Write to binary file (recursive function)
 	void write(std::ofstream& fout, tnode* node);
 public:

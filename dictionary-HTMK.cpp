@@ -24,7 +24,7 @@ using namespace std;
 
 int main() {
 	auto start = std::chrono::high_resolution_clock::now();
-	dictionary dict(std::string("data\\test\\Slang"), binary);
+	dictionary dict(std::string(dictionary_path) + "slang", binary);
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::cout << "Load time: " <<
 	std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
