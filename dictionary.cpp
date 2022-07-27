@@ -266,6 +266,8 @@ void dictionary::restore() {
 	std::string t_path = path;
 	clear();
 	std::string temp = "data\\backup\\" + std::filesystem::path(t_path).filename().string();
+	History.historyFilePath =  history_output + std::filesystem::path(t_path).filename().string() + ".txt";
+	Favourite.favouriteFilepath = favourite_output + std::filesystem::path(t_path).filename().string() + ".txt";
 	read(temp);
 	load = true;
 	path = t_path;

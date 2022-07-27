@@ -48,7 +48,9 @@ void enter_dictionary_menu(string& name,string& path) {
 		break;
 	case 6:remove_word_menu(dict);
 		break;
-	case 7: dict.restore();
+	case 7: 
+		dict.restore();
+		cout << "Restore successfully!";
 		break;
 	case 8: 
 		dict.print_random_word();
