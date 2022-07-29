@@ -52,11 +52,14 @@ bool compare_entry(entry x, entry y) {
 }
 
 void fav_word::display()
-{
-	for (int i = 0; i < vec.size();++i)
-	{
-		cout << "Favourite list: \n";
-		cout << i + 1 << ". " << vec[i].key << " MEANS " << vec[i].value << endl;
+{	
+	if (vec.empty()) cout << "You haven't had any favourite word!";
+	else {
+		for (int i = 0; i < vec.size(); ++i)
+		{
+			cout << "Favourite list: \n";
+			cout << i + 1 << ". " << vec[i].key << " MEANS " << vec[i].value << endl;
+		}
 	}
 }
 

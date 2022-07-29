@@ -167,7 +167,7 @@ void enter_dictionary_menu(string& name,string& path) {
 	case 8: 
 		dict.print_random_word();
 		break;
-	case 9:dict.seeFavourite();
+	case 9:Fav_menu(dict);
 		break;
 	case 10:guess_definition_meaning(dict);
 		break;
@@ -198,10 +198,13 @@ void search_word(dictionary& dict) {
 	string s;
 	cin >> s;
 	entry* temp = dict.find_word(s);
-	cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
-	cout << "Do you want this word to be your favourite word?(y/n)";
-	cin >> s;
-	if (s == "y") dict.addWordToFavourtite(temp);
+	if (!temp) cout << "This word doesn't exist!";
+	else {
+		cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
+		cout << "Do you want this word to be your favourite word?(y/n)";
+		cin >> s;
+		if (s == "y") dict.addWordToFavourtite(temp);
+	}
 }
 
 void search_definition(dictionary& dict) {
@@ -209,8 +212,11 @@ void search_definition(dictionary& dict) {
 	string s;
 	cin >> s;
 	vector<entry*> temp = dict.find_definition(s);
-	cout << "Here is the list of word match your definition:\n";
-	for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+	if (temp.empty()) cout << "This word isn't exist!";
+	else {
+		cout << "Here is the list of word match your definition:\n";
+		for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+	}
 }
 
 void edit_def_menu(dictionary& dict) {
@@ -237,4 +243,8 @@ void remove_word_menu(dictionary& dict) {
 	cout << "Enter the word you want to remove: ";
 	cin >> word;
 	dict.remove(word);
+}
+
+void Fav_menu(dictionary& dict) {
+	dict.seeFavourite();
 }
