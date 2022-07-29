@@ -1,23 +1,131 @@
 #include "menu.hpp"
+#ifdef UNICODE
+typedef LPWSTR LPTSTR;
+#else
+typedef LPSTR LPTSTR;
+#endif
+
+
+// graphics: 
+void menuDrawChooseDictionary(short opt) {
+	short opt_ = opt;
+	const char* ch1 = "EMOTIONAL";
+	LPSTR lpstr1 = const_cast<LPSTR>(ch1);
+	setColorBGTextXY(50, 8, 15, ((opt_ == 1) ? 2 : 0), lpstr1);
+	const char* ch2 = "ENG-ENG";
+	LPSTR lpstr2 = const_cast<LPSTR>(ch2);
+	setColorBGTextXY(50, 9, 15, ((opt_ == 2) ? 3 : 0), lpstr2);
+	const char* ch3 = "SLANG";
+	LPSTR lpstr3 = const_cast<LPSTR>(ch3);
+	setColorBGTextXY(50, 10, 15, ((opt_ == 3) ? 4 : 0), lpstr3);
+	const char* ch4 = "VIE-ENG";
+	LPSTR lpstr4 = const_cast<LPSTR>(ch4);
+	setColorBGTextXY(50, 11, 15, ((opt_ == 4) ? 5 : 0), lpstr4);
+	SetBGColor(16);
+}
 
 void choose_dictionary() {
+	//Graphic:
+	SetConsoleTitleA("DICTIONARY");
+	srand((unsigned int)time(NULL));
+	int opt = 1;
+	int y = 7;
+	char keyBoard = {};
+	SetColor(15);
+	string art = headline();
+
+	system("cls");
+	for (int i = 0; i < art.length(); i++) {
+		cout << art[i];
+		if (art[i] != ' ') {
+			chrono::microseconds wait(10);
+			this_thread::sleep_for(wait);
+		}
+	}
+
 	vector<string> list_of_file = get_list_of_files(dictionary_path);
 	vector<string> dict_name;
 	for (auto i : list_of_file) dict_name.push_back(get_dict_name(i));
-	cout << "Welcome to our dictionary!\n";
-	cout << "Here is the list of dictionary:\n";
-	for (int i = 0; i < dict_name.size(); ++i) cout <<
-		i + 1 << ". " << dict_name[i] << ".\n";
-	cout << "Please choose the dictionary: ";
-	int choose;
-	cin >> choose;
-	enter_dictionary_menu(dict_name[choose -  1],list_of_file[choose - 1]);
+
+	//choose dictionary:
+			system("cls");
+			SetColor(rand() % 14 + 1);
+			cout << art << endl;
+			SetColor(15);
+			menuDrawChooseDictionary(opt);
+			do {
+				ShowConsoleCursor(false);
+				keyBoard = _getch();
+				switch (keyBoard) {
+				case KEY_DOWN:
+					if (opt == 4) {
+						opt = 1;
+						menuDrawChooseDictionary(opt);
+						y = 7;
+					}
+					else {
+						opt++;
+						y++;
+						menuDrawChooseDictionary(opt);
+					}
+					break;
+
+				case KEY_UP:
+					if (opt == 1) {
+						opt = 4;
+						y = 11;
+						menuDrawChooseDictionary(opt);
+					}
+					else {
+						opt--;
+						y--;
+						menuDrawChooseDictionary(opt);
+					}
+					break;
+				default:
+					break;
+				}
+			} while (keyBoard != '\r');
+			
+			int choose;
+
+			switch (opt) {
+			case 1:
+				choose = 1;
+				break;
+			case 2:
+				choose = 2;
+				break;
+			case 3:
+				choose = 3;
+				break;
+			case 4:
+				choose = 4;
+				break;
+			}
+
+
+
+/*
+* 		cout << "Welcome to our dictionary!\n";
+		cout << "Here is the list of dictionary:\n";
+		for (int i = 0; i < dict_name.size(); ++i) cout <<
+			i + 1 << ". " << dict_name[i] << ".\n";
+		cout << "Please choose the dictionary: ";
+		int choose;
+		cin >> choose;
+*/
+
+		enter_dictionary_menu(dict_name[choose -  1],list_of_file[choose - 1]);
+
 	
 }
 
 void enter_dictionary_menu(string& name,string& path) {
 	system("cls");
 	dictionary dict(path, binary);
+
+	//choose function: 
 	cout << "WELCOME TO " << name << "!\n";
 	cout << "Here is some task you can do with our dicitonary: \n";
 	cout << "1. Search for a keyword.\n";
@@ -31,10 +139,14 @@ void enter_dictionary_menu(string& name,string& path) {
 	cout << "9. View the favourite list.\n";
 	cout << "10. Guess definition game.\n";
 	cout << "11. Guess word game.\n";
+	cout << "12. Choose another dictionary.\n";
+	cout << "0. EXIT";
 	cout << "Your choice: ";
 	int choose;
 	cin >> choose;
 	cout << endl;
+
+
 	switch (choose) {
 	case 1:search_word(dict);
 		break;
@@ -60,7 +172,24 @@ void enter_dictionary_menu(string& name,string& path) {
 	case 10:guess_definition_meaning(dict);
 		break;
 	case 11:guess_keyword_meaning(dict);
+		break;
+	case 12:choose_dictionary();
+		break;
+	default:
+		for (int i = 3; i > 0; i--) {
+			ShowConsoleCursor(false);
+			gotoxy(31, 14);
+			cout << "Good bye! The program will exit in " << i << " seconds.\r";
+			chrono::seconds duration(1);
+			this_thread::sleep_for(duration);
+		}
+		gotoxy(31, 14);
+		std::cout << "Good bye! The program will exit in 0 seconds.\n";
+		ShowConsoleCursor(true);
+		return;
+		
 	}
+
 	dict.write();
 }
 

@@ -1,12 +1,9 @@
-#pragma once
 #include "dictionary.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <chrono>
 #include "menu.hpp"
 
-using namespace std;
 
 /*void test() {
 	 auto start = std::chrono::high_resolution_clock::now();
