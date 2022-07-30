@@ -16,6 +16,7 @@ void search_definition(dictionary& dict);
 void edit_def_menu(dictionary& dict);
 void add_word_menu(dictionary& dict);
 void remove_word_menu(dictionary& dict);
+void Fav_menu(dictionary& dict);
 void menuDrawChooseDictionary(short opt);
 
 
