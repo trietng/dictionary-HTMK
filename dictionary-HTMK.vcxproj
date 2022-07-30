@@ -131,13 +131,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dictionary-HTMK.cpp" />
     <ClCompile Include="dictionary.cpp" />
     <ClCompile Include="ds\linear_finder.cpp" />
     <ClCompile Include="ds\trie.cpp" />
     <ClCompile Include="favourites.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="graphic.cpp" />
     <ClCompile Include="history.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.hpp" />
@@ -149,7 +151,9 @@
     <ClInclude Include="ds\trie.hpp" />
     <ClInclude Include="favourites.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="graphic.hpp" />
     <ClInclude Include="history.hpp" />
+    <ClInclude Include="menu.hpp" />
     <ClInclude Include="restore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
