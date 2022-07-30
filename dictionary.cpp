@@ -237,8 +237,16 @@ void dictionary::addWordToFavourtite(entry* temp) {
 	Favourite.mark(*temp);
 }
 
+bool dictionary::is_fav(string word) {
+	return Favourite.isFavourite(word);
+}
+
 void dictionary::seeFavourite() {
 	Favourite.display();
+}
+
+void dictionary::remove_fav(entry ent) {
+	Favourite.remove(ent);
 }
 
 entry* dictionary::find_rand_word() {

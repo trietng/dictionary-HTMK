@@ -23,7 +23,7 @@ fav_word loadFavourite(string filename) {
 void fav_word::write()
 {
 	ofstream fout(favouriteFilepath);
-	for (auto i : vec) fout << i.key << "`" << i.value;
+	for (auto i : vec) fout << i.key << "`" << i.value << endl;
 	fout.close();
 }
 
@@ -52,12 +52,20 @@ bool compare_entry(entry x, entry y) {
 }
 
 void fav_word::display()
-{
-	for (int i = 0; i < vec.size();++i)
-	{
+{	
+	if (vec.empty()) cout << "You haven't had any favourite word!";
+	else {
 		cout << "Favourite list: \n";
-		cout << i + 1 << ". " << vec[i].key << " MEANS " << vec[i].value << endl;
+		for (int i = 0; i < vec.size(); ++i)
+		{
+			cout << i + 1 << "." << vec[i].key << " MEANS " << vec[i].value << endl;
+		}
 	}
+}
+
+bool fav_word::isFavourite(string word) {
+	for (auto i : vec) if (i.key == word) return true;
+	return false;
 }
 
 void fav_word::clear() {

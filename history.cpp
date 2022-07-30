@@ -37,10 +37,13 @@ void history::write() {
 }
 
 void history::printHistory() {
-    cout << "The history of search words is:\n"; 
-    int x = vec.size() - 5;
-    for (int i = vec.size() - 1; i >= max(x, 0); --i) {
-        cout << convertTostring(vec[i].Type) << " " << vec[i].word << endl;
+    if (vec.empty()) cout << "You haven't searched any word!";
+    else {
+        cout << "The history of search words is:\n";
+        int x = vec.size() - 5;
+        for (int i = vec.size() - 1; i >= max(x, 0); --i) {
+            cout << convertTostring(vec[i].Type) << " " << vec[i].word << endl;
+        }
     }
 }
 

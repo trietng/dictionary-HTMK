@@ -6,23 +6,7 @@ typedef LPSTR LPTSTR;
 #endif
 
 
-// graphics: 
-void menuDrawChooseDictionary(short opt) {
-	short opt_ = opt;
-	const char* ch1 = "EMOTIONAL";
-	LPSTR lpstr1 = const_cast<LPSTR>(ch1);
-	setColorBGTextXY(50, 8, 15, ((opt_ == 1) ? 2 : 0), lpstr1);
-	const char* ch2 = "ENG-ENG";
-	LPSTR lpstr2 = const_cast<LPSTR>(ch2);
-	setColorBGTextXY(50, 9, 15, ((opt_ == 2) ? 3 : 0), lpstr2);
-	const char* ch3 = "SLANG";
-	LPSTR lpstr3 = const_cast<LPSTR>(ch3);
-	setColorBGTextXY(50, 10, 15, ((opt_ == 3) ? 4 : 0), lpstr3);
-	const char* ch4 = "VIE-ENG";
-	LPSTR lpstr4 = const_cast<LPSTR>(ch4);
-	setColorBGTextXY(50, 11, 15, ((opt_ == 4) ? 5 : 0), lpstr4);
-	SetBGColor(16);
-}
+
 
 void choose_dictionary() {
 	//Graphic:
@@ -122,9 +106,56 @@ void choose_dictionary() {
 }
 
 void enter_dictionary_menu(string& name,string& path) {
-	system("cls");
 	dictionary dict(path, binary);
 
+	// graphic:
+	int opt = 1;
+	int y = 7;
+	int row = 0;
+	char keyBoard = {};
+	string art = headline();
+	system("cls");
+	SetColor(rand() % 14 + 1);
+	cout << art << endl;
+
+	SetColor(15);
+
+	menuDrawEnterDictionary(opt);
+	do {
+		ShowConsoleCursor(false);
+		keyBoard = _getch();
+		switch (keyBoard) {
+		case KEY_DOWN:
+			if (opt == 13) {
+				opt = 1;
+				menuDrawEnterDictionary(opt);
+				y = 7;
+			}
+			else {
+				opt++;
+				y++;
+				menuDrawEnterDictionary(opt);
+			}
+			break;
+
+		case KEY_UP:
+			if (opt == 1) {
+				opt = 13;
+				y = 20;
+				menuDrawEnterDictionary(opt);
+			}
+			else {
+				opt--;
+				y--;
+				menuDrawEnterDictionary(opt);
+			}
+			break;
+		default:
+			break;
+		}
+	} while (keyBoard != '\r');
+
+	/*
 	//choose function: 
 	cout << "WELCOME TO " << name << "!\n";
 	cout << "Here is some task you can do with our dicitonary: \n";
@@ -144,10 +175,13 @@ void enter_dictionary_menu(string& name,string& path) {
 	cout << "Your choice: ";
 	int choose;
 	cin >> choose;
-	cout << endl;
+	cout << endl;	
+	*/
 
 
-	switch (choose) {
+
+
+	switch (opt) {
 	case 1:search_word(dict);
 		break;
 	case 2:search_definition(dict);
@@ -167,7 +201,7 @@ void enter_dictionary_menu(string& name,string& path) {
 	case 8: 
 		dict.print_random_word();
 		break;
-	case 9:dict.seeFavourite();
+	case 9:Fav_menu(dict);
 		break;
 	case 10:guess_definition_meaning(dict);
 		break;
@@ -178,6 +212,7 @@ void enter_dictionary_menu(string& name,string& path) {
 	default:
 		for (int i = 3; i > 0; i--) {
 			ShowConsoleCursor(false);
+			system("cls");
 			gotoxy(31, 14);
 			cout << "Good bye! The program will exit in " << i << " seconds.\r";
 			chrono::seconds duration(1);
@@ -198,10 +233,26 @@ void search_word(dictionary& dict) {
 	string s;
 	cin >> s;
 	entry* temp = dict.find_word(s);
-	cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
-	cout << "Do you want this word to be your favourite word?(y/n)";
-	cin >> s;
-	if (s == "y") dict.addWordToFavourtite(temp);
+	if (!temp) cout << "This word doesn't exist!";
+	else {
+		cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
+		if (dict.is_fav(s)) {
+			cout << "Do you want to remove this word from your favourtie list?(y/n): ";
+			cin >> s;
+			if (s == "y") {
+				dict.remove_fav(*temp);
+				cout << "Remove successfully!";
+			}
+		}
+		else {
+			cout << "Do you want this word to be your favourite word?(y/n): ";
+			cin >> s;
+			if (s == "y") {
+				dict.addWordToFavourtite(temp);
+				cout << "Add successfully";
+			}
+		}
+	}
 }
 
 void search_definition(dictionary& dict) {
@@ -209,8 +260,11 @@ void search_definition(dictionary& dict) {
 	string s;
 	cin >> s;
 	vector<entry*> temp = dict.find_definition(s);
-	cout << "Here is the list of word match your definition:\n";
-	for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+	if (temp.empty()) cout << "This word isn't exist!";
+	else {
+		cout << "Here is the list of word match your definition:\n";
+		for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+	}
 }
 
 void edit_def_menu(dictionary& dict) {
@@ -237,4 +291,37 @@ void remove_word_menu(dictionary& dict) {
 	cout << "Enter the word you want to remove: ";
 	cin >> word;
 	dict.remove(word);
+}
+
+void Fav_menu(dictionary& dict) {
+	system("cls");
+	dict.seeFavourite();
+	cout << "\n1. Add new word.";
+	cout << "\n2. Remove word.";
+	cout << "\nYour choice: ";
+	int choose;
+	cin >> choose;
+	switch (choose) {
+	case 1: {
+		string s;
+		cout << "Enter key word: ";
+		cin >> s;
+		entry* ent = dict.find_word(s);
+		if (!ent) cout << "This word doesn't exist!";
+		else dict.addWordToFavourtite(ent);
+		cout << "Add successfully!";
+		break;
+	}
+	case 2: {
+		string s;
+		cout << "Enter key word: ";
+		cin >> s;
+		entry* ent = dict.find_word(s);
+		if (!ent) cout << "This word doesn't exist!";
+		else dict.remove_fav(*ent);
+		cout << "Remove successfully!";
+		break;
+	}
+	default: return;
+	}
 }

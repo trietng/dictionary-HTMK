@@ -19,6 +19,7 @@ public:
 	void remove(entry ent);
 	void display();
 	void clear();
+	bool isFavourite(string word);
 };
 
 bool compare_entry(entry x, entry y);

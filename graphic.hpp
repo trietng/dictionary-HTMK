@@ -28,3 +28,7 @@ void setColorBGTextXY(SHORT x, SHORT y, WORD color, WORD background, LPSTR str, 
 void ShowConsoleCursor(bool showFlag);
 
 void moveChoice(int row, int y, int& opt);
+
+void menuDrawEnterDictionary(short opt);
+
+void menuDrawChooseDictionary(short opt);;
