@@ -62,6 +62,10 @@ public:
 
 	void seeFavourite();
 
+	bool is_fav(string word);
+
+	void remove_fav(entry ent);
+
 	void editDef(const std::string& keyword, const std::string& newdef);
 
 	entry* find_rand_word();

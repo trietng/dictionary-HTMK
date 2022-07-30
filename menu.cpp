@@ -201,9 +201,22 @@ void search_word(dictionary& dict) {
 	if (!temp) cout << "This word doesn't exist!";
 	else {
 		cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
-		cout << "Do you want this word to be your favourite word?(y/n)";
-		cin >> s;
-		if (s == "y") dict.addWordToFavourtite(temp);
+		if (dict.is_fav(s)) {
+			cout << "Do you want to remove this word from your favourtie list?(y/n): ";
+			cin >> s;
+			if (s == "y") {
+				dict.remove_fav(*temp);
+				cout << "Remove successfully!";
+			}
+		}
+		else {
+			cout << "Do you want this word to be your favourite word?(y/n): ";
+			cin >> s;
+			if (s == "y") {
+				dict.addWordToFavourtite(temp);
+				cout << "Add successfully";
+			}
+		}
 	}
 }
 
@@ -246,5 +259,34 @@ void remove_word_menu(dictionary& dict) {
 }
 
 void Fav_menu(dictionary& dict) {
+	system("cls");
 	dict.seeFavourite();
+	cout << "\n1. Add new word.";
+	cout << "\n2. Remove word.";
+	cout << "\nYour choice: ";
+	int choose;
+	cin >> choose;
+	switch (choose) {
+	case 1: {
+		string s;
+		cout << "Enter key word: ";
+		cin >> s;
+		entry* ent = dict.find_word(s);
+		if (!ent) cout << "This word doesn't exist!";
+		else dict.addWordToFavourtite(ent);
+		cout << "Add successfully!";
+		break;
+	}
+	case 2: {
+		string s;
+		cout << "Enter key word: ";
+		cin >> s;
+		entry* ent = dict.find_word(s);
+		if (!ent) cout << "This word doesn't exist!";
+		else dict.remove_fav(*ent);
+		cout << "Remove successfully!";
+		break;
+	}
+	default: return;
+	}
 }
