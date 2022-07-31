@@ -100,6 +100,8 @@ void choose_dictionary() {
 		cin >> choose;
 */
 
+		gotoxy(31, 14);
+		std::cout << "Please wait for a minute\n";
 		enter_dictionary_menu(dict_name[choose -  1],list_of_file[choose - 1]);
 
 	
@@ -108,6 +110,7 @@ void choose_dictionary() {
 void enter_dictionary_menu(string& name,string& path) {
 	dictionary dict(path, binary);
 
+RETURN_MENU:
 	// graphic:
 	int opt = 1;
 	int y = 7;
@@ -119,6 +122,7 @@ void enter_dictionary_menu(string& name,string& path) {
 	cout << art << endl;
 
 	SetColor(15);
+
 
 	menuDrawEnterDictionary(opt);
 	do {
@@ -179,7 +183,9 @@ void enter_dictionary_menu(string& name,string& path) {
 	*/
 
 
+	system("cls");
 
+	ShowConsoleCursor(true);
 
 	switch (opt) {
 	case 1:search_word(dict);
@@ -196,16 +202,22 @@ void enter_dictionary_menu(string& name,string& path) {
 		break;
 	case 7: 
 		dict.restore();
+		system("cls");
 		cout << "Restore successfully!";
+		chrono::seconds duration(1);
+		this_thread::sleep_for(duration);
 		break;
 	case 8: 
 		dict.print_random_word();
+		this_thread::sleep_for(duration);
 		break;
 	case 9:Fav_menu(dict);
+		this_thread::sleep_for(duration);
 		break;
 	case 10:guess_definition_meaning(dict);
 		break;
 	case 11:guess_keyword_meaning(dict);
+		this_thread::sleep_for(duration);
 		break;
 	case 12:choose_dictionary();
 		break;
@@ -225,7 +237,13 @@ void enter_dictionary_menu(string& name,string& path) {
 		
 	}
 
+	goto RETURN_MENU;
+
 	dict.write();
+
+
+
+	//enter_dictionary_menu(name, path);
 }
 
 void search_word(dictionary& dict) {
@@ -253,6 +271,9 @@ void search_word(dictionary& dict) {
 			}
 		}
 	}
+
+	cout << "\nPress any key to continue..." << endl;
+	_getch();
 }
 
 void search_definition(dictionary& dict) {
@@ -265,6 +286,9 @@ void search_definition(dictionary& dict) {
 		cout << "Here is the list of word match your definition:\n";
 		for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
 	}
+
+	cout << "\nPress any key to continue..." << endl;
+	_getch();
 }
 
 void edit_def_menu(dictionary& dict) {
@@ -275,6 +299,10 @@ void edit_def_menu(dictionary& dict) {
 	string newdef;
 	cin >> newdef;
 	dict.editDef(word, newdef);
+
+	cout << "/nEdit successfully";
+	chrono::seconds duration(1);
+	this_thread::sleep_for(duration);
 }
 
 void add_word_menu(dictionary& dict) {
@@ -284,6 +312,9 @@ void add_word_menu(dictionary& dict) {
 	cout << "Enter the definition: ";
 	cin >> def;
 	dict.insert(word, def);
+	cout << "/nAdd successfully";
+	chrono::seconds duration(1);
+	this_thread::sleep_for(duration);
 }
 
 void remove_word_menu(dictionary& dict) {
@@ -291,6 +322,9 @@ void remove_word_menu(dictionary& dict) {
 	cout << "Enter the word you want to remove: ";
 	cin >> word;
 	dict.remove(word);
+	cout << "/nRemove successfully";
+	chrono::seconds duration(1);
+	this_thread::sleep_for(duration);
 }
 
 void Fav_menu(dictionary& dict) {
@@ -323,5 +357,6 @@ void Fav_menu(dictionary& dict) {
 		break;
 	}
 	default: return;
-	}
+	}	
+	
 }

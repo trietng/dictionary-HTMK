@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "header.hpp"
 
 bool checkDuplicate(vector<entry*> vec) {
 	for (int i = 0; i < vec.size(); i++) {
@@ -52,6 +53,9 @@ void guess_keyword_meaning(dictionary dict) {
 
 	cout << endl << def[tmp_ans]->value;
 
+	cout << "\nPress any key to continue..." << endl;
+	_getch();
+
 	return;
 }
 
@@ -97,8 +101,13 @@ void guess_definition_meaning(dictionary dict) {
 
 	cout << endl << def[tmp_ans]->key;
 
+
+	cout << "\nPress any key to continue..." << endl;
+	_getch();
 	
 	return;
+
+
 }
 
 

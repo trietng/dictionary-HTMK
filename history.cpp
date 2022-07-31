@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <ctime>
+#include "header.hpp"
 #include "history.hpp"
 
 history loadHistory(string filename) {
@@ -45,6 +46,9 @@ void history::printHistory() {
             cout << convertTostring(vec[i].Type) << " " << vec[i].word << endl;
         }
     }
+
+    cout << "\nPress any key to continue..." << endl;
+    _getch();
 }
 
 string convertTostring(type temp) {

@@ -152,6 +152,7 @@
     <ClInclude Include="favourites.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="graphic.hpp" />
+    <ClInclude Include="header.hpp" />
     <ClInclude Include="history.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="restore.h" />

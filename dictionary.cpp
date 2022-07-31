@@ -1,5 +1,6 @@
 #include "dictionary.hpp"
 
+
 void dictionary::write_text(tnode* root, std::ofstream& fout) {
 	if (!root) return;
 	if (!root->value.empty()) {
@@ -257,6 +258,7 @@ entry* dictionary::find_rand_word() {
 void dictionary::print_random_word() {
 	entry* value = find_rand_word();
 	std::cout << value->key << "  " << value->value << std::endl;
+
 	return;
 }
 //Clear the entire dictionary
