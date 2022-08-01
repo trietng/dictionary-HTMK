@@ -12,6 +12,7 @@ bool checkDuplicate(vector<entry*> vec) {
 }
 
 void guess_keyword_meaning(dictionary dict) {
+
 	vector <entry*> def;
 	entry* temp;
 	string guess_def;

@@ -216,7 +216,7 @@ RETURN_MENU:
 		break;
 	case 10:guess_definition_meaning(dict);
 		break;
-	case 11:guess_keyword_meaning(dict);
+	case 11:	menu();
 		this_thread::sleep_for(duration);
 		break;
 	case 12:choose_dictionary();

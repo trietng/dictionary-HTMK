@@ -186,6 +186,7 @@ void moveChoice(int row, int y, int& opt) {
 	do
 	{
 		keyBoard = _getch();
+		
 		switch (keyBoard)
 		{
 		case KEY_DOWN:
@@ -220,4 +221,138 @@ void moveChoice(int row, int y, int& opt) {
 			break;
 		}
 	} while (keyBoard != '\r');
+}
+
+void textcolor(int x)
+{
+	HANDLE mau;
+	mau = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(mau, x);
+}
+
+
+void menu()
+{
+	ShowConsoleCursor(0);
+	//----- setting ----
+	int x = 50; int y = 5;
+	int w = 20;
+	int h = 2;
+	int t_color = 11;
+	int b_color = 1;
+	int b_color_sang = 75;
+	string nd = "hello";
+	int sl = 4;
+	n_box(x, y, w, h, t_color, b_color, nd, sl);
+
+	//-------------
+	int xp = x; int yp = y;//tọa độ thanh sáng
+	int xcu = xp; int ycu = yp;
+	bool kt = true;
+	char keyBoard = {};
+	do {
+		//------ in ----
+		if (kt == true)
+		{
+			//----- back space ----
+			gotoxy(xcu, ycu);
+			thanh_sang(xcu, ycu, w, h, b_color, nd);//rs thanh sang cu
+			xcu = xp; ycu = yp;
+			//-------------
+			thanh_sang(xp, yp, w, h, b_color_sang, nd);
+			kt = false;
+		}
+		//----- dieu khien ---- //----- di chuyen ----
+		if (_kbhit())
+		{
+			keyBoard = _getch();
+			if (keyBoard == -32)
+			{
+				kt = true;// đã bấm
+				keyBoard = _getch();
+				if (keyBoard == 72)
+				{
+					if (yp != y)yp -= 2;
+					else
+					{
+						yp = y + h * (sl - 1);
+					}
+				}
+				else if (keyBoard == 80)
+				{
+					if (yp != y + h * (sl - 1))yp += 2;
+					else
+					{
+						yp = y;
+					}
+				}
+			}
+		} 
+		//---- speed ----
+	} while (keyBoard != '\r');
+
+}
+void thanh_sang(int x, int y, int w, int h, int b_color, string nd)
+{
+	textcolor(b_color);
+	for (int iy = y + 1; iy <= y + h - 1; iy++)
+	{
+		for (int ix = x + 1; ix <= x + w - 1; ix++)
+		{
+			gotoxy(ix, iy); cout << " ";
+		}
+	}
+	SetColor(7);
+	gotoxy(x + 1, y + 1);
+	cout << nd;
+}
+
+void box(int x, int y, int w, int h, int t_color, int b_color, string nd)
+{
+	textcolor(b_color);
+	for (int iy = y + 1; iy <= y + h - 1; iy++)
+	{
+		for (int ix = x + 1; ix <= x + w - 1; ix++)
+		{
+			gotoxy(ix, iy); cout << " ";
+		}
+	}
+	SetColor(7);
+	gotoxy(x + 1, y + 1);
+	cout << nd;
+	//============= ve vien =============
+	textcolor(1);
+	SetColor(t_color);//update
+	if (h <= 1 || w <= 1)return;
+	for (int ix = x; ix <= x + w; ix++)
+	{
+		gotoxy(ix, y);
+		cout << char(196);
+		gotoxy(ix, y + h);
+		cout << char(196);
+	}
+	for (int iy = y; iy <= y + h; iy++)
+	{
+		gotoxy(x, iy);
+		cout << char(179);
+		gotoxy(x + w, iy);
+		cout << char(179);
+	}
+	gotoxy(x, y); cout << char(218);
+	gotoxy(x + w, y); cout << char(191);
+	gotoxy(x, y + h); cout << char(192);
+	gotoxy(x + w, y + h); cout << char(217);
+
+}
+void n_box(int x, int y, int w, int h, int t_color, int b_color, string nd, int sl)
+{
+	for (int i = 0; i < sl; i++)
+	{
+		box(x, y + (i * 2), w, h, t_color, b_color, nd);//i = 0 => x,y, i = 1: x,y+2
+		if (i != 0)
+		{
+			gotoxy(x, y + (i * 2)); cout << char(195);
+			gotoxy(x + w, y + (i * 2)); cout << char(180);
+		}
+	}
 }

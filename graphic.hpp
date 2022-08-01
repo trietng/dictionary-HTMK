@@ -31,4 +31,14 @@ void moveChoice(int row, int y, int& opt);
 
 void menuDrawEnterDictionary(short opt);
 
-void menuDrawChooseDictionary(short opt);;
+void menuDrawChooseDictionary(short opt);
+
+void thanh_sang(int x, int y, int w, int h, int b_color, string nd);
+
+void box(int x, int y, int w, int h, int t_color, int b_color, string nd);
+
+void n_box(int x, int y, int w, int h, int t_color, int b_color, string nd, int sl);
+
+void menu();
+
+void textcolor(int x);
