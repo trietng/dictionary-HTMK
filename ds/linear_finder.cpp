@@ -2,6 +2,7 @@
 
 linear_finder::linear_finder() {
 	data = new std::string;
+	data->reserve(100 * 1024 * 1024);
 	last = 0;
 }
 
@@ -13,6 +14,7 @@ linear_finder::~linear_finder() {
 
 linear_finder::linear_finder(const linear_finder& _source) {
 	data = new std::string(*(_source.data));
+	data->reserve(100 * 1024 * 1024);
 	last = _source.last;
 }
 
@@ -20,6 +22,7 @@ linear_finder& linear_finder::operator=(const linear_finder& _source) {
 	if (this != &_source) {
 		delete data;
 		data = new std::string(*(_source.data));
+		data->reserve(100 * 1024 * 1024);
 		last = _source.last;
 	}
 	return *this;
@@ -85,5 +88,6 @@ std::string linear_finder::find(const std::string& key) {
 void linear_finder::clear() {
 	delete data;
 	data = new std::string;
+	data->reserve(100 * 1024 * 1024);
 	last = 0;
 }

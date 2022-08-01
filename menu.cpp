@@ -233,6 +233,7 @@ RETURN_MENU:
 		gotoxy(31, 14);
 		std::cout << "Good bye! The program will exit in 0 seconds.\n";
 		ShowConsoleCursor(true);
+		exit(0);
 		return;
 		
 	}
