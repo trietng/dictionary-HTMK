@@ -255,26 +255,32 @@ void search_word(dictionary& dict) {
 	if (!temp) cout << "This word doesn't exist!";
 	else {
 		cout << "The word you want to find is: " << temp->key << " MEANS " << temp->value << endl;
+		char t = '\0';
 		if (dict.is_fav(s)) {
-			cout << "Do you want to remove this word from your favourtie list?(y/n): ";
-			cin >> s;
-			if (s == "y") {
+			cout << "Press F to remove this word from the favourite list, "
+				<< "ENTER to continue/return.";
+			do {
+				t = tolower(_getch());
+			} while ((t != '\r') && (t != 'f'));
+			if (t == 'f') {
 				dict.remove_fav(*temp);
 				cout << "Remove successfully!";
+				this_thread::sleep_for(chrono::seconds(1));
 			}
 		}
 		else {
-			cout << "Do you want this word to be your favourite word?(y/n): ";
-			cin >> s;
-			if (s == "y") {
+			cout << "Press F to add this word to the favourite list, "
+				<< "ENTER to continue/return.";
+			do {
+				t = tolower(_getch());
+			} while ((t != '\r') && (t != 'f'));
+			if (t == 'f') {
 				dict.addWordToFavourtite(temp);
 				cout << "Add successfully";
+				this_thread::sleep_for(chrono::seconds(1));
 			}
 		}
 	}
-
-	cout << "\nPress any key to continue..." << endl;
-	_getch();
 }
 
 void search_definition(dictionary& dict) {
@@ -331,33 +337,45 @@ void remove_word_menu(dictionary& dict) {
 void Fav_menu(dictionary& dict) {
 	system("cls");
 	dict.seeFavourite();
-	cout << "\n1. Add new word.";
-	cout << "\n2. Remove word.";
-	cout << "\nYour choice: ";
-	int choose;
-	cin >> choose;
+	cout << "\nAvailable options: ";
+	cout << "\n(A)     Add new word.";
+	cout << "\n(R)     Remove word.";
+	cout << "\n(ENTER) Return to main menu\n";
+	char choose = '\0';
+	do {
+		choose = tolower(_getch());
+	} while ((choose != 'a') && (choose != 'r') && (choose != '\r'));
 	switch (choose) {
-	case 1: {
+	case 'a': {
 		string s;
 		cout << "Enter key word: ";
 		cin >> s;
 		entry* ent = dict.find_word(s);
 		if (!ent) cout << "This word doesn't exist!";
-		else dict.addWordToFavourtite(ent);
-		cout << "Add successfully!";
+		else {
+			dict.addWordToFavourtite(ent);
+			cout << "Add successfully!";
+			this_thread::sleep_for(chrono::seconds(1));
+		}
 		break;
 	}
-	case 2: {
+	case 'r': {
 		string s;
 		cout << "Enter key word: ";
 		cin >> s;
 		entry* ent = dict.find_word(s);
 		if (!ent) cout << "This word doesn't exist!";
-		else dict.remove_fav(*ent);
-		cout << "Remove successfully!";
+		else {
+			dict.remove_fav(*ent);
+			cout << "Remove successfully!";
+			this_thread::sleep_for(chrono::seconds(1));
+		}
 		break;
 	}
-	default: return;
+	case '\r':
+		break;
+	default: 
+		break;
 	}	
 	
 }
