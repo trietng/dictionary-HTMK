@@ -15,8 +15,10 @@ history loadHistory(string filename) {
             stringstream ss(line);
             getline(ss, s, '`');
             Entry.word = s;
-            getline(ss, s);
+            getline(ss, s,'`');
             Entry.Type = convertoType(s);
+            getline(ss, s);
+            Entry.time = s;
             temp.vec.push_back(Entry);
         }
     }
@@ -32,7 +34,7 @@ type convertoType(string s) {
 void history::write() {
     ofstream fout(historyFilePath);
     if (fout) {
-        for (auto i:vec) fout << i.word << "`" << i.Type << endl;
+        for (auto i:vec) fout << i.word << "`" << i.Type << "`" << i.time << endl;
     }   
     fout.close();
 }
@@ -40,10 +42,11 @@ void history::write() {
 void history::printHistory() {
     if (vec.empty()) cout << "You haven't searched any word!";
     else {
-        cout << "The history of search words is:\n";
-        int x = vec.size() - 5;
-        for (int i = vec.size() - 1; i >= max(x, 0); --i) {
-            cout << convertTostring(vec[i].Type) << " " << vec[i].word << endl;
+        SetColor(4);
+        cout << left << setw(3) << " " <<left << setw(20) << "Keyword" << left << setw(20) << "Type" << left << setw(20) << "time" << endl;
+        for (int i = vec.size() - 1; i >= 0; --i) {
+            SetColor(15);
+            cout << left << setw(15) << vec[i].word << left << setw(20) << convertTostring(vec[i].Type) << left << setw(20) << vec[i].time << endl;
         }
     }
 
@@ -52,14 +55,15 @@ void history::printHistory() {
 }
 
 string convertTostring(type temp) {
-    if (temp == 0) return "keyword";
-    return "def";
+    if (temp == 0) return "Search for keyword";
+    return "Search for definition";
 }
 
-void history::add_word_to_history(string word, type Type) {
+void history::add_word_to_history(string word, type Type,string time) {
     historyEntry Entry;
     Entry.word = word;
     Entry.Type = Type;
+    Entry.time = time;
     vec.push_back(Entry);
     if (vec.size() > historyMax) vec.erase(vec.begin());
 }

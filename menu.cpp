@@ -222,6 +222,7 @@ RETURN_MENU:
 	case 12:choose_dictionary();
 		break;
 	default:
+		dict.write();
 		for (int i = 3; i > 0; i--) {
 			ShowConsoleCursor(false);
 			system("cls");
@@ -302,12 +303,7 @@ void edit_def_menu(dictionary& dict) {
 	cout << "Enter the word you want to change definition:";
 	string word;
 	cin >> word;
-	cout << "Enter new definition: ";
-	string newdef;
-	cin >> newdef;
-	dict.editDef(word, newdef);
-
-	cout << "/nEdit successfully";
+	dict.editDef(word);
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);
 }
@@ -319,7 +315,7 @@ void add_word_menu(dictionary& dict) {
 	cout << "Enter the definition: ";
 	cin >> def;
 	dict.insert(word, def);
-	cout << "/nAdd successfully";
+	cout << "\nAdd successfully";
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);
 }
@@ -329,7 +325,6 @@ void remove_word_menu(dictionary& dict) {
 	cout << "Enter the word you want to remove: ";
 	cin >> word;
 	dict.remove(word);
-	cout << "/nRemove successfully";
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);
 }

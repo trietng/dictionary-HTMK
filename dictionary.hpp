@@ -66,7 +66,7 @@ public:
 
 	void remove_fav(entry ent);
 
-	void editDef(const std::string& keyword, const std::string& newdef);
+	void editDef(const std::string& keyword);
 
 	entry* find_rand_word();
 
@@ -85,3 +85,4 @@ public:
 //How to get a list of file in a folder
 std::vector<std::string> get_list_of_files(const std::string& path);
 std::string get_dict_name(const std::string& path);
+std::string currentDateTime();
