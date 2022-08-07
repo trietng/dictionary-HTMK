@@ -33,12 +33,12 @@ void menuDrawEnterDictionary(short opt);
 
 void menuDrawChooseDictionary(short opt);
 
-void thanh_sang(int x, int y, int w, int h, int b_color, string nd);
+void thanh_sang(int x, int y, int w, int h, int b_color, vector<string> nd, int fix);
 
-void box(int x, int y, int w, int h, int t_color, int b_color, string nd);
+void box(int x, int y, int w, int h, int t_color, int b_color, vector<string> nd, int fix);
 
-void n_box(int x, int y, int w, int h, int t_color, int b_color, string nd, int sl);
+void n_box(int x, int y, int w, int h, int t_color, int b_color, vector<string> nd, int sl, int fix);
 
-void menu();
+int draw4options(vector<string> nd);
 
 void textcolor(int x);

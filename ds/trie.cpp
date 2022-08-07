@@ -88,7 +88,7 @@ void trie::at(tnode* root, entry*& word) {
 	// if randomNumber mod 3 = 1 we check value is exist or not and return the value;
 	// else we traverse;
 
-	if (randomTemp % 10 == 1) {
+	if (randomTemp % 5 == 1) {
 		if (root->value.empty() == false) {
 			word = root->value.front().get();
 			return;

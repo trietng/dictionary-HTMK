@@ -231,19 +231,19 @@ void textcolor(int x)
 }
 
 
-void menu()
+int draw4options(vector<string> nd)
 {
 	ShowConsoleCursor(0);
 	//----- setting ----
 	int x = 50; int y = 5;
+	int fix(y);
 	int w = 20;
 	int h = 2;
 	int t_color = 11;
 	int b_color = 1;
 	int b_color_sang = 75;
-	string nd = "hello";
 	int sl = 4;
-	n_box(x, y, w, h, t_color, b_color, nd, sl);
+	n_box(x, y, w, h, t_color, b_color, nd, sl, fix);
 
 	//-------------
 	int xp = x; int yp = y;//tọa độ thanh sáng
@@ -256,10 +256,10 @@ void menu()
 		{
 			//----- back space ----
 			gotoxy(xcu, ycu);
-			thanh_sang(xcu, ycu, w, h, b_color, nd);//rs thanh sang cu
+			thanh_sang(xcu, ycu, w, h, b_color, nd, fix);//rs thanh sang cu
 			xcu = xp; ycu = yp;
 			//-------------
-			thanh_sang(xp, yp, w, h, b_color_sang, nd);
+			thanh_sang(xp, yp, w, h, b_color_sang, nd, fix);
 			kt = false;
 		}
 		//----- dieu khien ---- //----- di chuyen ----
@@ -290,9 +290,12 @@ void menu()
 		} 
 		//---- speed ----
 	} while (keyBoard != '\r');
+	gotoxy(0, y + h*6);
+	SetBGColor(0);
+	return (yp - y) / 2;
 
 }
-void thanh_sang(int x, int y, int w, int h, int b_color, string nd)
+void thanh_sang(int x, int y, int w, int h, int b_color, vector<string> nd, int fix)
 {
 	textcolor(b_color);
 	for (int iy = y + 1; iy <= y + h - 1; iy++)
@@ -304,10 +307,10 @@ void thanh_sang(int x, int y, int w, int h, int b_color, string nd)
 	}
 	SetColor(7);
 	gotoxy(x + 1, y + 1);
-	cout << nd;
+	cout << nd[(y - fix)/2];
 }
 
-void box(int x, int y, int w, int h, int t_color, int b_color, string nd)
+void box(int x, int y, int w, int h, int t_color, int b_color, vector<string> nd, int fix)
 {
 	textcolor(b_color);
 	for (int iy = y + 1; iy <= y + h - 1; iy++)
@@ -319,7 +322,7 @@ void box(int x, int y, int w, int h, int t_color, int b_color, string nd)
 	}
 	SetColor(7);
 	gotoxy(x + 1, y + 1);
-	cout << nd;
+	cout << nd[(y - fix) /2 ];
 	//============= ve vien =============
 	textcolor(1);
 	SetColor(t_color);//update
@@ -344,11 +347,11 @@ void box(int x, int y, int w, int h, int t_color, int b_color, string nd)
 	gotoxy(x + w, y + h); cout << char(217);
 
 }
-void n_box(int x, int y, int w, int h, int t_color, int b_color, string nd, int sl)
+void n_box(int x, int y, int w, int h, int t_color, int b_color, vector<string> nd, int sl, int fix)
 {
 	for (int i = 0; i < sl; i++)
 	{
-		box(x, y + (i * 2), w, h, t_color, b_color, nd);//i = 0 => x,y, i = 1: x,y+2
+		box(x, y + (i * 2), w, h, t_color, b_color, nd, fix);//i = 0 => x,y, i = 1: x,y+2
 		if (i != 0)
 		{
 			gotoxy(x, y + (i * 2)); cout << char(195);

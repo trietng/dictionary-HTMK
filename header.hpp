@@ -11,5 +11,6 @@
 #include<chrono>
 #include <tchar.h>
 #include <thread>
+#include <vector>
 
 using namespace std;

@@ -216,10 +216,12 @@ RETURN_MENU:
 		break;
 	case 10:guess_definition_meaning(dict);
 		break;
-	case 11:	menu();
+	case 11:	guess_keyword_meaning(dict);
 		this_thread::sleep_for(duration);
 		break;
-	case 12:choose_dictionary();
+	case 12:
+		dict.write();
+		choose_dictionary();
 		break;
 	default:
 		for (int i = 3; i > 0; i--) {
@@ -233,6 +235,8 @@ RETURN_MENU:
 		gotoxy(31, 14);
 		std::cout << "Good bye! The program will exit in 0 seconds.\n";
 		ShowConsoleCursor(true);
+
+		dict.write();
 		exit(0);
 		return;
 		
@@ -240,7 +244,6 @@ RETURN_MENU:
 
 	goto RETURN_MENU;
 
-	dict.write();
 
 
 
