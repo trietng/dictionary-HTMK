@@ -200,25 +200,42 @@ void dictionary::write_text() {
 	}
 }
 void dictionary::insert(const std::string& word, const std::string& definition) {
-	shptr<entry> ent(new entry(word, definition));
-	this->word.insert(ent);
-	this->definition.append(word, definition);
+	entry* temp = this->word.find(word);
+	if (temp->value != definition) {
+		shptr<entry> ent(new entry(word, definition));
+		this->word.insert(ent);
+		this->definition.append(word, definition);
+	}
 }
 
-void dictionary::editDef(const std::string& keyword, const std::string& newdef) {
+void dictionary::editDef(const std::string& keyword) {
 	entry* temp = word.find(keyword);
-	temp->value = newdef;
+	if (temp) {
+		cout << "This word MEANS " << temp->value << endl;
+		cout << "Enter the new definition: ";
+		string newdef;
+		cin >> newdef;
+		if (temp->value != newdef) temp->value = newdef;
+		cout << "\nEdit successfully";
+	}
+	else cout << "This word does not exist!";
 }
 
 void dictionary::remove(const std::string& word) {
-	this->word.remove(word);
+	if (!this->word.find(word)) cout << "This word doesn't exist!";
+	else {
+		this->word.remove(word);
+		cout << "\nRemove successfully";
+	}
 }
 entry* dictionary::find_word(const std::string& word) {
-	History.add_word_to_history(word, keyword);
+	std::string time = currentDateTime();
+	History.add_word_to_history(word, keyword,time);
 	return this->word.find(word);
 }
 std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
-	History.add_word_to_history(keyword, def);
+	std::string time = currentDateTime();
+	History.add_word_to_history(keyword, def, time);
 	std::vector<entry*> result;
 	result.reserve(3);
 	for (unsigned int i = 0; i < 3; ++i) {
@@ -234,8 +251,16 @@ void dictionary::seeHistory() {
 	History.printHistory();
 }
 
+std::string currentDateTime() {
+	std::time_t t = std::time(nullptr);
+	std::tm* now = std::localtime(&t);
+	char buffer[128];
+	strftime(buffer, sizeof(buffer), "%d-%m-%Y %X", now);
+	return buffer;
+}
+
 void dictionary::addWordToFavourtite(entry* temp) {
-	Favourite.mark(*temp);
+	if (!this->word.find(temp->key)) Favourite.mark(*temp);
 }
 
 bool dictionary::is_fav(string word) {

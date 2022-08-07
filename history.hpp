@@ -5,6 +5,9 @@
 #include <vector>
 #include <filesystem>
 #include <sstream>
+#include <ctime>
+#include <iomanip>
+#include "graphic.hpp"
 
 using namespace std;
 
@@ -15,6 +18,7 @@ enum type {
 
 struct historyEntry {
 	string word;
+	string time;
 	type Type;
 };
 
@@ -27,7 +31,7 @@ public:
 	string historyFilePath;
 	void write();
 	void printHistory();
-	void add_word_to_history(string word, type Type);
+	void add_word_to_history(string word, type Type,string time);
 	void clear();
 };
 
