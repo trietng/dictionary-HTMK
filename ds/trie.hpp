@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include <ctime>
+#include "entry.hpp"
 #include "nqueue.hpp"
 #include "shptr.hpp"
 
@@ -12,13 +13,6 @@ static std::random_device rd;
 static std::mt19937 rng{rd()};
 
 std::string tolower(const std::string& _source);
-
-class entry {
-public:
-	std::string key;	//keyword
-	std::string value; //definition
-	entry(const std::string& key, const std::string& value);
-};
 
 class tnode {
 public:

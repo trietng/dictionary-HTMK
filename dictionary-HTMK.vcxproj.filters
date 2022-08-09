@@ -33,13 +33,22 @@
     <ClCompile Include="ds\linear_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="graphic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds\avl_tree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds\entry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds\htable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,6 +93,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds\avl_tree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds\htable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds\entry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

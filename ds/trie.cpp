@@ -7,11 +7,6 @@ std::string tolower(const std::string& _source) {
 	}
 	return temp;
 }
-
-entry::entry(const std::string& key, const std::string& value) {
-	this->key = key;
-	this->value = value;
-}
     
 tnode::tnode() {
 	this->key = '\0';

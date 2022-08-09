@@ -5,14 +5,14 @@
 #include <filesystem>
 #include <stdexcept>
 #include "history.hpp"
-#include "ds\linear_finder.hpp"
+#include "ds\htable.hpp"
 #include "ds\trie.hpp"
 #include "favourites.hpp"
 
 static constexpr char horizontal_tab = '\t';
 static constexpr char dictionary_path[] = "data\\dictionaries\\";
 
-enum rmode {
+enum rmode : bool {
 	text = 0, binary = 1
 };
 
@@ -21,7 +21,7 @@ private:
 	bool load; // variable for checking whether the dictionary is loaded
 	trie word; // word trie
 	uint8_t N_TYPE;// trie type
-	linear_finder definition; // definition string for searching
+	htable definition; // definition string for searching
 	std::string path; // path to file
 	std::string name; // display name of the dictionary
 	history History;
@@ -51,7 +51,7 @@ public:
 	void read_text(const std::string& path);
 	//Write to text file
 	void write_text();
-	void insert(const std::string& word, const std::string& definition);
+	bool insert(const std::string& word, const std::string& definition);
 	void remove(const std::string& word);
 	entry* find_word(const std::string& word);
 	std::vector<entry*> find_definition(const std::string& keyword);

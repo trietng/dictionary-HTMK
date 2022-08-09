@@ -32,7 +32,7 @@ void dictionary::read(std::ifstream& fin, tnode*& node, unsigned int& counter) {
 			delete[] buf_def;
 			shptr<entry> ent(new entry(word, def));
 			node->value.push_back(ent);
-			definition.append(word, def);
+			definition.insert(def, ent);
 			++counter;
 		}
 		for (uint8_t i = 0; i < N_TYPE; ++i) {
@@ -199,13 +199,15 @@ void dictionary::write_text() {
 		write_text(word.top(), fout);
 	}
 }
-void dictionary::insert(const std::string& word, const std::string& definition) {
+bool dictionary::insert(const std::string& word, const std::string& definition) {
 	entry* temp = this->word.find(word);
 	if (temp->value != definition) {
 		shptr<entry> ent(new entry(word, definition));
 		this->word.insert(ent);
-		this->definition.append(word, definition);
+		this->definition.insert(definition, ent);
+		return true;
 	}
+	return false;
 }
 
 void dictionary::editDef(const std::string& keyword) {
@@ -222,9 +224,11 @@ void dictionary::editDef(const std::string& keyword) {
 }
 
 void dictionary::remove(const std::string& word) {
-	if (!this->word.find(word)) cout << "This word doesn't exist!";
+	auto ent = this->word.find(word);
+	if (!ent) cout << "This word doesn't exist!";
 	else {
 		this->word.remove(word);
+		this->definition.remove(ent);
 		cout << "\nRemove successfully";
 	}
 }
@@ -236,14 +240,7 @@ entry* dictionary::find_word(const std::string& word) {
 std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
 	std::string time = currentDateTime();
 	History.add_word_to_history(keyword, def, time);
-	std::vector<entry*> result;
-	result.reserve(3);
-	for (unsigned int i = 0; i < 3; ++i) {
-		std::string str = definition.find(keyword);
-		entry* ent = word.find(str);
-		if (ent) result.push_back(ent);
-	}
-	return result;
+	return definition.find(keyword);
 }
 
 

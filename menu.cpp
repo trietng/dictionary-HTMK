@@ -268,8 +268,8 @@ void search_word(dictionary& dict) {
 			} while ((t != '\r') && (t != 'f'));
 			if (t == 'f') {
 				dict.remove_fav(*temp);
-				cout << "Remove successfully!";
-				this_thread::sleep_for(chrono::seconds(1));
+				cout << "Removed successfully!";
+				
 			}
 		}
 		else {
@@ -280,11 +280,11 @@ void search_word(dictionary& dict) {
 			} while ((t != '\r') && (t != 'f'));
 			if (t == 'f') {
 				dict.addWordToFavourtite(temp);
-				cout << "Add successfully";
-				this_thread::sleep_for(chrono::seconds(1));
+				cout << "Added successfully.";
 			}
 		}
 	}
+	this_thread::sleep_for(chrono::seconds(1));
 }
 
 void search_definition(dictionary& dict) {
@@ -292,12 +292,11 @@ void search_definition(dictionary& dict) {
 	string s;
 	cin >> s;
 	vector<entry*> temp = dict.find_definition(s);
-	if (temp.empty()) cout << "This word isn't exist!";
+	if (temp.empty()) cout << "No such definition";
 	else {
 		cout << "Here is the list of word match your definition:\n";
 		for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
 	}
-
 	cout << "\nPress any key to continue..." << endl;
 	_getch();
 }
@@ -317,8 +316,12 @@ void add_word_menu(dictionary& dict) {
 	cin >> word;
 	cout << "Enter the definition: ";
 	cin >> def;
-	dict.insert(word, def);
-	cout << "\nAdd successfully";
+	if (dict.insert(word, def)) {
+		cout << "\nAdd successfully";
+	}
+	else {
+		cout << "\nWord \"" << word << "\" already exists";
+	}
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);
 }

@@ -16,6 +16,71 @@ public:
             delete tmp;
         }
     }
+    //Copy constructor
+    flist(const flist& _source) {
+        fnode<T>* scur = _source.head;
+        if (scur) {
+            fnode<T>* cur = new fnode<T>;
+            head = cur;
+            while (scur) {
+                cur->data = scur->data;
+                if (scur->next) {
+                    cur->next = new fnode<T>;
+                    cur = cur->next;
+                    scur = scur->next;
+                }
+                else {
+                    cur->next = nullptr;
+                    break;
+                }
+            }
+        }
+    }
+    //Copy assignment
+    flist<T>& operator=(const flist<T>& _source) {
+        if (this != &_source) {
+            fnode<T>* scur = _source.head;
+            if (scur) {
+                while (head) {
+                    fnode<T>* tmp = head;
+                    head = head->next;
+                    delete tmp;
+                }
+                fnode<T>* cur = new fnode<T>;
+                head = cur;
+                while (scur) {
+                    cur->data = scur->data;
+                    if (scur->next) {
+                        cur->next = new fnode<T>;
+                        cur = cur->next;
+                        scur = scur->next;
+                    }
+                    else {
+                        cur->next = nullptr;
+                        break;
+                    }
+                }
+            }
+        }
+        return *this;
+    }
+    //Move constructor
+    flist(flist<T>&& _source) {
+        head = _source.head;
+        _source.head = nullptr;
+    }
+    //Move assignment
+    flist<T>& operator=(flist<T>&& _source) {
+        if (this != &_source) {
+            while (head) {
+                fnode<T>* tmp = head;
+                head = head->next;
+                delete tmp;
+            }
+            head = _source.head;
+            _source.head = nullptr;
+        }
+    }
     //Return the front node's value
     T front() {
         return head;
@@ -93,7 +158,6 @@ public:
             cur = cur->next;
         }
     }
-
     //Join another flist to the current one
     //the target flist will be empty afterward,
     //time complexity O(n)
