@@ -10,8 +10,6 @@ class htable {
 private:
 	static constexpr size_t HASHTABLE_CAPACITY = 13e6 + 19;
 	std::vector<avl_tree> data;
-	size_t counter;
-	size_t max_hash;
 	//djb2 hash function
 	uint32_t hash(const std::string& key);
 	//Generate alpha-numeric, single-words from the input string
@@ -31,6 +29,4 @@ public:
 	void clear();
 	//Get capacity of the hash table
 	size_t max_capacity() const;
-	//Get the number of keys inside the hash table
-	size_t count() const;
 };

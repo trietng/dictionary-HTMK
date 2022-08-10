@@ -35,13 +35,10 @@ std::vector<entry*> htable::to_entry(const std::vector<avl_node*>& _avl_tree) {
 
 htable::htable() {
 	data.assign(HASHTABLE_CAPACITY, avl_tree());
-	max_hash = 0;
-	counter = 0;
 }
 
 htable::~htable() {
 	data.clear();
-	counter = 0;
 }
 
 void htable::insert(const std::string& definition, const shptr<entry>& value) {
@@ -50,7 +47,6 @@ void htable::insert(const std::string& definition, const shptr<entry>& value) {
 		size_t hash1 = hash(item);
 		size_t hash2 = hash(value->key);
 		data[hash1 % HASHTABLE_CAPACITY].insert(hash1, hash2, value);
-		++counter;
 	}
 }
 
@@ -80,13 +76,8 @@ void htable::remove(const std::string& definition) {
 
 void htable::clear() {
 	data.clear();
-	counter = 0;
 }
 
 size_t htable::max_capacity() const {
 	return HASHTABLE_CAPACITY;
-}
-
-size_t htable::count() const {
-	return counter;
 }
