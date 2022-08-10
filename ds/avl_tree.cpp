@@ -5,13 +5,15 @@ uint16_t pmax(const uint16_t& x, const uint16_t& y) {
 }
 
 avl_node::avl_node() {
-	this->key = UINT32_MAX;
+	this->hash1 = UINT32_MAX;
+	this->hash2 = UINT32_MAX;
 	this->height = 1;
 	this->left = this->right = nullptr;
 }
 
-avl_node::avl_node(const uint32_t& key, const shptr<entry>& value) {
-	this->key = key;
+avl_node::avl_node(const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value) {
+	this->hash1 = hash1;
+	this->hash2 = hash2;
 	this->value = value;
 	this->height = 1;
 	this->left = this->right = nullptr;
@@ -23,11 +25,11 @@ avl_node::~avl_node() {
 }
 
 uint32_t avl_tree::hash(const std::string& key) {
-	uint32_t hash_res = 0;
-	for (size_t i = 0; i < key.length(); i++) {
-		hash_res += key[i] * pow(PRIME, i);
+	uint32_t hash = 5381;
+	for (const auto& ch : key) {
+		hash = ((hash << 5) + hash) + ch;
 	}
-	return hash_res;
+	return hash;
 }
 
 uint16_t avl_tree::height(avl_node* node) {
@@ -75,30 +77,30 @@ avl_node* avl_tree::leftmost(avl_node* node) {
 	return cur;
 }
 
-avl_node* avl_tree::insert(avl_node* root, const uint32_t& key, const shptr<entry>& value) {
-	if (!root) return new avl_node(key, value);
-	else if (key < root->key) root->left = insert(root->left, key, value);
-	else if (key > root->key) root->right = insert(root->right, key, value);
+avl_node* avl_tree::insert(avl_node* root, const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value) {
+	if (!root) return new avl_node(hash1, hash2, value);
+	else if (hash2 < root->hash2) root->left = insert(root->left, hash1, hash2, value);
+	else if (hash2 > root->hash2) root->right = insert(root->right, hash1, hash2, value);
 	else return root;
 	root->height = pmax(height(root->left), height(root->right)) + 1;
 	auto d = difference(root);
 	if (d > 1) {
 		//TRUE: LEFT RIGHT, FALSE: LEFT LEFT
-		if (key > root->left->key) root->left = left_rotate(root->left);
+		if (hash2 > root->left->hash2) root->left = left_rotate(root->left);
 		return right_rotate(root);
 	}
 	if (d < -1) {
 		//TRUE: RIGHT LEFT, FALSE: RIGHT RIGHT
-		if (key < root->right->key) root->right = right_rotate(root->right);
+		if (hash2 < root->right->hash2) root->right = right_rotate(root->right);
 		return left_rotate(root);
 	}
 	return root;
 }
 
-avl_node* avl_tree::remove(avl_node* root, const uint32_t& key) {
+avl_node* avl_tree::remove(avl_node* root, const uint32_t& hash2) {
 	if (!root) return root;
-	else if (key < root->key) root->left = remove(root->left, key);
-	else if (key > root->key) root->right = remove(root->right, key);
+	else if (hash2 < root->hash2) root->left = remove(root->left, hash2);
+	else if (hash2 > root->hash2) root->right = remove(root->right, hash2);
 	else {
 		if ((!root->left) || (!root->right)) {
 			avl_node* child = (root->left) ? (root->left) : (root->right);
@@ -113,9 +115,10 @@ avl_node* avl_tree::remove(avl_node* root, const uint32_t& key) {
 		}
 		else {
 			avl_node* tmp = leftmost(root->right);
-			root->key = tmp->key;
+			root->hash1 = tmp->hash1;
+			root->hash2 = tmp->hash2;
 			root->value = tmp->value;
-			root->right = remove(root->right, tmp->key);
+			root->right = remove(root->right, tmp->hash2);
 		}
 	}
 	if (!root) return root;
@@ -134,18 +137,41 @@ avl_node* avl_tree::remove(avl_node* root, const uint32_t& key) {
 	return root;
 }
 
-void avl_tree::vector(avl_node* root, std::vector<entry*>& vec) {
+void avl_tree::vector(avl_node* root, std::vector<avl_node*>& vec) {
 	if (!root) return;
 	vector(root->left, vec);
+	vec.push_back(root);
 	vector(root->right, vec);
-	std::cout << root->value.get()->key;
-	vec.push_back(root->value.get());
+}
+
+void avl_tree::vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1) {
+	if (!root) return;
+	vector(root->left, vec);
+	if (root->hash1 == hash1) vec.push_back(root);
+	vector(root->right, vec);
+}
+
+void avl_tree::inversed_vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1) {
+	if (!root) return;
+	vector(root->left, vec);
+	if (root->hash1 != hash1) {
+		avl_node* tmp = new avl_node;
+		tmp->hash1 = root->hash1;
+		tmp->hash2 = root->hash2;
+		tmp->height = UINT16_MAX;
+		tmp->left = nullptr;
+		tmp->right = nullptr;
+		tmp->value = root->value;
+		vec.push_back(tmp);
+	}
+	vector(root->right, vec);
 }
 
 avl_node* avl_tree::copy(avl_node* root) {
 	if (!root) return nullptr;
 	avl_node* temp = new avl_node();
-	temp->key = root->key;
+	temp->hash1 = root->hash1;
+	temp->hash2 = root->hash2;
 	temp->value = root->value;
 	temp->height = root->height;
 	temp->left = copy(root->left);
@@ -187,24 +213,51 @@ avl_tree& avl_tree::operator=(avl_tree&& _source) noexcept {
 	return *this;
 }
 
-void avl_tree::insert(const std::string& key, const shptr<entry>& value) {
-	root = insert(root, hash(key), value);
+void avl_tree::insert(const std::string& definition, const std::string& word, const shptr<entry>& value) {
+	root = insert(root, hash(definition), hash(word), value);
 }
 
-void avl_tree::remove(const std::string& key) {
-	root = remove(root, hash(key));
+void avl_tree::insert(const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value) {
+	root = insert(root, hash1, hash2, value);
 }
 
-void avl_tree::insert(const uint32_t& key, const shptr<entry>& value) {
-	root = insert(root, key, value);
+void avl_tree::remove(const uint32_t& hash1) {
+	std::vector<avl_node*> temp;
+	inversed_vector(root, temp, hash1);
+	clear();
+	for (const auto& item : temp) {
+		root = insert(root, item->hash1, item->hash2, item->value);
+	}
 }
 
-void avl_tree::remove(const uint32_t& key) {
-	root = remove(root, key);
-}
-
-std::vector<entry*> avl_tree::vector() {
-	std::vector<entry*> result;
+std::vector<avl_node*> avl_tree::vector() {
+	std::vector<avl_node*> result;
 	vector(root, result);
 	return result;
+}
+
+std::vector<avl_node*> avl_tree::vector(const uint32_t& hash1) {
+	std::vector<avl_node*> result;
+	vector(root, result, hash1);
+	return result;
+}
+
+void avl_tree::clear() {
+	delete root;
+	root = nullptr;
+}
+
+template<>
+std::vector<avl_node*> vector_intersection(const std::vector<avl_node*>& vector1, const std::vector<avl_node*>& vector2) {
+	auto iter1 = vector1.cbegin();
+	auto iter2 = vector2.cbegin();
+	std::vector<avl_node*> vectorOUT;
+	while ((iter1 != vector1.cend()) && (iter2 != vector2.cend())) {
+		if ((*iter1)->hash2 < (*iter2)->hash2) ++iter1;
+		else {
+			if (!((*iter2)->hash2 < (*iter1)->hash2)) vectorOUT.push_back(*iter1++);
+			++iter2;
+		}
+	}
+	return vectorOUT;
 }

@@ -32,6 +32,8 @@ private:
 	void read(std::ifstream& fin, tnode*& node, unsigned int& counter);
 	//Write to binary file (recursive function)
 	void write(std::ofstream& fout, tnode* node);
+	//Generate words from a sentence
+	std::vector<std::string> generate_words(const std::string& sentence);
 public:
 	dictionary();
 	~dictionary();

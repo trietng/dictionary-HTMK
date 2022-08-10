@@ -5,26 +5,27 @@
 #include <string>
 #include "entry.hpp"
 #include "shptr.hpp"
-
-static constexpr size_t PRIME = 31;
+#include "algorithm.hpp"
 
 uint16_t pmax(const uint16_t& x, const uint16_t& y);
 
 class avl_node {
 public:
-	uint32_t key;
+	uint32_t hash1;
+	uint32_t hash2;
 	shptr<entry> value;
 	uint16_t height;
 	avl_node* left;
 	avl_node* right;
 	avl_node();
-	avl_node(const uint32_t& key, const shptr<entry>& value);
+	avl_node(const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value);
 	~avl_node();
 };
 
 class avl_tree {
 private:
 	avl_node* root;
+	//djb2 hash function
 	uint32_t hash(const std::string& key);
 	//Return the height of the node
 	uint16_t height(avl_node* node);
@@ -37,11 +38,15 @@ private:
 	//Return the leftmost child
 	avl_node* leftmost(avl_node* node);
 	//Private recursive insertion operation
-	avl_node* insert(avl_node* root, const uint32_t& key, const shptr<entry>& value);
-	//Private recursive removal operation
-	avl_node* remove(avl_node* root, const uint32_t& key);
-	//Private recursive get vector operation
-	void vector(avl_node* root, std::vector<entry*>& vec);
+	avl_node* insert(avl_node* root, const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value);
+	//Private recursive removal operation !!NOT USED!!
+	avl_node* remove(avl_node* root, const uint32_t& hash2);
+	//Private recursive get vector operation, inorder traversal
+	void vector(avl_node* root, std::vector<avl_node*>& vec);
+	//Private recursive get vector operation, inorder traversal, specific key required
+	void vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1);
+	//Private inversed recursive get vector operation, inorder traversal, specific key required
+	void inversed_vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1);
 	//Copy the entire tree (deep copy, not just the pointers)
 	avl_node* copy(avl_node* root);
 public:
@@ -56,13 +61,18 @@ public:
 	//Move assignment
 	avl_tree& operator=(avl_tree&& _source) noexcept;
 	//Insert raw key and value into the AVL tree
-	void insert(const std::string& key, const shptr<entry>& value);
-	//Remove raw key from the AVL tree
-	void remove(const std::string& key);
+	void insert(const std::string& definition, const std::string& word, const shptr<entry>& value);
 	//Insert hashed key and raw value into the AVL tree
-	void insert(const uint32_t& key, const shptr<entry>& value);
+	void insert(const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value);
 	//Remove hashed key from the AVL tree
-	void remove(const uint32_t& key);
+	void remove(const uint32_t& hash1);
 	//Get the entire tree as vector
-	std::vector<entry*> vector();
+	std::vector<avl_node*> vector();
+	//Get the entire tree as vector, specific key required
+	std::vector<avl_node*> vector(const uint32_t& hash1);
+	//Clear the entire tree
+	void clear();
 };
+
+template<>
+std::vector<avl_node*> vector_intersection(const std::vector<avl_node*>& vector1, const std::vector<avl_node*>& vector2);

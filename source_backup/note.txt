@@ -5,3 +5,12 @@ description: old code (before the serialization of trie)
 result: n\a
 reason: new, more suitable code
 status: discarded until further notice
+
+linear_finder_20220810.zip
+file list:
+   linear_finder.hpp
+   linear_finder.cpp
+description: old code
+result: inefficient
+reason: replaced by hash table
+status: indefinitely discarded

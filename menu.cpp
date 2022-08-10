@@ -288,14 +288,15 @@ void search_word(dictionary& dict) {
 }
 
 void search_definition(dictionary& dict) {
-	cout << "Enter the word you want to find definition: ";
+	cout << "Enter the definition you want to find: ";
 	string s;
-	cin >> s;
+	getline(cin, s);
 	vector<entry*> temp = dict.find_definition(s);
 	if (temp.empty()) cout << "No such definition";
 	else {
-		cout << "Here is the list of word match your definition:\n";
-		for (int i = 0; i < temp.size(); ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+		cout << "Here is the list of word that matches your definition:\n";
+		
+		for (int i = 0; i < 10; ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
 	}
 	cout << "\nPress any key to continue..." << endl;
 	_getch();
@@ -355,7 +356,7 @@ void Fav_menu(dictionary& dict) {
 		if (!ent) cout << "This word doesn't exist!";
 		else {
 			dict.addWordToFavourtite(ent);
-			cout << "Add successfully!";
+			cout << "Added successfully!";
 			this_thread::sleep_for(chrono::seconds(1));
 		}
 		break;
@@ -368,7 +369,7 @@ void Fav_menu(dictionary& dict) {
 		if (!ent) cout << "This word doesn't exist!";
 		else {
 			dict.remove_fav(*ent);
-			cout << "Remove successfully!";
+			cout << "Removed successfully!";
 			this_thread::sleep_for(chrono::seconds(1));
 		}
 		break;

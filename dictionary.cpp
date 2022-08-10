@@ -63,6 +63,18 @@ void dictionary::write(std::ofstream& fout, tnode* node) {
 		}
 	}
 }
+std::vector<std::string> dictionary::generate_words(const std::string& sentence) {
+	std::stringstream ss(sentence);
+	std::vector<std::string> vec;
+	std::string word;
+	while (getline(ss, word, ' ')) {
+		for (char& ch : word) {
+			ch = tolower(ch);
+		}
+		vec.push_back(word);
+	}
+	return vec;
+}
 dictionary::dictionary() {
 	load = false;
 	N_TYPE = 0;
@@ -216,7 +228,7 @@ void dictionary::editDef(const std::string& keyword) {
 		cout << "This word MEANS " << temp->value << endl;
 		cout << "Enter the new definition: ";
 		string newdef;
-		cin >> newdef;
+		getline(cin, newdef);
 		if (temp->value != newdef) temp->value = newdef;
 		cout << "\nEdit successfully";
 	}
@@ -228,7 +240,7 @@ void dictionary::remove(const std::string& word) {
 	if (!ent) cout << "This word doesn't exist!";
 	else {
 		this->word.remove(word);
-		this->definition.remove(ent);
+		this->definition.remove(ent->value);
 		cout << "\nRemove successfully";
 	}
 }
@@ -240,7 +252,9 @@ entry* dictionary::find_word(const std::string& word) {
 std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
 	std::string time = currentDateTime();
 	History.add_word_to_history(keyword, def, time);
-	return definition.find(keyword);
+	auto vec = generate_words(keyword);
+	if (vec.size() > 3) vec.resize(3);
+	return definition.find(vec);
 }
 
 

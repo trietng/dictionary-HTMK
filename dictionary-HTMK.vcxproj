@@ -135,7 +135,6 @@
     <ClCompile Include="ds\avl_tree.cpp" />
     <ClCompile Include="ds\entry.cpp" />
     <ClCompile Include="ds\htable.cpp" />
-    <ClCompile Include="ds\linear_finder.cpp" />
     <ClCompile Include="ds\trie.cpp" />
     <ClCompile Include="favourites.cpp" />
     <ClCompile Include="game.cpp" />
@@ -146,10 +145,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.hpp" />
+    <ClInclude Include="ds\algorithm.hpp" />
     <ClInclude Include="ds\avl_tree.hpp" />
     <ClInclude Include="ds\entry.hpp" />
     <ClInclude Include="ds\htable.hpp" />
-    <ClInclude Include="ds\linear_finder.hpp" />
     <ClInclude Include="ds\nqueue.hpp" />
     <ClInclude Include="ds\flist.hpp" />
     <ClInclude Include="ds\fnode.hpp" />
