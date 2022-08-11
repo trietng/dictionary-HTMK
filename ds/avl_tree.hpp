@@ -7,8 +7,6 @@
 #include "shptr.hpp"
 #include "algorithm.hpp"
 
-uint16_t pmax(const uint16_t& x, const uint16_t& y);
-
 class avl_node {
 public:
 	uint32_t hash1;

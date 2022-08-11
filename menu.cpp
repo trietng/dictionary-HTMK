@@ -295,8 +295,10 @@ void search_definition(dictionary& dict) {
 	if (temp.empty()) cout << "No such definition";
 	else {
 		cout << "Here is the list of word that matches your definition:\n";
-		
-		for (int i = 0; i < 10; ++i) cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+		int limit = std::min((int)(temp.size()), 10);
+		for (int i = 0; i < limit; ++i) {
+			cout << i + 1 << ". " << temp[i]->key << " " << temp[i]->value << endl;
+		}
 	}
 	cout << "\nPress any key to continue..." << endl;
 	_getch();

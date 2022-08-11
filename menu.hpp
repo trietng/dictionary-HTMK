@@ -1,8 +1,7 @@
 #pragma once
+#include <chrono>
 #include"dictionary.hpp"
 #include"game.hpp"
-#include <chrono>
-#define WIN32_LEAN_AND_MEAN
 #include "graphic.hpp"
 
 struct dictionary_entry {

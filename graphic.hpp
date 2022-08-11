@@ -1,5 +1,21 @@
 #pragma once
-#include"header.hpp"
+#pragma warning(disable : 4996)
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <utility>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <conio.h>
+#include <string>
+#include <ctime>
+#include <Windows.h>
+#include <chrono>
+#include <tchar.h>
+#include <thread>
+#include <vector>
+
+using namespace std;
 string headline();
 //use arrow keys for moving
 const int KEY_UP = 72;

@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdlib>
 #include <ctime>
-#include "header.hpp"
 #include "history.hpp"
 
 history loadHistory(string filename) {

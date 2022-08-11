@@ -86,9 +86,6 @@
     <ClInclude Include="graphic.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ds\avl_tree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

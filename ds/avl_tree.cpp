@@ -1,9 +1,5 @@
 #include "avl_tree.hpp"
 
-uint16_t pmax(const uint16_t& x, const uint16_t& y) {
-	return (x > y) ? x : y;
-}
-
 avl_node::avl_node() {
 	this->hash1 = UINT32_MAX;
 	this->hash2 = UINT32_MAX;
@@ -49,8 +45,8 @@ avl_node* avl_tree::right_rotate(avl_node* node) {
 	avl_node* bottom = top->right;
 	top->right = node;
 	node->left = bottom;
-	node->height = pmax(height(node->left), height(node->right)) + 1;
-	top->height = pmax(height(top->left), height(top->right)) + 1;
+	node->height = std::max(height(node->left), height(node->right)) + 1;
+	top->height = std::max(height(top->left), height(top->right)) + 1;
 	return top;
 }
 
@@ -59,8 +55,8 @@ avl_node* avl_tree::left_rotate(avl_node* node) {
 	avl_node* bottom = top->left;
 	top->left = node;
 	node->right = bottom;
-	node->height = pmax(height(node->left), height(node->right)) + 1;
-	top->height = pmax(height(top->left), height(top->right)) + 1;
+	node->height = std::max(height(node->left), height(node->right)) + 1;
+	top->height = std::max(height(top->left), height(top->right)) + 1;
 	return top;
 }
 
@@ -82,7 +78,7 @@ avl_node* avl_tree::insert(avl_node* root, const uint32_t& hash1, const uint32_t
 	else if (hash2 < root->hash2) root->left = insert(root->left, hash1, hash2, value);
 	else if (hash2 > root->hash2) root->right = insert(root->right, hash1, hash2, value);
 	else return root;
-	root->height = pmax(height(root->left), height(root->right)) + 1;
+	root->height = std::max(height(root->left), height(root->right)) + 1;
 	auto d = difference(root);
 	if (d > 1) {
 		//TRUE: LEFT RIGHT, FALSE: LEFT LEFT
@@ -122,7 +118,7 @@ avl_node* avl_tree::remove(avl_node* root, const uint32_t& hash2) {
 		}
 	}
 	if (!root) return root;
-	root->height = pmax(height(root->left), height(root->right)) + 1;
+	root->height = std::max(height(root->left), height(root->right)) + 1;
 	int d = difference(root);
 	if (d > 1) {
 		//TRUE: LEFT RIGHT, FALSE: LEFT LEFT

@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "avl_tree.hpp"
 
 template<typename T>
 std::vector<T> vector_intersection(const std::vector<T>& vector1, const std::vector<T>& vector2) {

@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "header.hpp"
 
 bool checkDuplicate(vector<entry*> vec) {
 	for (int i = 0; i < vec.size(); i++) {
