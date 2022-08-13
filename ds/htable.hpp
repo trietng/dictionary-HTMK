@@ -16,6 +16,8 @@ private:
 	std::vector<std::string> generate_alnum(const std::string& sentence);
 	//
 	std::vector<entry*> to_entry(const std::vector<avl_node*>& _avl_tree);
+	//Remove a key from the hashtable
+	void remove(const shptr<entry>& value);
 public:
 	htable();
 	~htable();
@@ -23,8 +25,6 @@ public:
 	void insert(const std::string& definition, const shptr<entry>& value);
 	//Find a set of words
 	std::vector<entry*> find(const std::vector<std::string>& key);
-	//Remove a key from the hashtable
-	void remove(const std::string& definition);
 	//Clear
 	void clear();
 	//Get capacity of the hash table

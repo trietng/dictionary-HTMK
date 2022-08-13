@@ -103,7 +103,7 @@ avl_node* avl_tree::remove(avl_node* root, const uint32_t& hash2) {
 			if (child) {
 				*root = *child;
 			}
-			else {
+			{
 				child = root;
 				root = nullptr;
 			}
@@ -140,26 +140,9 @@ void avl_tree::vector(avl_node* root, std::vector<avl_node*>& vec) {
 	vector(root->right, vec);
 }
 
-void avl_tree::vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1) {
+void avl_tree::vector(avl_node* root, std::vector<avl_node*>& vec, const uint32_t& hash1) {
 	if (!root) return;
 	vector(root->left, vec);
-	if (root->hash1 == hash1) vec.push_back(root);
-	vector(root->right, vec);
-}
-
-void avl_tree::inversed_vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1) {
-	if (!root) return;
-	vector(root->left, vec);
-	if (root->hash1 != hash1) {
-		avl_node* tmp = new avl_node;
-		tmp->hash1 = root->hash1;
-		tmp->hash2 = root->hash2;
-		tmp->height = UINT16_MAX;
-		tmp->left = nullptr;
-		tmp->right = nullptr;
-		tmp->value = root->value;
-		vec.push_back(tmp);
-	}
 	vector(root->right, vec);
 }
 
@@ -217,13 +200,8 @@ void avl_tree::insert(const uint32_t& hash1, const uint32_t& hash2, const shptr<
 	root = insert(root, hash1, hash2, value);
 }
 
-void avl_tree::remove(const uint32_t& hash1) {
-	std::vector<avl_node*> temp;
-	inversed_vector(root, temp, hash1);
-	clear();
-	for (const auto& item : temp) {
-		root = insert(root, item->hash1, item->hash2, item->value);
-	}
+void avl_tree::remove(const uint32_t& hash2) {
+	root = remove(root, hash2);
 }
 
 std::vector<avl_node*> avl_tree::vector() {
@@ -234,7 +212,18 @@ std::vector<avl_node*> avl_tree::vector() {
 
 std::vector<avl_node*> avl_tree::vector(const uint32_t& hash1) {
 	std::vector<avl_node*> result;
-	vector(root, result, hash1);
+	flist<avl_node*> s;
+	avl_node* cur = this->root;
+	while (cur || !s.empty()) {
+		while (cur) {
+			s.push_front(cur);
+			cur = cur->left;
+		}
+		cur = s.front();
+		s.pop_front();
+		if ((cur->hash1 == hash1) && (!cur->value->key.empty())) result.push_back(cur);
+		cur = cur->right;
+	}
 	return result;
 }
 

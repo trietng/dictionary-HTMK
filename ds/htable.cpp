@@ -66,11 +66,12 @@ std::vector<entry*> htable::find(const std::vector<std::string>& key) {
 	return to_entry(intersection);
 }
 
-void htable::remove(const std::string& definition) {
-	std::vector<std::string> key = generate_alnum(definition);
+void htable::remove(const shptr<entry>& ent) {
+	std::vector<std::string> key = generate_alnum(ent->value);
+	size_t hash2 = hash(ent->key);
 	for (const auto& item : key) {
 		size_t hash1 = hash(item);
-		data[hash1 % HASHTABLE_CAPACITY].remove(hash1);
+		//data[hash1 % HASHTABLE_CAPACITY].remove(hash2);
 	}
 }
 

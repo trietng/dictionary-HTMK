@@ -56,6 +56,7 @@ tnode* trie::remove(tnode* root, const std::string& key, const int& depth) {
 	if (!root) return nullptr;
 	if (depth == key.size()) {
 		if (!root->value.empty()) {
+			root->value.front()->key.clear();
 			root->value.clear();
 		}
 		if (is_leaf(root)) {

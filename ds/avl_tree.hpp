@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include "flist.hpp"
 #include "entry.hpp"
 #include "shptr.hpp"
 #include "algorithm.hpp"
@@ -39,12 +40,12 @@ private:
 	avl_node* insert(avl_node* root, const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value);
 	//Private recursive removal operation !!NOT USED!!
 	avl_node* remove(avl_node* root, const uint32_t& hash2);
+	//Remove hashed key from the AVL tree !!NOT USED!!
+	void remove(const uint32_t& hash2);
 	//Private recursive get vector operation, inorder traversal
 	void vector(avl_node* root, std::vector<avl_node*>& vec);
 	//Private recursive get vector operation, inorder traversal, specific key required
-	void vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1);
-	//Private inversed recursive get vector operation, inorder traversal, specific key required
-	void inversed_vector(avl_node* root, std::vector<avl_node*>& vec, const uint64_t& hash1);
+	void vector(avl_node* root, std::vector<avl_node*>& vec, const uint32_t& hash1);
 	//Copy the entire tree (deep copy, not just the pointers)
 	avl_node* copy(avl_node* root);
 public:
@@ -62,8 +63,6 @@ public:
 	void insert(const std::string& definition, const std::string& word, const shptr<entry>& value);
 	//Insert hashed key and raw value into the AVL tree
 	void insert(const uint32_t& hash1, const uint32_t& hash2, const shptr<entry>& value);
-	//Remove hashed key from the AVL tree
-	void remove(const uint32_t& hash1);
 	//Get the entire tree as vector
 	std::vector<avl_node*> vector();
 	//Get the entire tree as vector, specific key required

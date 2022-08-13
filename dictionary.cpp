@@ -240,7 +240,6 @@ void dictionary::remove(const std::string& word) {
 	if (!ent) cout << "This word doesn't exist!";
 	else {
 		this->word.remove(word);
-		this->definition.remove(ent->value);
 		cout << "\nRemove successfully";
 	}
 }

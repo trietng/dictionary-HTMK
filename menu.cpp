@@ -209,6 +209,7 @@ RETURN_MENU:
 		break;
 	case 8: 
 		dict.print_random_word();
+		_getch();
 		this_thread::sleep_for(duration);
 		break;
 	case 9:Fav_menu(dict);
@@ -305,9 +306,9 @@ void search_definition(dictionary& dict) {
 }
 
 void edit_def_menu(dictionary& dict) {
-	cout << "Enter the word you want to change definition:";
+	cout << "Enter the word you want to change definition: ";
 	string word;
-	cin >> word;
+	getline(cin, word);
 	dict.editDef(word);
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);
@@ -316,9 +317,9 @@ void edit_def_menu(dictionary& dict) {
 void add_word_menu(dictionary& dict) {
 	string word, def;
 	cout << "Enter the keyword: ";
-	cin >> word;
+	getline(cin,word);
 	cout << "Enter the definition: ";
-	cin >> def;
+	getline(cin, def);
 	if (dict.insert(word, def)) {
 		cout << "\nAdd successfully";
 	}
@@ -332,7 +333,7 @@ void add_word_menu(dictionary& dict) {
 void remove_word_menu(dictionary& dict) {
 	string word, temp;
 	cout << "Enter the word you want to remove: ";
-	cin >> word;
+	getline(cin, word);
 	dict.remove(word);
 	chrono::seconds duration(1);
 	this_thread::sleep_for(duration);

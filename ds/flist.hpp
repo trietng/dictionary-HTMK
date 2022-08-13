@@ -83,7 +83,7 @@ public:
     }
     //Return the front node's value
     T front() {
-        return head;
+        return head->data;
     }
     //Add new value to the top of the list
     void push_front(const T& data) {

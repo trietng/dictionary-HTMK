@@ -30,10 +30,12 @@ public:
         ++(*counter);
     }
     shptr<T>& operator=(const shptr<T>& shptr) {
-        clear();
-        raw = shptr.raw;
-        counter = shptr.counter;
-        ++(*counter);
+        if (this != &shptr) {
+            clear();
+            raw = shptr.raw;
+            counter = shptr.counter;
+            ++(*counter);
+        }
         return *this;
     }
     shptr(shptr&& shptr) {
