@@ -255,7 +255,7 @@ RETURN_MENU:
 void search_word(dictionary& dict) {
 	cout << "Enter the word you want to find: ";
 	string s;
-	cin >> s;
+	getline(cin,s);
 	entry* temp = dict.find_word(s);
 	if (!temp) cout << "This word doesn't exist!";
 	else {
@@ -354,9 +354,12 @@ void Fav_menu(dictionary& dict) {
 	case 'a': {
 		string s;
 		cout << "Enter key word: ";
-		cin >> s;
-		entry* ent = dict.find_word(s);
-		if (!ent) cout << "This word doesn't exist!";
+		getline(cin, s);
+		entry* ent = dict.find_word1(s);
+		if (!ent) {
+			cout << "This word doesn't exist!";
+			this_thread::sleep_for(chrono::seconds(1));
+		}
 		else {
 			dict.addWordToFavourtite(ent);
 			cout << "Added successfully!";
@@ -367,9 +370,12 @@ void Fav_menu(dictionary& dict) {
 	case 'r': {
 		string s;
 		cout << "Enter key word: ";
-		cin >> s;
+		getline(cin,s);
 		entry* ent = dict.find_word(s);
-		if (!ent) cout << "This word doesn't exist!";
+		if (!ent) {
+			cout << "This word doesn't exist!";
+			this_thread::sleep_for(chrono::seconds(1));
+		}
 		else {
 			dict.remove_fav(*ent);
 			cout << "Removed successfully!";

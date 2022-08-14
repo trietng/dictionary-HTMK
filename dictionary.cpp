@@ -243,11 +243,16 @@ void dictionary::remove(const std::string& word) {
 		cout << "\nRemove successfully";
 	}
 }
-entry* dictionary::find_word(const std::string& word) {
+entry* dictionary::find_word(const std::string& word) { //Use this only for searching for key word because this will save word to history
 	std::string time = currentDateTime();
 	History.add_word_to_history(word, keyword,time);
 	return this->word.find(word);
 }
+
+entry* dictionary::find_word1(const std::string& word) { 
+	return this->word.find(word);
+}
+
 std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
 	std::string time = currentDateTime();
 	History.add_word_to_history(keyword, def, time);
@@ -270,7 +275,7 @@ std::string currentDateTime() {
 }
 
 void dictionary::addWordToFavourtite(entry* temp) {
-	if (!this->word.find(temp->key)) Favourite.mark(*temp);
+	Favourite.mark(*temp);
 }
 
 bool dictionary::is_fav(string word) {

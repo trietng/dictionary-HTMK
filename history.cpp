@@ -42,10 +42,10 @@ void history::printHistory() {
     if (vec.empty()) cout << "You haven't searched any word!";
     else {
         SetColor(4);
-        cout << left << setw(3) << " " <<left << setw(20) << "Keyword" << left << setw(20) << "Type" << left << setw(20) << "time" << endl;
+        cout << left << setw(8) << " " <<left << setw(20) << "Keyword" << left << setw(20) << "Type" << left << setw(20) << "time" << endl;
         for (int i = vec.size() - 1; i >= 0; --i) {
             SetColor(15);
-            cout << left << setw(15) << vec[i].word << left << setw(20) << convertTostring(vec[i].Type) << left << setw(20) << vec[i].time << endl;
+            cout << left << setw(20) << vec[i].word << left << setw(25) << convertTostring(vec[i].Type) << left << setw(20) << vec[i].time << endl;
         }
     }
 

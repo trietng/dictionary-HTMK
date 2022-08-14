@@ -56,6 +56,7 @@ public:
 	bool insert(const std::string& word, const std::string& definition);
 	void remove(const std::string& word);
 	entry* find_word(const std::string& word);
+	entry* find_word1(const std::string& word);
 	std::vector<entry*> find_definition(const std::string& keyword);
 
 	void seeHistory();

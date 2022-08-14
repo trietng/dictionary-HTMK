@@ -28,7 +28,8 @@ void fav_word::write()
 }
 
 void fav_word::mark(entry ent)
-{
+{	
+	for (int i = 0; i < vec.size(); ++i) if (compare_entry(ent, vec[i])) return;
 	vec.push_back(ent);
 }
 
