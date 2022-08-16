@@ -33,7 +33,7 @@ type convertoType(string s) {
 void history::write() {
     ofstream fout(historyFilePath);
     if (fout) {
-        for (auto i:vec) fout << i.word << "`" << i.Type << "`" << i.time << endl;
+        for (const auto& i : vec) fout << i.word << "`" << i.Type << "`" << i.time << endl;
     }   
     fout.close();
 }

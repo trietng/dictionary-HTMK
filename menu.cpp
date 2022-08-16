@@ -270,7 +270,6 @@ void search_word(dictionary& dict) {
 			if (t == 'f') {
 				dict.remove_fav(*temp);
 				cout << "Removed successfully!";
-				
 			}
 		}
 		else {

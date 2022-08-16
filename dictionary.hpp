@@ -11,6 +11,7 @@
 
 static constexpr char horizontal_tab = '\t';
 static constexpr char dictionary_path[] = "data\\dictionaries\\";
+static constexpr unsigned int keyword_num = 4;
 
 enum rmode : bool {
 	text = 0, binary = 1

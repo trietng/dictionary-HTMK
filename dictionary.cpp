@@ -213,7 +213,7 @@ void dictionary::write_text() {
 }
 bool dictionary::insert(const std::string& word, const std::string& definition) {
 	entry* temp = this->word.find(word);
-	if (temp->value != definition) {
+	if ((!temp) || (temp->value != definition)) {
 		shptr<entry> ent(new entry(word, definition));
 		this->word.insert(ent);
 		this->definition.insert(definition, ent);
@@ -257,7 +257,7 @@ std::vector<entry*> dictionary::find_definition(const std::string& keyword) {
 	std::string time = currentDateTime();
 	History.add_word_to_history(keyword, def, time);
 	auto vec = generate_words(keyword);
-	if (vec.size() > 3) vec.resize(3);
+	if (vec.size() > keyword_num) vec.resize(keyword_num);
 	return definition.find(vec);
 }
 
@@ -307,6 +307,7 @@ void dictionary::clear() {
 	word.clear();
 	definition.clear();
 	N_TYPE = 0;
+	name.clear();
 	path.clear();
 	History.clear();
 	Favourite.clear();

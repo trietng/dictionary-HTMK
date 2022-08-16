@@ -44,8 +44,8 @@ htable::~htable() {
 void htable::insert(const std::string& definition, const shptr<entry>& value) {
 	std::vector<std::string> key = generate_alnum(definition);
 	for (const auto& item : key) {
-		size_t hash1 = hash(item);
-		size_t hash2 = hash(value->key);
+		uint32_t hash1 = hash(item);
+		uint32_t hash2 = hash(value->key);
 		data[hash1 % HASHTABLE_CAPACITY].insert(hash1, hash2, value);
 	}
 }
@@ -77,6 +77,7 @@ void htable::remove(const shptr<entry>& ent) {
 
 void htable::clear() {
 	data.clear();
+	data.assign(HASHTABLE_CAPACITY, avl_tree());
 }
 
 size_t htable::max_capacity() const {

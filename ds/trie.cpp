@@ -208,6 +208,9 @@ unsigned int trie::count() {
 void trie::clear() {
 	delete root;
 	root = new tnode(N_TYPE);
+	N_TYPE = 0;
+	offset = UINT8_MAX;
+	key_count = 0;
 }
 
 void trie::insert(const shptr<entry>& entry) {

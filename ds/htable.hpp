@@ -8,7 +8,7 @@
 
 class htable {
 private:
-	static constexpr size_t HASHTABLE_CAPACITY = 13e6 + 19;
+	static constexpr uint32_t HASHTABLE_CAPACITY = 13e6 + 19;
 	std::vector<avl_tree> data;
 	//djb2 hash function
 	uint32_t hash(const std::string& key);
